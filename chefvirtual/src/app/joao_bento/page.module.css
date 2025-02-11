@@ -1,47 +1,41 @@
-.titulo{
+.titulo {
     display: flex;
-    margin-top: 5vh;
     justify-content: center;
-    font-family: 'poppins';
-    width: 100vh;
-    margin: auto;
-    margin-bottom: 7vh;
-    
+    text-align: center;
+    margin: 5vh auto 7vh auto;
+    width: 70%;
 }
-.titulo>p{
+
+  
+.titulo>h1{
     text-transform: uppercase;
-    font-size: 28px;
+    font-size: 30px;
+    font-family: 'poppins',sans-serif;
 }
 
 .receita{
     width: 100vh;
+    font-family: 'poppins',sans-serif;
 }
 
-
-#img_receita{
-    width: 52vh;
-    height: 36vh;
-    
-}
 
 .seta_voltar{
     width: 3vh;
-    margin-right: 1vh;
+    height: 1.5vh;
+    margin-right: 1vh;  
+
 }
 
 .voltar>p{
-    font-family: 'poppins';
     font-size: 20px; 
+    font-family: 'poppins',sans-serif;
 }
 
-.voltar{
+.voltar {
     display: flex;
-    justify-content: baseline;
-    margin-left: 17vh;
-    margin-top: 5vh;
-    width: 16vh;
-    margin-bottom: 2vh;
+    align-items: center;
     cursor: pointer;
+    margin: 5vh 0 2vh 17vh;
 }
 
 .receita{
@@ -50,35 +44,44 @@
     margin-bottom: 2vh;
     flex-direction: row;
     gap: 1vh;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     
 }
 
-.receita>i{
-    margin-left: 0.1vh;
-    cursor: pointer;
-    
-}
+
 
 .icon_fav{
-    margin-left: 12.5vh;
-    margin-top: -1vh;
+    margin-left: 38vh;
+    margin-top: 1vh;
     cursor: pointer;
 }
 
-.receita>i{
+.estrelas {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1vh;
+  }
+  
+  .avaliacoes1, .avaliacoes2 , .avaliacoes3{
+    fill: #ED6A2D; /* Estrelas cheias */
     color: #ED6A2D;
-    border: 1px ;
-    font-size: 2.2vh;
-    margin-top: -0.4vh;
-}
+  }
+  
+  
+  .avaliacoes4, .avaliacoes5 {
+    fill: transparent; /* Estrelas vazias */
+    color: #ED6A2D;
+  }
+
 .receita>p{
+    margin-top: 1.5vh;
     margin-left: 1vh;
+    font-family: 'poppins',sans-serif;
 }
 
 .dis_receita{
     display: flex;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
 }
 
 .dis_receita{
@@ -97,16 +100,20 @@
 .div_rec>h2{
     font-weight: bold;
     text-transform: uppercase;
+    font-size: 22px;
 }
 
 .div_rec>p{
     margin-top: 2vh;
+
 }
 
-.openModalBtn>i{
+.star_rec{
+    fill: #dddd; /* Preenche a estrela com a cor */
     color: #dddd;
+    margin-top: 3px;
     font-size: 20px;
-    margin-left: 7px;
+    margin-left: 12px;
 }
 
 .modal {
@@ -122,6 +129,12 @@
     z-index: 10;
   }
   
+  .fixed-textarea {
+    resize: none;
+    height: 100px; /* Defina a altura fixa que você preferir */
+    width: 100%;   /* Deixe a largura ocupar toda a área disponível */
+}
+
 .modal-content {
     background-color: white;
     padding: 20px;
@@ -132,14 +145,14 @@
   
 .modal-content>h2{
     font-size: 20px;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     text-align: center;
     margin-top: 2.5rem;
   }
 
   .modal-content>p{
     font-size: 13px;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     margin-top: 2.9rem;
     margin-left: 2rem;
   }
@@ -162,9 +175,23 @@
     width: 25rem;
     margin-left: 2rem;
     border-radius: 5px;
+    font-family: 'poppins',sans-serif;
 }
-
-
+.comentar2 {
+    background-color: #D9D9D9;
+    margin-top: 0.5rem;
+    border: none;
+    height: 100px;
+    width: 100%; 
+    margin-left: 0.3rem;
+    border-radius: 5px;
+    resize: none; /* Impede o redimensionamento */
+    padding: 10px;
+    font-family: 'poppins'; /* Fonte consistente */
+    font-size: 13px; /* Font size fixo */
+    line-height: 1.7;
+  }
+  
 
 
 #submitBtn{
@@ -176,6 +203,7 @@
     height: 1.5rem;
     border-radius: 20px;
     width: 4rem;
+    
 }
 
 .close {
@@ -183,7 +211,13 @@
     font-size: 23px;
     cursor:pointer;
   }
-  
+
+  .avalie {
+    position: relative;
+    top: -6px; /* Ajuste esse valor conforme necessário */
+    font-family: 'poppins', sans-serif;
+}
+
 
 .openModalBtn{
     border-radius: 9px ;
@@ -193,77 +227,148 @@
     border: 0;
     height: 3.5vh;
     width: 20vh;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     font-size: 16px;
     cursor: pointer;
 }
 
-
 .tempo{
-    margin-top: 1.7vh;
-    font-size: 16px;
-    margin-left: -7.5vh;
+    margin-top: 2vh;
 }
 
-.tempo>p>i{
+  .relogio {
     color: #BF6A02;
     font-size: 2vh;
-    margin-right: 1vh;
-}
-
+    margin-right: 0.5vh;
+    position: relative;
+    top: 3.2px; /* Move o relógio um pouco para baixo */
+  }
 .sb_rec{
+    margin-left: 17vh;
+    display: flex;
+    gap: 10rem;
+    font-family: 'poppins', sans-serif;
+}
+  
+  .sb_rec2 {
     display: flex;
     margin-left: 17vh;
-    flex-direction: row;
-    gap: 23vh;
-    font-family: 'poppins';
-}
+    gap: 10.8vw; /* Ajuste o espaçamento entre os botões */
+    margin-top: 2.5rem;
 
-#preparo{
-    margin-top: 0.5rem;
-}
-
-.bi bi-clock{
-    color: #FF914D;
-    background-color: #FF914D;
-    text-decoration: #ff914d;
-}
-
-.sb_rec2{
-    display: flex;
-    flex-direction: row;
-    gap: 22rem;
-    margin-left: 17vh;
-    margin-top: 1.5rem;
-}
-
-.denunciar>button{
-    border-radius: 9px ;
+  }
+  
+  .denunciar > button {
+    border-radius: 9px;
     text-decoration: black;
-    background-color: #562222 ;
+    background-color: #562222;
     border: 0;
     height: 2.8vh;
     width: 15vh;
-    font-family: 'poppins';
+    font-family: 'poppins', sans-serif;
     font-size: 16px;
     color: white;
     cursor: pointer;
-}
-
-.compartilhar>button{
-    border-radius: 9px ;
+  }
+  
+  .compartilhar > button {
+    border-radius: 9px;
     text-decoration: black;
-    background-color: #DE3333 ;
+    background-color: #DE3333;
     border: 0;
     height: 2.8vh;
     width: 16vh;
-    font-family: 'poppins';
+    font-family: 'poppins', sans-serif;
     font-size: 16px;
     color: white;
-    margin-left: -16.5vh;
     cursor: pointer;
-}
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  
+  .modal {
+    font-family: 'poppins', sans-serif;
+    margin-left: 35vw;
+    margin-top: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 10px;
+    width: 25vw;
+    height: 30vh;
+    max-width: 90%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 2;
+  }
+  
 
+
+.modalEstrelas
+
+  .modal h2 {
+    margin-bottom: 10px;
+  }
+  
+  .modal textarea {
+    font-family: 'poppins', sans-serif;
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .modalButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
+  .closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #333; /* Ajuste a cor conforme necessário */
+    transition: 0.2s;
+  }
+  
+  .closeIcon:hover {
+    color: #ff0000; /* Muda a cor ao passar o mouse */
+  }
+  
+  
+  .submitButton {
+    background: #ff5722;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover {
+    background: #e64a19;
+  }
+  
+
+  
 .ingredientes2 {
     border-top: 2px solid black; 
     height: auto;
@@ -275,8 +380,8 @@
 
 .ingredientes3{
     margin-top: 3vh;
-    font-family: 'poppins';
-    font-size:27px ;
+    font-family: 'poppins',sans-serif;
+    font-size:23px ;
 }
 .ingredientes3>h2{
     text-align: center;
@@ -301,7 +406,7 @@
     position: relative;
     padding-left: 40px; 
     color: black; 
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     font-size: 20px;
     margin-top: 5rem;
 }
@@ -332,8 +437,8 @@
 
 .preparo2{
     margin-top: 3vh;
-    font-family: 'poppins';
-    font-size:27px ;
+    font-family: 'poppins',sans-serif;
+    font-size:23px ;
     display: flex;
     justify-content: center;
 }
@@ -371,23 +476,34 @@
     line-height: 25px; 
     font-size: 0.9em; 
     font-weight: bold; 
+    
 }
 
 .preparo3 > ul {
     counter-reset: list-counter; 
+    
 }
 
 .comentario{
     margin-left: 17vh;
+    padding-bottom: 10vh;
+    padding-top: 5vh;
+    
+}
+
+.comentarios{
+    margin-bottom: 100px;
 }
 
 .coment{
     text-align: center;
     margin-top: auto;
     margin-top: 3vh;
-    font-family: 'poppins';
-    font-size:27px ;
+    font-family: 'poppins',sans-serif;
+    font-size:23px ;
+    
 }
+
 
 .comen1{
     background-color: #d9d9d9;
@@ -400,18 +516,19 @@
     position: relative; 
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.4),  
-        4px 0 8px rgba(0, 0, 2, 0.4);   
+        4px 0 8px rgba(0, 0, 2, 0.4);
+   
 }
 
 .comen1>img{
     border-radius: 50px;
-    width: 55px;
-    margin-left: 0.8rem;
-    margin-top: -0.2rem;
+    width: 45px;
+    margin-left: 1rem;
+    margin-top: -0.2vh;
 }
 .comen1>p{
     font-size: 15px;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     margin-left: 1.4rem;
     margin-top: 0.4rem;
 }
@@ -420,20 +537,20 @@
     position: absolute;
     right: 1rem; 
     top: 0.8rem;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     font-size: 10px;
     opacity: 0.7;
     cursor: pointer;
 }
 
-.star-comen{
+.star_comen{
     position: absolute; 
     left: 6.5rem; 
     top: 1rem; 
     font-size: 13px;
     display: flex;
 }
-.star-comen>i{
+.star_comen>i{
     margin-left: 0.3rem; 
     color: #ED6A2D;
     
@@ -448,7 +565,7 @@
     top: 3rem; 
     line-height: 1.5; 
     color: #333; 
-   
+    
 }
 
 
@@ -468,13 +585,13 @@
 
 .comen2>img{
     border-radius: 50px;
-    width: 55px;
-    margin-left: 0.8rem;
-    margin-top: -0.2rem;
+    width: 45px;
+    margin-left: 1rem;
+    margin-top: -0.2vh;
 }
 .comen2>p{
     font-size: 15px;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     margin-left: 1.4rem;
     margin-top: 0.4rem;
 }
@@ -495,13 +612,13 @@
 
 .comen3>img{
     border-radius: 50px;
-    width: 55px;
-    margin-left: 0.8rem;
-    margin-top: -0.2rem;
+    width: 45px;
+    margin-left: 1rem;
+    margin-top: -0.2vh;
 }
 .comen3>p{
     font-size: 15px;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     margin-left: 1.4rem;
     margin-top: 0.4rem;
 }
@@ -522,13 +639,13 @@
 
 .comen4>img{
     border-radius: 50px;
-    width: 55px;
-    margin-left: 0.8rem;
-    margin-top: -0.2rem;
+    width: 45px;
+    margin-left: 1rem;
+    margin-top: -0.2vh;
 }
 .comen4>p{
     font-size: 15px;
-    font-family: 'poppins';
+    font-family: 'poppins',sans-serif;
     margin-left: 1.4rem;
     margin-top: 0.4rem;
 }

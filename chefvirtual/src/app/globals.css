@@ -1,0 +1,13 @@
+body {
+    background-image: url('../../public/img/backgroundImg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    height: 100vh;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}

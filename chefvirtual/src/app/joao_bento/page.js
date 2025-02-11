@@ -1,37 +1,110 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-import styles from './page.module.css'; // Inclua seus arquivos CSS
+import styles from './page.module.css';
 import Image from 'next/image';
+import { AlarmClock, Star, Bookmark, X } from 'lucide-react';
 
 const App = () => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+  const [ratingData, setRatingData] = useState({ rating: 0, comment: '' }); // Combinando rating e comment
+  const [isModalOpen, setIsModalOpen] = useState(false); // Controle do Modal
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false); // Controle do Modal de Denúncia
+  const [reportReason, setReportReason] = useState(''); // Motivo da denúncia
+  const [otherReason, setOtherReason] = useState(''); // Motivo personalizado (se "Outro" for escolhido)
+  const [isFavorited, setIsFavorited] = useState(false); // Estado para controlar se foi favoritado
+
+
 
   const goBack = () => {
-    window.history.back();
-    console.log('Está funcionando');
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = '/'; // Caso não haja histórico, redireciona para a página inicial
+    }
   };
 
+  const toggleFavorite = () => {
+    setIsFavorited(!isFavorited); // Alterna o estado de favorito
+  };
+
+  // Função para abrir o modal
+  const openModal = () => setIsModalOpen(true);
+
+  // Função para fechar o modal
+  const closeModal = () => setIsModalOpen(false);
+
+  // Função de seleção de avaliação
+  const handleRating = (index) => {
+    setRatingData((prev) => ({ ...prev, rating: index }));
+  };
+
+  // Função para enviar a avaliação
+  const handleSubmitRating = () => {
+    alert(`Avaliação enviada! Nota: ${ratingData.rating}/5 - Comentário: ${ratingData.comment}`);
+    setRatingData({ rating: 0, comment: '' }); // Limpar os campos após envio
+    setIsModalOpen(false); // Fechar o modal
+  };
+
+  // Função para abrir o modal de denúncia
+  const openReportModal = () => setIsReportModalOpen(true);
+
+  // Função para fechar o modal de denúncia
+  const closeReportModal = () => setIsReportModalOpen(false);
+
+  // Função de enviar a denúncia
+  const handleReportSubmit = () => {
+    const reasonToSubmit = reportReason === 'Outro' ? otherReason : reportReason;
+    alert(`Denúncia enviada! Motivo: ${reasonToSubmit}`);
+    setIsReportModalOpen(false);
+  };
+
+  // Função de compartilhar
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Pizza de Peperoni',
+        text: 'Confira esta deliciosa receita de Pizza de Peperoni!',
+        url: window.location.href,
+      }).catch((error) => console.log('Erro ao compartilhar:', error));
+    } else {
+      alert('Compartilhamento não disponível neste navegador.');
+    }
+  };
+
+  // Função para calcular a média de avaliações
+  const averageRating = 4.5; // Exemplo de média, isso pode ser calculado dinamicamente com as avaliações dos usuários
+
   return (
-    <div className="App">
+    <div className="container">
       <main>
         {/* Primeira parte */}
         <section className={styles.info_receita}>
-          <div className={styles.voltar} onClick={goBack}>
-            <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="" />
+          <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
+            <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
             <p>Voltar</p>
           </div>
           <div className={styles.titulo}>
-            <p>Pizza de Peperoni</p>
+            <h1>Pizza de Peperoni</h1>
           </div>
 
           <div className={styles.receita}>
-            {[...Array(5)].map((_, index) => (
-              <i key={index} className={`bi ${index < rating ? 'bi-star-fill' : 'bi-star'}`} />
-            ))}
-            <p>3.5/5 (10 avaliações)</p>
-            <div className={styles.icon_fav}>
-              <i className="bi bi-bookmark" style={{ fontSize: '3vh' }} />
+            <div className={styles.estrelas}>
+              {[...Array(5)].map((_, index) => (
+                <Star
+                  key={index}
+                  className={index < 4 ? styles.avaliacoes1 : styles.avaliacoes5} // Sempre exibe 4 estrelas preenchidas
+                  size={25}
+                />
+              ))}
+            </div>
+
+            <p>4/5 (10 avaliações)</p>
+
+            <div className={styles.icon_fav} onClick={toggleFavorite} aria-label="Adicionar aos favoritos">
+              <Bookmark
+                className={styles.fav}
+                size={25}
+                fill={isFavorited ? 'gold' : 'none'} // Preenche com a cor dourada quando favoritado
+              />
             </div>
           </div>
 
@@ -48,18 +121,103 @@ const App = () => {
           </div>
 
           <div className={styles.sb_rec}>
-            <button className={styles.openModalBtn} onClick={() => alert('Modal aberto')}>
-              Avalie a receita <i className="bi bi-star-fill" />
+            <button className={styles.openModalBtn} onClick={openModal} aria-label="Avaliar a receita">
+              <span className={styles.avalie}>Avalie a receita</span>
+              <Star className={styles.star_rec} size={25} />
             </button>
 
             <div className={styles.tempo}>
               <p>Tempo de preparo:</p>
               <p id="preparo">
-                <i className="bi bi-clock" />1h 30min
+                <AlarmClock className={styles.relogio} size={20} />
+                <span className={styles.hora}>1h 30min</span>
               </p>
             </div>
           </div>
+
+          <div className={styles.sb_rec2}>
+            <div className={styles.denunciar}>
+              <button onClick={openReportModal} aria-label="Denunciar conteúdo">
+                Denunciar
+              </button>
+            </div>
+
+            <div className={styles.compartilhar}>
+              <button onClick={handleShare} aria-label="Compartilhar receita">
+                Compartilhar
+              </button>
+            </div>
+          </div>
+
+          {isModalOpen && (
+            <div className={styles.modalOverlay}>
+              <div className={styles.modal}>
+                <h2>Deixe sua avaliação</h2>
+                <div className={styles.modalEstrelas}>
+                  {[...Array(5)].map((_, index) => (
+                    <Star
+                      key={index}
+                      className={index < ratingData.rating ? styles.avaliacoes1 : styles.avaliacoes5}
+                      size={30}
+                      onClick={() => handleRating(index + 1)}
+                      aria-label={`Avaliar com ${index + 1} estrela${index + 1 > 1 ? 's' : ''}`}
+                    />
+                  ))}
+                </div>
+                <textarea
+                  value={ratingData.comment}
+                  onChange={(e) => setRatingData({ ...ratingData, comment: e.target.value })}
+                  placeholder="Digite seu comentário..."
+                  aria-label="Deixe um comentário"
+                  className={styles.comentar2}
+                  style={{
+                    height: '12vh',
+                  }}
+                />
+                <div className={styles.modalButtons}>
+                  <X className={styles.closeIcon} size={30} onClick={closeModal} aria-label="Fechar modal" />
+                  <button className={styles.submitButton} onClick={handleSubmitRating}>Enviar</button>
+                </div>
+              </div>
+            </div>
+          )}
+          
         </section>
+
+        {/* Modal de Denúncia */}
+        {isReportModalOpen && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <h2>Escolha o motivo da denúncia</h2>
+              <select
+                value={reportReason}
+                onChange={(e) => setReportReason(e.target.value)}
+                className={styles.reportSelect}
+                aria-label="Motivo da denúncia"
+              >
+                <option value="">Selecione um motivo...</option>
+                <option value="Conteúdo ofensivo">Conteúdo ofensivo</option>
+                <option value="Erro na receita">Erro na receita</option>
+                <option value="Outro">Outro</option>
+              </select>
+
+              {reportReason === 'Outro' && (
+                <textarea
+                  value={otherReason}
+                  onChange={(e) => setOtherReason(e.target.value)}
+                  placeholder="Descreva o motivo..."
+                  className={styles.otherReasonInput}
+                  aria-label="Descreva o motivo da denúncia"
+                />
+              )}
+
+              <div className={styles.modalButtons}>
+                <X className={styles.closeIcon} size={30} onClick={closeReportModal} aria-label="Fechar modal" />
+                <button className={styles.submitButton} onClick={handleReportSubmit}>Enviar</button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Ingredientes */}
         <section className={styles.ingredientes}>
@@ -97,30 +255,30 @@ const App = () => {
         </section>
 
         {/* Comentários */}
-        <section className={styles.comentários}>
-          <div className={styles.coment}>Comentários</div>
+        <section className={styles.comentarios}>
+          <div className={styles.coment}><h2>Comentários</h2></div>
           <div className={styles.comentario}>
-            {/* Repetição de Comentários */}
             {['Ana', 'João', 'Hiago', 'Bento'].map((name, index) => (
               <div key={index} className={`${styles.comen} ${styles[`comen${index + 1}`]}`}>
                 <div className={styles.denuncia}>
                   <p>Denunciar</p>
                 </div>
-                <div className={styles['star-comen']}>
+                <div className={styles.star_comen}>
                   {[...Array(5)].map((_, i) => (
-                    <i key={i} className="bi bi-star-fill" />
+                    <Star key={i} className={styles.avaliacoes1} size={18} />
                   ))}
                 </div>
+
                 <div className={styles.comenta}>
                   <p>Que pizza deliciosa</p>
                 </div>
-                <Image src={'/img/icon-perfil.png'} width={45}
-                  height={43} alt='aaaaaaaaaa' />
+                <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
                 <p>{name}</p>
               </div>
             ))}
           </div>
         </section>
+
       </main>
     </div>
   );
