@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Removido o seletor global * e aplicado diretamente nos elementos */
+.body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/img/backgroundImg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.containerLaranja {
+    background-color: #FF914D;
+    color: #fdfafa;
+    width: 30%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.containerLaranja img {
+    width: 130px;
+    margin-bottom: 80px;
+}
+
+.botao {
+    width: 70%;
+    padding: 15px;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.botao:hover {
+    background-color: #FF914D;
+}
+
+.containerLaranja p {
+    color: #fff;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 70px;
+    font-size: 16px;
+}
+
+/* Substituído o seletor h3 por uma classe */
+.tituloCadastro {
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.centralizaTudo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.caixaDeLogin {
+    background-color: #FF914D;
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.campoEntrada {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.campoEntrada input {
+    width: 100%;
+    padding: 15px 10px 15px 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.botaoLogin {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.botaoLogin:hover {
+    background-color: #FF914D;
+}
+
+@media (max-width: 768px) {
+    .caixaDeLogin {
+        padding: 30px;
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .caixaDeLogin {
+        padding: 20px;
+        max-width: 95%;
+    }
+
+    .campoEntrada input {
+        padding: 10px 10px 10px 30px;
+        font-size: 14px;
+    }
+
+    .botao {
+        font-size: 16px;
+    }
+}
