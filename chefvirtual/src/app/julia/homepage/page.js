@@ -36,7 +36,7 @@ export default function Homepage() {
           </div>
         ))}
       </div>
-      <footer>
+      <footer className={styles.footer}>
         <p>Quem Somos | Política de privacidade | Termos de uso | Contato</p>
       </footer>
     </div>
