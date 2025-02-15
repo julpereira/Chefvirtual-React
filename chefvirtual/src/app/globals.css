@@ -1,3 +1,8 @@
+:root {
+    --background-color-red: #ff3131;
+    --background-color-orange: #ff914d;
+}
+
 body {
     background-image: url('../../public/img/backgroundImg.png');
     background-size: cover;

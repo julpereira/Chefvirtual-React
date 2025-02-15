@@ -1,15 +1,19 @@
 "use client";
 import Image from "next/image";
 import styles from "./header.module.css";
-import img from '../../../public/img/logo.png'
-Image
+import { useRouter } from "next/navigation"; 
+import { usePathname } from "next/navigation";
+
 
 export default function Header(){
+    const router = useRouter();
+
+
     return(
         <header className={styles.header}>
             <div className={styles.headerDivPages}>
                 <div className={styles.headerImgLogo}>
-                    <Image src="/img/logo.png" alt="logo-chef-virtual"width={100} height=   {90}></Image>
+                    <Image src="/img/logo.svg" alt="logo-chef-virtual"width={100} height=   {90}></Image>
                 </div>
 
                 <ul className={styles.ul}>
@@ -20,7 +24,7 @@ export default function Header(){
 
             <div className={styles.headerDivSearch}>
                     <input type="text" placeholder="O que vamos comer hoje?" className={styles.headerSearchInput}></input>
-                <button className={styles.headerSearchButton} onclick="goPesquisa()">
+                <button className={styles.headerSearchButton} onClick={() => router.push("/Guerini/visuInicial")}>
                     <Image src="/img/search-icon.webp" alt="Buscar" className={styles.headerSearchIcon} width={20} height={20}></Image>
                 </button>
             </div>

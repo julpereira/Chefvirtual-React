@@ -37,7 +37,7 @@ function Cadastro() {
     return (
         <div className={styles.body}>
             <div className={styles.containerLaranja}>
-                <img src="/img/logo.png" alt="Logo Chef Virtual" />
+                <img src="/img/logo.svg" alt="Logo Chef Virtual" />
                 <p>
                     Junte-se à Comunidade <br />
                     CHEF VIRTUAL! <br />

@@ -33,7 +33,7 @@ function Recuperar() {
             >
                 <div className={styles.caixaDeLogin}>
                     <div className={styles.logo}>
-                        <img src="/img/logo.png" alt="Logo Chef Virtual" />
+                        <img src="/img/logo.svg" alt="Logo Chef Virtual" />
                     </div>
                     <h3 className={styles.titulo}>Esqueceu senha?</h3>
                     <p className={styles.texto}>
