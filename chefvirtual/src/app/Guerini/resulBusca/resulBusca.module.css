@@ -1,0 +1,25 @@
+.Main{
+    display: flex;
+    margin: 3vh 25vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.elementos{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 3vh 0vh;
+    gap: 5vh 10vh;
+}
+
+.digitoPesquisa{
+    color: #DE3333;
+    border-bottom: 3px solid #DE3333;
+}
+
+.titleResult{
+    font-size: 25pt;
+    font-family: "Poppins", serif;
+}

@@ -24,7 +24,7 @@ export default function Header(){
 
             <div className={styles.headerDivSearch}>
                     <input type="text" placeholder="O que vamos comer hoje?" className={styles.headerSearchInput}></input>
-                <button className={styles.headerSearchButton} onClick={() => router.push("/Guerini/visuInicial")}>
+                <button className={styles.headerSearchButton} onClick={() => router.push("/Guerini/resulBusca")}>
                     <Image src="/img/search-icon.webp" alt="Buscar" className={styles.headerSearchIcon} width={20} height={20}></Image>
                 </button>
             </div>
