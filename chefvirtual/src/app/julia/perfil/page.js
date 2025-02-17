@@ -31,7 +31,7 @@ export default function Perfil() {
       </div>
 
       <div className={styles.recipesContainer}>
-        <h3>Histórico de Receita</h3>
+        <h3>Histórico de Receitas</h3>
         <button className={styles.showhistory}>Mostrar</button>
         <div className={styles.recipelist}>
           {recipes.map((recipe, index) => (
