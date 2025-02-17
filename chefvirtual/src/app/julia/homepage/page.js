@@ -1,20 +1,20 @@
 import React from "react";
-import styles from "@/app/julia/homepage/homepage.module.css";
+import styles from "./homepage.module.css";
 
 export default function Homepage() {
   const items = [
-    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "#" },
-    { name: "Banoffee", author: "Jordan Elias", img: "/img/banoffe.png", link: "#" },
-    { name: "Milkshake de café e chocolate", author: "Sofia Ransford", img: "/img/milkshake.png", link: "#" },
-    { name: "Coxinha", author: "Maria Souza", img: "/img/coxinha.png", link: "#a" },
-    { name: "Torta de Frango", author: "Mayu Kondou", img: "/img/tortafrango.png", link: "#" },
-    { name: "Vatapá", author: "Guilherme Barros", img: "/img/vatapa.png", link: "#" },
-    { name: "Torta de Uva e Maçã", author: "Victoria Steen", img: "/img/tuvamaca.png", link: "#" },
-    { name: "Brigadeiro", author: "Carlos Alberto", img: "/img/brigadeiro.png", link: "#" },
-    { name: "Pudim", author: "Vitor Barbosa", img: "/img/pudim.png", link: "#" },
-    { name: "Salpicão", author: "Gabriel Lima", img: "/img/salpicao.png", link: "#" },
-    { name: "Lasanha", author: "Ana Silva", img: "/img/lasanha.png/", link: "#" },
-    { name: "Salada Caesar", author: "Marta Rocha", img: "/img/caesarsalad.png", link: "#" },
+    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "/receita/pizza-de-pepperoni", authorLink: "./perfil" },
+    { name: "Banoffee", author: "Jordan Elias", img: "/img/banoffe.png", link: "/receita/banoffee", authorLink: "/julia/perfil/jordan-elias" },
+    { name: "Milkshake de café e chocolate", author: "Sofia Ransford", img: "/img/milkshake.png", link: "/receita/milkshake", authorLink: "/julia/perfil/sofia-ransford" },
+    { name: "Coxinha", author: "Maria Souza", img: "/img/coxinha.png", link: "/receita/coxinha", authorLink: "/julia/perfil/maria-souza" },
+    { name: "Torta de Frango", author: "Mayu Kondou", img: "/img/tortafrango.png", link: "/receita/torta-de-frango", authorLink: "/julia/perfil/mayu-kondou" },
+    { name: "Vatapá", author: "Guilherme Barros", img: "/img/vatapa.png", link: "/receita/vatapa", authorLink: "/julia/perfil/guilherme-barros" },
+    { name: "Torta de Uva e Maçã", author: "Victoria Steen", img: "/img/tuvamaca.png", link: "/receita/torta-de-uva", authorLink: "/julia/perfil/victoria-steen" },
+    { name: "Brigadeiro", author: "Carlos Alberto", img: "/img/brigadeiro.png", link: "/receita/brigadeiro", authorLink: "/julia/perfil/carlos-alberto" },
+    { name: "Pudim", author: "Vitor Barbosa", img: "/img/pudim.png", link: "/receita/pudim", authorLink: "/julia/perfil/vitor-barbosa" },
+    { name: "Salpicão", author: "Gabriel Lima", img: "/img/salpicao.png", link: "/receita/salpicao", authorLink: "/julia/perfil/gabriel-lima" },
+    { name: "Lasanha", author: "Ana Silva", img: "/img/lasanha.png", link: "/receita/lasanha", authorLink: "/julia/perfil/ana-silva" },
+    { name: "Salada Caesar", author: "Marta Rocha", img: "/img/caesarsalad.png", link: "/receita/salada-caesar", authorLink: "/julia/perfil/marta-rocha" },
   ];
 
   const categories = [
@@ -34,20 +34,24 @@ export default function Homepage() {
           </a>
         ))}
 
-        <h1 className={styles.h1}>Desbrave novos sabores e culturas, explorando o mundo através da culinária</h1>
+        <h1 className={styles.h1}>
+          Desbrave novos sabores e culturas, explorando o mundo através da culinária
+        </h1>
       </div>
+
 
       <div className={styles.items}>
         {items.map((item, index) => (
           <div className={styles.item} key={index}>
-            <a href={item.link}>
+
+            <a href={item.link} className={styles.recipeLink}>
               <img src={item.img} alt={item.name} className={styles.itemImage} />
             </a>
             <h2>
-              <a href={item.link}>{item.name}</a>
+              <a href={item.link} className={styles.recipeTitle}>{item.name}</a>
             </h2>
             <p>
-              Por <a href={`/autor/${item.author.replace(" ", "-").toLowerCase()}`}>{item.author}</a>
+              Por <a href={item.authorLink} className={styles.authorLink}>{item.author}</a>
             </p>
           </div>
         ))}
