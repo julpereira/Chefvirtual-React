@@ -1,21 +1,16 @@
 "use client";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/Header";
-import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 
-
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  weight: "400",
   subsets: ["latin"],
-});
+  });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
 
 // export const metadata = {
 //   title: "Chefvirtual",
@@ -32,7 +27,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="pt-BR">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={poppins.className}>
         {!hideHeaderPages.includes(pathname) && <Header></Header>}
         {children}
         <Footer></Footer>
