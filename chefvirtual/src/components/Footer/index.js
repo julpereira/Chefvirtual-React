@@ -5,7 +5,6 @@ export default function Footer() {
   return (
     <footer className={styles.footer} role="contentinfo">
       <div className={styles.FooterNav}>
-        <h2 className={styles.footerTitle}>Navegação</h2>
         <ul className={styles.ul}>
           <li><a href="#" aria-label="Quem Somos">Quem Somos</a></li>
           <li><a href="#" aria-label="Política de Privacidade">Política de privacidade</a></li>
@@ -15,7 +14,7 @@ export default function Footer() {
       </div>
   
       <div className={styles.footerBottom}>
-        <p>&copy; {new Date().getFullYear()} Sua Empresa. Todos os direitos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} Chefvirtual. Todos os direitos reservados.</p>
       </div>
     </footer>
   );
