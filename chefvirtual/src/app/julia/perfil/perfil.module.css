@@ -26,6 +26,8 @@
     cursor: pointer;
     font-size: 16px;
     border-radius: 8px;
+    list-style: none;
+    text-decoration: none;
 }
 
 .edit {
