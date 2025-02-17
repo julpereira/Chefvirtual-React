@@ -20,7 +20,7 @@ export default function Perfil() {
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
         </p>
-        <button className={styles.edit}>Editar Perfil</button>
+        <button className={styles.edit}> <a href="../joao_bento/ed_perfil">Editar Perfil</a></button>
         <button className={styles.delete}>Excluir Conta</button>
         
         <div className={styles.socialIcons}>

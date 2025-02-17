@@ -18,7 +18,7 @@ const App = () => {
     if (window.history.length > 1) {
       window.history.back();
     } else {
-      window.location.href = '/'; // Caso não haja histórico, redireciona para a página inicial
+      window.location.href = '/';
     }
   };
 
@@ -26,13 +26,13 @@ const App = () => {
     setIsFavorited(!isFavorited); // Alterna o estado de favorito
   };
 
-  // Função para abrir o modal
+  
   const openModal = () => setIsModalOpen(true);
 
-  // Função para fechar o modal
+  
   const closeModal = () => setIsModalOpen(false);
 
-  // Função de seleção de avaliação
+  
   const handleRating = (index) => {
     setRatingData((prev) => ({ ...prev, rating: index }));
   };
@@ -44,10 +44,10 @@ const App = () => {
     setIsModalOpen(false); // Fechar o modal
   };
 
-  // Função para abrir o modal de denúncia
+  
   const openReportModal = () => setIsReportModalOpen(true);
 
-  // Função para fechar o modal de denúncia
+  
   const closeReportModal = () => setIsReportModalOpen(false);
 
   // Função de enviar a denúncia
@@ -70,13 +70,12 @@ const App = () => {
     }
   };
 
-  // Função para calcular a média de avaliações
-  const averageRating = 4.5; // Exemplo de média, isso pode ser calculado dinamicamente com as avaliações dos usuários
+
 
   return (
     <div className="container">
       <main>
-        {/* Primeira parte */}
+        
         <section className={styles.info_receita}>
           <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
             <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
@@ -91,7 +90,7 @@ const App = () => {
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
-                  className={index < 4 ? styles.avaliacoes1 : styles.avaliacoes5} // Sempre exibe 4 estrelas preenchidas
+                  className={index < 4 ? styles.avaliacoes1 : styles.avaliacoes5} 
                   size={25}
                 />
               ))}
@@ -103,7 +102,7 @@ const App = () => {
               <Bookmark
                 className={styles.fav}
                 size={25}
-                fill={isFavorited ? 'gold' : 'none'} // Preenche com a cor dourada quando favoritado
+                fill={isFavorited ? 'gold' : 'none'} 
               />
             </div>
           </div>
@@ -219,7 +218,7 @@ const App = () => {
           </div>
         )}
 
-        {/* Ingredientes */}
+        
         <section className={styles.ingredientes}>
           <div className={styles.ingredientes2}>
             <div className={styles.ingredientes3}>
@@ -240,7 +239,8 @@ const App = () => {
           </div>
         </section>
 
-        {/* Modo de Preparo */}
+        
+
         <section className={styles.des_receita}>
           <div className={styles.preparo}>
             <div className={styles.preparo2}><h2>Modo de preparo</h2></div>
@@ -254,7 +254,9 @@ const App = () => {
           </div>
         </section>
 
-        {/* Comentários */}
+
+
+        
         <section className={styles.comentarios}>
           <div className={styles.coment}><h2>Comentários</h2></div>
           <div className={styles.comentario}>

@@ -3,7 +3,7 @@ import styles from "./homepage.module.css";
 
 export default function Homepage() {
   const items = [
-    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "./visu_receita", authorLink: "./perfil" },
+    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "../joao_bento/visu_receita", authorLink: "./perfil" },
     { name: "Banoffee", author: "Jordan Elias", img: "/img/banoffe.png", link: "/receita/banoffee", authorLink: "/julia/perfil/jordan-elias" },
     { name: "Milkshake de café e chocolate", author: "Sofia Ransford", img: "/img/milkshake.png", link: "/receita/milkshake", authorLink: "/julia/perfil/sofia-ransford" },
     { name: "Coxinha", author: "Maria Souza", img: "/img/coxinha.png", link: "/receita/coxinha", authorLink: "/julia/perfil/maria-souza" },

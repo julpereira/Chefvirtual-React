@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Youtube, Facebook, Instagram } from 'lucide-react';
+
 import styles from './perfil.module.css'; // Importa o módulo CSS
 
 export default function EditProfile() {
@@ -75,14 +77,22 @@ export default function EditProfile() {
                         <div className={styles.socialSection}>
                             <h3 className={styles.socialTitle}>Redes Sociais</h3>
                             <div>
+
+
+
+
+
+                                <Youtube size={26} color="red"/>
                                 <label className={styles.label}>YouTube</label>
                                 <input type="url" {...register("youtube")} placeholder="Ex: www.youtube.com/@perfil" className={styles.input} />
                             </div>
                             <div>
+                                <Facebook size={26} color="blue" />
                                 <label className={styles.label}>Facebook</label>
                                 <input type="url" {...register("facebook")} placeholder="Ex: www.facebook.com/perfil" className={styles.input} />
                             </div>
                             <div>
+                                <Instagram size={26} color="pink" />
                                 <label className={styles.label}>Instagram</label>
                                 <input type="url" {...register("instagram")} placeholder="Ex: www.instagram.com/perfil" className={styles.input} />
                             </div>
