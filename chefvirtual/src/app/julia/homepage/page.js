@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './homepage.module.css'
+import styles from '@/app/julia/homepage/homepage.module.css';
 
 
 export default function Homepage() {
@@ -36,10 +36,6 @@ export default function Homepage() {
           </div>
         ))}
       </div>
-      <footer className={styles.footer}>
-        <p>Quem Somos | Política de privacidade | Termos de uso | Contato</p>
-      </footer>
     </div>
   );
 }
-
