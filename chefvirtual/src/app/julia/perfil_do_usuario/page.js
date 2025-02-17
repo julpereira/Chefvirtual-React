@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "./perfil.module.css";
 
 export default function Perfil() {
   return (
