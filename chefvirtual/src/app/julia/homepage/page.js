@@ -4,17 +4,17 @@ import styles from "./homepage.module.css";
 export default function Homepage() {
   const items = [
     { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "../joao_bento/visu_receita", authorLink: "./perfil" },
-    { name: "Banoffee", author: "Jordan Elias", img: "/img/banoffe.png", link: "/receita/banoffee", authorLink: "/julia/perfil/jordan-elias" },
-    { name: "Milkshake de café e chocolate", author: "Sofia Ransford", img: "/img/milkshake.png", link: "/receita/milkshake", authorLink: "/julia/perfil/sofia-ransford" },
-    { name: "Coxinha", author: "Maria Souza", img: "/img/coxinha.png", link: "/receita/coxinha", authorLink: "/julia/perfil/maria-souza" },
-    { name: "Torta de Frango", author: "Mayu Kondou", img: "/img/tortafrango.png", link: "/receita/torta-de-frango", authorLink: "/julia/perfil/mayu-kondou" },
-    { name: "Vatapá", author: "Guilherme Barros", img: "/img/vatapa.png", link: "/receita/vatapa", authorLink: "/julia/perfil/guilherme-barros" },
-    { name: "Torta de Uva e Maçã", author: "Victoria Steen", img: "/img/tuvamaca.png", link: "/receita/torta-de-uva", authorLink: "/julia/perfil/victoria-steen" },
-    { name: "Brigadeiro", author: "Carlos Alberto", img: "/img/brigadeiro.png", link: "/receita/brigadeiro", authorLink: "/julia/perfil/carlos-alberto" },
-    { name: "Pudim", author: "Vitor Barbosa", img: "/img/pudim.png", link: "/receita/pudim", authorLink: "/julia/perfil/vitor-barbosa" },
-    { name: "Salpicão", author: "Gabriel Lima", img: "/img/salpicao.png", link: "/receita/salpicao", authorLink: "/julia/perfil/gabriel-lima" },
-    { name: "Lasanha", author: "Ana Silva", img: "/img/lasanha.png", link: "/receita/lasanha", authorLink: "/julia/perfil/ana-silva" },
-    { name: "Salada Caesar", author: "Marta Rocha", img: "/img/caesarsalad.png", link: "/receita/salada-caesar", authorLink: "/julia/perfil/marta-rocha" },
+    { name: "Banoffee", author: "Jordan Elias", img: "/img/banoffe.png", link: "/receita/banoffee", authorLink: "#" },
+    { name: "Milkshake de café e chocolate", author: "Sofia Ransford", img: "/img/milkshake.png", link: "/receita/milkshake", authorLink: "#" },
+    { name: "Coxinha", author: "Maria Souza", img: "/img/coxinha.png", link: "/receita/coxinha", authorLink: "#" },
+    { name: "Torta de Frango", author: "Mayu Kondou", img: "/img/tortafrango.png", link: "/receita/torta-de-frango", authorLink: "#" },
+    { name: "Vatapá", author: "Guilherme Barros", img: "/img/vatapa.png", link: "/receita/vatapa", authorLink: "#s" },
+    { name: "Torta de Uva e Maçã", author: "Victoria Steen", img: "/img/tuvamaca.png", link: "/receita/torta-de-uva", authorLink: "#" },
+    { name: "Brigadeiro", author: "Carlos Alberto", img: "/img/brigadeiro.png", link: "/receita/brigadeiro", authorLink: "#" },
+    { name: "Pudim", author: "Vitor Barbosa", img: "/img/pudim.png", link: "/receita/pudim", authorLink: "#" },
+    { name: "Salpicão", author: "Gabriel Lima", img: "/img/salpicao.png", link: "/receita/salpicao", authorLink: "#" },
+    { name: "Lasanha", author: "Ana Silva", img: "/img/lasanha.png", link: "/receita/lasanha", authorLink: "#" },
+    { name: "Salada Caesar", author: "Marta Rocha", img: "/img/caesarsalad.png", link: "/receita/salada-caesar", authorLink: "#" },
   ];
 
   const categories = [

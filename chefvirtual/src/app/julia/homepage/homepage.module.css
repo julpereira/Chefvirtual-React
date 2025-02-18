@@ -9,14 +9,15 @@
     color: #c6c9c8;
     font-family: "Poppins", sans-serif;
     font-style: normal;
-    font-size: 25px;
+    font-size: 2rem; 
     text-align: center;
     width: 100%;
-    position: absolute; 
-    top: 46%; 
+    position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
 }
+
 
 .categories {
     display: grid;
@@ -109,18 +110,50 @@
     .items {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
+    
+}
+
+@media (max-width: 521px) and (max-height: 484px) {
+    .container {
+        padding: 10px;
+    }
 
     .h1 {
-        color: #c6c9c8;
-        font-family: "Poppins", sans-serif;
-        font-style: normal;
-        font-size: 25px;
-        text-align: center;
-        width: 100%;
-        position: absolute; 
-        top: 60%; 
-        left: 50%;
-        transform: translate(-50%, -50%); 
+        font-size: 1.5rem;
+        top: 70%;
     }
-    
+
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 80%;
+        margin: 0 auto 100px auto;
+    }
+
+    .category img {
+        width: 70%;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease-in-out;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+    }
+
+    .category {
+        display:inline-block;
+        text-align: center;
+        width: 150%;
+        margin-left: -25%;
+    }
+
+    .items {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .itemImage {
+        height: 150px;
+    }
 }

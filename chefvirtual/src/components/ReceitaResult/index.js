@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './receitaResult.module.css'; 
-import 'bootstrap-icons/font/bootstrap-icons.css';
+// import 'bootstrap-icons/font/bootstrap-icons.css';
 // Supondo que o arquivo de CSS esteja aqui
 
 const RecipeCard = () => {

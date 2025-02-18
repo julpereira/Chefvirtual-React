@@ -1,16 +1,34 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./perfil.module.css";
 
 const recipes = [
-  { name: "Pizza de Pepperoni", img: "/img/ppepp.png", link: "/receita/pizza-de-pepperoni" },
-  { name: "Picolé de Framboesa", img: "/img/picole.png", link: "/receita/picole-de-framboesa" },
-  { name: "Bolo de Chocolate", img: "/img/bolodechocolate.png", link: "/receita/bolo-de-chocolate" },
-  { name: "Pão de Queijo", img: "/img/paodequeijo.png", link: "/receita/pao-de-queijo" },
-  { name: "Donuts Tradicional", img: "/img/donuts.png", link: "/receita/donuts-tradicional" },
-  { name: "Empadão de Frango", img: "/img/empadao.png", link: "/receita/empadao-de-frango" },
+    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "/receita/pizza-de-pepperoni", authorLink: "./perfil" },
+    { name: "Picolé de Framboesa", author: "Claudia Herz", img: "/img/picole.png", link: "/receita/picole-de-framboesa", authorLink: "./perfil" },
+    { name: "Bolo de Chocolate", author: "Claudia Herz", img: "/img/bolodechocolate.png", link: "/receita/bolo-de-chocolate", authorLink: "./perfil" },
+    { name: "Pão de Queijo", author: "Claudia Herz", img: "/img/paodequeijo.png", link: "/receita/pao-de-queijo", authorLink: "./perfil" },
+    { name: "Donuts Tradicional", author: "Claudia Herz", img: "/img/donuts.png", link: "/receita/donuts-tradicional", authorLink: "./perfil" },
+    { name: "Empadão de Frango", author: "Claudia Herz", img: "/img/empadao.png", link: "/receita/empadao-de-frango", authorLink: "./perfil" },
 ];
 
 export default function Perfil() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleDelete = () => {
+    setShowPopup(true);
+  };
+
+  const confirmDelete = () => {
+    if (password === "1234") {
+      alert("Conta excluída com sucesso!");
+
+    } else {
+      setError("Senha incorreta. Tente novamente.");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.profile}>
@@ -18,32 +36,58 @@ export default function Perfil() {
         <h2>Claudia Herz</h2>
         <p>@herzclaudia1980</p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br></br> 
+          Nunc vulputate libero et velit interdum,<br></br> ac aliquet odio mattis.
         </p>
         <button className={styles.edit}> <a href="../joao_bento/ed_perfil">Editar Perfil</a></button>
-        <button className={styles.delete}>Excluir Conta</button>
+        <button className={styles.delete} onClick={handleDelete}>Excluir Conta</button>
         
         <div className={styles.socialIcons}>
           <a href="#"><img src="/img/facebook.png" alt="Facebook" /></a>
           <a href="#"><img src="/img/instagram.png" alt="Instagram" /></a>
-          <a href="#"><img src="/img/youtube.png" alt="YouTube" /></a>
+          <a href="#"><img className={styles.youtube} src="/img/youtube.png" alt="YouTube" /></a>
         </div>
       </div>
 
       <div className={styles.recipesContainer}>
         <h3>Histórico de Receitas</h3>
-        <button className={styles.showhistory}>Mostrar</button>
-        <div className={styles.recipelist}>
-          {recipes.map((recipe, index) => (
-            <div key={index} className={styles.recipeitem}>
-              <a href={recipe.link}>
-                <img src={recipe.img} alt={recipe.name} className={styles.recipeimg} />
-              </a>
-              <p>{recipe.name}</p>
-            </div>
-          ))}
+        <button className={styles.showhistory}><a href="#">Mostrar</a></button>
+       
+        <div className={styles.recipes}>
+        {recipes.map((recipe, index) => (
+        <div className={styles.recipe} key={index}>
+            <a href={recipe.link} className={styles.recipeLink}>
+                <img src={recipe.img} alt={recipe.name} className={styles.recipeImage} />
+            </a>
+            <h2>
+                <a href={recipe.link} className={styles.recipeTitle}>{recipe.name}</a>
+            </h2>
+            <p>
+                Por <a href={recipe.authorLink} className={styles.authorLink}>{recipe.author}</a>
+            </p>
+        </div>
+        ))}
         </div>
       </div>
+
+      {showPopup && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popup}>
+            <h2>Tem certeza que deseja excluir sua conta?</h2>
+            <p>Esta ação não pode ser desfeita.</p>
+            <input 
+              type="password" 
+              placeholder="Digite sua senha"  
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.passwordInput}
+            />
+            {error && <p className={styles.error}>{error}</p>}
+            <button onClick={confirmDelete} className={styles.confirmDelete}>Confirmar</button>
+            <button onClick={() => setShowPopup(false)} className={styles.cancel}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
