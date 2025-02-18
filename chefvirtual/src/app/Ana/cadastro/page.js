@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import styles from './cadastro.module.css';
@@ -13,11 +13,13 @@ function Cadastro() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        
         if (!nome || !email || !senha || !confirmaSenha) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
 
+        
         if (senha !== confirmaSenha) {
             alert('As senhas não coincidem.');
             return;
@@ -27,7 +29,12 @@ function Cadastro() {
         console.log('Nome:', nome);
         console.log('Email:', email);
         console.log('Senha:', senha);
+
+        
         alert('Cadastro realizado com sucesso!');
+
+        
+        router.push('/julia/homepage');
     };
 
     const handleLoginClick = () => {

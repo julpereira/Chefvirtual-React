@@ -11,6 +11,7 @@ function Page() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        
         if (!usuario || !senha) {
             alert('Por favor, preencha todos os campos.');
             return;
@@ -19,7 +20,12 @@ function Page() {
         
         console.log('Usuário:', usuario);
         console.log('Senha:', senha);
+
+        
         alert('Login realizado com sucesso!');
+
+        
+        router.push('/julia/homepage');
     };
 
     const handleEsqueciSenhaClick = () => {
@@ -66,7 +72,7 @@ function Page() {
                         </div>
                         <div className={styles.esqueciSenha}>
                             <button
-                                onClick={handleEsqueciSenhaClick} // Redireciona para a página de recuperação de senha
+                                onClick={handleEsqueciSenhaClick} 
                                 className={styles.linkIndex}
                                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
                             >
@@ -93,7 +99,7 @@ function Page() {
                         <p>
                             Não possui conta?{' '}
                             <button
-                                onClick={() => router.push('/Ana/cadastro')} // Redireciona para a página de cadastro
+                                onClick={() => router.push('/Ana/cadastro')} 
                                 className={styles.linkIndex}
                                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
                             >
