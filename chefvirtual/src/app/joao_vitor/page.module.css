@@ -1,0 +1,91 @@
+
+.div-resultados {
+    padding: 2em;
+    text-align: center;
+}
+
+
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #777;
+    margin-bottom: 2em;
+}
+
+.div-resultados h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+    font-weight: 600;
+    color: #333;
+}
+
+
+.div-elementos {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+
+
+.elemento {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    text-align: left;
+    max-width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.elemento img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
+
+.elemento h3 {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    color: #f08c22;
+    text-align: center; 
+}
+
+.elemento p {
+    font-size: 0.9em;
+    margin-bottom: 1em;
+    color: #555;
+    text-align: center; 
+}
+
+.div-avaliacao {
+    display: flex;
+    justify-content: center; 
+    gap: 0.3em;
+    margin-bottom: 1em;
+}
+
+.div-avaliacao img {
+    width: 20px;
+    height: 20px;
+}
+
+.div-tempo {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.div-tempo img {
+    width: 16px;
+    height: 16px;
+}
