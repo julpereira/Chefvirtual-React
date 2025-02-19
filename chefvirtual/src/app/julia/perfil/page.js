@@ -51,7 +51,7 @@ export default function Perfil() {
 
       <div className={styles.recipesContainer}>
         <h3>Histórico de Receitas</h3>
-        <a className={styles.showhistory} href="#">Mostrar</a>
+        <a className={styles.showhistory} href="../joao_vitor">Mostrar</a>
 
         <div className={styles.recipes}>
           {recipes.map((recipe, index) => (
