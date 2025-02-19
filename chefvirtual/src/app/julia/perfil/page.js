@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import styles from "./perfil.module.css";
 
 const recipes = [
@@ -23,7 +24,6 @@ export default function Perfil() {
   const confirmDelete = () => {
     if (password === "1234") {
       alert("Conta excluída com sucesso!");
-
     } else {
       setError("Senha incorreta. Tente novamente.");
     }
@@ -39,34 +39,34 @@ export default function Perfil() {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br></br> 
           Nunc vulputate libero et velit interdum,<br></br> ac aliquet odio mattis.
         </p>
-        <button className={styles.edit}> <a href="../joao_bento/ed_perfil">Editar Perfil</a></button>
-        <button className={styles.delete} onClick={handleDelete}>Excluir Conta</button>
+        <a className={styles.edit} href="../joao_bento/ed_perfil">Editar Perfil</a>
+        <a className={styles.delete} onClick={handleDelete}>Excluir Conta</a>
         
         <div className={styles.socialIcons}>
-          <a href="#"><img src="/img/facebook.png" alt="Facebook" /></a>
-          <a href="#"><img src="/img/instagram.png" alt="Instagram" /></a>
-          <a href="#"><img className={styles.youtube} src="/img/youtube.png" alt="YouTube" /></a>
+          <a href="#" className={styles.icon}><FaFacebook /></a>
+          <a href="#" className={styles.icon}><FaInstagram /></a>
+          <a href="#" className={styles.icon}><FaYoutube /></a>
         </div>
       </div>
 
       <div className={styles.recipesContainer}>
         <h3>Histórico de Receitas</h3>
-        <button className={styles.showhistory}><a href="#">Mostrar</a></button>
-       
+        <a className={styles.showhistory} href="#">Mostrar</a>
+
         <div className={styles.recipes}>
-        {recipes.map((recipe, index) => (
-        <div className={styles.recipe} key={index}>
-            <a href={recipe.link} className={styles.recipeLink}>
+          {recipes.map((recipe, index) => (
+            <div className={styles.recipe} key={index}>
+              <a href={recipe.link} className={styles.recipeLink}>
                 <img src={recipe.img} alt={recipe.name} className={styles.recipeImage} />
-            </a>
-            <h2>
+              </a>
+              <h2>
                 <a href={recipe.link} className={styles.recipeTitle}>{recipe.name}</a>
-            </h2>
-            <p>
+              </h2>
+              <p>
                 Por <a href={recipe.authorLink} className={styles.authorLink}>{recipe.author}</a>
-            </p>
-        </div>
-        ))}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
