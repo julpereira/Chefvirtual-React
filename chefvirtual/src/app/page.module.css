@@ -2,6 +2,7 @@
 
 .react{
     height: 100vh;
+    width: 10%;
     background: linear-gradient(to right, var(--background-color-red), var(--background-color-orange)) no-repeat;
 }
 
