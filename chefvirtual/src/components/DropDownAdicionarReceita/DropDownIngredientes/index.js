@@ -1,5 +1,7 @@
+'use client'
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import styles from './estiloDropDown.module.css'
 
 const ingredients = [
     { id: 1, name: "Farinha" },
@@ -34,23 +36,23 @@ export default function DropDownIngredientes() {
     };
 
     return (
-        <div className="relative w-64">
-            <div>
+        <div className={styles.containerDropDown}>
+            <div className={styles.campoInputDrop}>
                 <input
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Buscar ingrediente..."
-                    className="w-full p-2 border rounded-md"
+                    className={styles.inputDrop}
                 />
                 <p onClick={() => setIsOpen(!isOpen)}>{
-                    isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />
+                    isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20}  className={styles.chevronStyle}/>
                 }
                 </p>
             </div>
 
             {isOpen && (
-                <ul className="absolute left-0 w-full bg-white border rounded-md mt-1 max-h-40 overflow-y-auto shadow-md">
+                <ul className={styles.listaOpcoes}>
                     {filteredIngredients.length > 0 ? (
                         filteredIngredients.map((ingredient) => (
                             <li
@@ -61,20 +63,20 @@ export default function DropDownIngredientes() {
                                     type="checkbox"
                                     checked={selectedIngredients.some(item => item.id === ingredient.id)}
                                     onChange={() => handleCheckboxChange(ingredient)}
-                                    className="ml-2"
+                                    className={styles.opcaoDrop}
                                 />
                                 {ingredient.name}
                             </li>
                         ))
                     ) : (
-                        <li className="p-2 text-gray-500">Nenhum ingrediente encontrado</li>
+                        <li className={styles.mensagemErro}>Nenhum ingrediente encontrado</li>
                     )}
                 </ul>
             )}
             {selectedIngredients.length > 0 && (
                 <div className="mt-2">
-                    <p>Ingredientes selecionados:</p>
-                    <ul>
+                    <p className={styles.camposColoridos}>Ingredientes marcados:</p>
+                    <ul className={styles.listaSelecionado}>
                         {selectedIngredients.map(ingredient => (
                             <li key={ingredient.id}>{ingredient.name}</li>
                         ))}

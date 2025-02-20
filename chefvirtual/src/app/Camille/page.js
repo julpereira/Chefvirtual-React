@@ -66,10 +66,16 @@ export default function Camille() {
     setEtapas(novasEtapas);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault(); // 🔴 Agora o formulário não será enviado
+    console.log("Formulário não enviado");
+  };
+  
+
   return (
     <div className={styles.container}>
       <h2>Publicação de receita</h2>
-      <form className={styles.containerFormulario}>
+      <form className={styles.containerFormulario} onSubmit={handleSubmit}>
         <h3 className={styles.camposColoridos}>SUA RECEITA</h3>
         <div className={styles.primeiroCampo}>
           <div className={styles.campoAdicionarImagem}>
@@ -143,10 +149,12 @@ export default function Camille() {
           <div className={styles.containerEtapas}>
             {etapas.map((etapa) => (
               <div key={etapa.id} className={styles.containerEtapa}>
-                <button type="button" onClick={() => removerEtapa(etapa.id)} className={styles.btnExluirEtapa}>
-                  <X size={18} />
-                </button>
-                <label className={`${styles.camposColoridos} ${styles.tituloEtapa}`}>Etapa {etapa.id}</label>
+                <div className={styles.containerBtnLabel}>
+                  <button type="button" onClick={() => removerEtapa(etapa.id)} className={styles.btnExluirEtapa}>
+                    <X size={18} />
+                  </button>
+                  <label className={`${styles.camposColoridos} ${styles.tituloEtapa}`}>Etapa {etapa.id}</label>
+                </div>
                 <input
                   type="text"
                   value={etapa.conteudo}
@@ -162,7 +170,11 @@ export default function Camille() {
             </button>
           </div>
         </div>
-        <button type="submit" className={styles.btnEnviarFormulario}>Enviar sua receita</button>
+        <div className={styles.containerBtnEnviar}>
+          <button type="submit" className={styles.btnEnviarFormulario}>
+            Enviar sua receita
+          </button>
+        </div>
       </form>
     </div>
   );

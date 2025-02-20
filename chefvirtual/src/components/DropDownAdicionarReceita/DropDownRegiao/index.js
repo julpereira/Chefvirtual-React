@@ -1,5 +1,7 @@
+'use client'
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import styles from './estiloDropDown.module.css'
 
 const countries = [
     "Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"
@@ -15,23 +17,23 @@ export default function DropDownRegiao() {
     );
 
     return (
-        <div className="relative w-64">
-            <div>
+        <div className={styles.containerDropDown}>
+            <div className={styles.campoInputDrop}>
                 <input
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Buscar país..."
-                    className="w-full p-2 border rounded-md"
+                    className={styles.inputDrop}
                 />
                 <p onClick={() => setIsOpen(!isOpen)}>{
-                    isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />
+                    isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} className={styles.chevronStyle}/>
                 }
                 </p>
             </div>
 
             {isOpen && (
-                <ul className="absolute left-0 w-full bg-white border rounded-md mt-1 max-h-40 overflow-y-auto shadow-md">
+                <ul className={styles.listaOpcoes}>
                     {filteredCountries.length > 0 ? (
                         filteredCountries.map((country, index) => (
                             <li
@@ -41,17 +43,16 @@ export default function DropDownRegiao() {
                                     setSearch(country);
                                     setIsOpen(false);
                                 }}
-                                className="p-2 cursor-pointer hover:bg-gray-200"
+                                className={styles.opcaoDrop}
                             >
                                 {country}
                             </li>
                         ))
                     ) : (
-                        <li className="p-2 text-gray-500">Nenhum país encontrado</li>
+                        <li className={styles.mensagemErro}>Nenhum país encontrado</li>
                     )}
                 </ul>
             )}
-            {selectedCountry && <p className="mt-2">País selecionado: {selectedCountry}</p>}
         </div>
     );
 }

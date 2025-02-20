@@ -1,0 +1,44 @@
+.campoInputDrop{
+    display: flex;
+    background-color: #e0e0e0;
+    padding: 5px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.inputDrop{
+    background-color: transparent;
+    border: none;
+}
+
+.inputDrop:focus{
+    border: none;
+    outline: none;
+}
+
+.listaOpcoes{
+    list-style: none;
+    background-color: #e0e0e0;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    cursor: default;
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    overflow: auto;
+}
+
+.opcaoDrop{
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.camposColoridos{
+    color: var(--background-color-orange);
+}
+
+
+.listaSelecionado{
+    padding-left: 20px;
+}
