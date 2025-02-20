@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import styles from "./perfil.module.css";
 
 const recipes = [
@@ -16,6 +17,7 @@ export default function Perfil() {
   const [showPopup, setShowPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleDelete = () => {
     setShowPopup(true);
@@ -24,6 +26,7 @@ export default function Perfil() {
   const confirmDelete = () => {
     if (password === "1234") {
       alert("Conta excluída com sucesso!");
+      router.push("/julia/homepage");
     } else {
       setError("Senha incorreta. Tente novamente.");
     }
