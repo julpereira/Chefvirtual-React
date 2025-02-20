@@ -23,7 +23,7 @@ export default function DropDownRegiao() {
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Buscar país..."
+                    placeholder="Buscar região..."
                     className={styles.inputDrop}
                 />
                 <p onClick={() => setIsOpen(!isOpen)}>{
