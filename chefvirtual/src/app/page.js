@@ -5,7 +5,7 @@ import styles from "@/app/page.module.css";
 
 export default function Header(){
     return(
-        <div className={styles.reactfudido}>
+        <div className={styles.react}>
             <main className={styles.corpo}>
                 <div className={styles.logoDiv}>
                     <Image src="/img/logo.svg" id="logo-img" alt="" width={600} height={600}></Image>
