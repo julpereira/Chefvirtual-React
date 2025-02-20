@@ -46,10 +46,7 @@ function Page() {
         <div>
            
             <main>
-                <h1>Bem-vindo ao Chef Virtual</h1>
-                <p>Aqui você encontrará uma variedade de receitas deliciosas!</p>
-                <div className="div-resultados">
-                    <h2>Receitas</h2>
+                    <div className="div-resultados">
                     <div className="div-elementos">
                         {elementos.map((receita, index) => (
                             <RecipeCard key={index} receita={receita} />  
@@ -63,3 +60,4 @@ function Page() {
 }
 
 export default Page;
+
