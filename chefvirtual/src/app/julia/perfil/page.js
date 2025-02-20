@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import styles from "./perfil.module.css";
 
 const recipes = [
-    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "/receita/pizza-de-pepperoni", authorLink: "./perfil" },
+    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "../joao_bento/visu_receita", authorLink: "./perfil" },
     { name: "Picolé de Framboesa", author: "Claudia Herz", img: "/img/picole.png", link: "/receita/picole-de-framboesa", authorLink: "./perfil" },
     { name: "Bolo de Chocolate", author: "Claudia Herz", img: "/img/bolodechocolate.png", link: "/receita/bolo-de-chocolate", authorLink: "./perfil" },
     { name: "Pão de Queijo", author: "Claudia Herz", img: "/img/paodequeijo.png", link: "/receita/pao-de-queijo", authorLink: "./perfil" },
