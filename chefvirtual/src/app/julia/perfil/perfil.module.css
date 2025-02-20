@@ -187,7 +187,6 @@
     color: white;
 }
 
-/* Responsividade */
 @media screen and (max-width: 1024px) {
     .container {
         padding: 15px;
