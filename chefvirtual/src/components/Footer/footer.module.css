@@ -91,11 +91,6 @@
   color: #FF914D; 
 }
 
-.footer { 
-  background-color: #EBE7E7;
-  padding: 20px;
-  text-align: center;
-}
 
 .FooterNav {
   margin-bottom: 20px;
@@ -111,9 +106,17 @@
   margin: 0 10px;
 }
 
+.footer {
+  background-color: #EBE7E7;
+  padding: 20px;
+  text-align: center;
+  margin-top: 60px;
+}
+
 .footerBottom {
   font-size: 0.9em;
   color: #6c757d;
+  margin-top: 20px;
 }
 
 .footer a {
