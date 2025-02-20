@@ -55,6 +55,7 @@
     height: 100%;
     margin-left: 20vh;
     width: 20%;
+    position: absolute;
 }
 
 #buttonAccess {

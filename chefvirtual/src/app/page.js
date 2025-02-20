@@ -18,7 +18,7 @@ export default function Header(){
                 </div>
 
                 <div className={styles.imagensDiv}>
-                    <Image src="/img/alimentos.svg" alt="alimento" width={80} height={80}></Image>
+                    <Image src="/img/alimentos.svg" alt="alimento" width={700} height={700}></Image>
                 </div>
             </main>
         </div>
