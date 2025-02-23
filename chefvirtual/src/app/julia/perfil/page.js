@@ -24,7 +24,7 @@ export default function Perfil() {
   };
 
   const confirmDelete = () => {
-    if (password === "1234") {
+    if (password === "") {
       alert("Conta excluída com sucesso!");
       router.push("/julia/homepage");
     } else {
