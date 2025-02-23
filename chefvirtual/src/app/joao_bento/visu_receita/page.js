@@ -5,12 +5,12 @@ import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X } from 'lucide-react';
 
 const App = () => {
-  const [ratingData, setRatingData] = useState({ rating: 0, comment: '' }); // Combinando rating e comment
-  const [isModalOpen, setIsModalOpen] = useState(false); // Controle do Modal
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false); // Controle do Modal de Denúncia
-  const [reportReason, setReportReason] = useState(''); // Motivo da denúncia
-  const [otherReason, setOtherReason] = useState(''); // Motivo personalizado (se "Outro" for escolhido)
-  const [isFavorited, setIsFavorited] = useState(false); // Estado para controlar se foi favoritado
+  const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false); 
+  const [reportReason, setReportReason] = useState('');
+  const [otherReason, setOtherReason] = useState(''); 
+  const [isFavorited, setIsFavorited] = useState(false); 
 
 
 
@@ -23,7 +23,7 @@ const App = () => {
   };
 
   const toggleFavorite = () => {
-    setIsFavorited(!isFavorited); // Alterna o estado de favorito
+    setIsFavorited(!isFavorited); 
   };
 
   
@@ -40,8 +40,8 @@ const App = () => {
   // Função para enviar a avaliação
   const handleSubmitRating = () => {
     alert(`Avaliação enviada! Nota: ${ratingData.rating}/5 - Comentário: ${ratingData.comment}`);
-    setRatingData({ rating: 0, comment: '' }); // Limpar os campos após envio
-    setIsModalOpen(false); // Fechar o modal
+    setRatingData({ rating: 0, comment: '' }); 
+    setIsModalOpen(false); 
   };
 
   
@@ -56,6 +56,7 @@ const App = () => {
     alert(`Denúncia enviada! Motivo: ${reasonToSubmit}`);
     setIsReportModalOpen(false);
   };
+
 
   // Função de compartilhar
   const handleShare = () => {

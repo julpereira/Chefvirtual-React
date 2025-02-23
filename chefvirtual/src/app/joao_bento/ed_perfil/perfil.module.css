@@ -108,7 +108,66 @@
     font-family: 'Poppins', sans-serif;
     margin-top: 0.5rem;
 }
-  
+ 
+
+
+.socialSection div {
+    display: flex;
+    flex-direction: column; /* Empilhar elementos verticalmente */
+    align-items: flex-start; /* Alinha os itens à esquerda */
+    gap: 0.5rem; /* Espaçamento entre os elementos */
+    width: 100%;
+}
+
+.socialIcons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.socialIcons svg {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.socialSection label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.socialSection input {
+    width: 100%;
+    border: none;
+    background-color: #d9d9d9;
+    border-radius: 6px;
+    height: 3.4vh;
+    padding-left: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+}
+
+
+
+.youtubeIcon {
+    color: red;
+}
+
+.facebookIcon {
+    color: blue;
+}
+
+.instagramIcon {
+    color: #ca3466; /* Cor padrão do Instagram */
+}
+
+
+
+
 /* Layout de colunas */
 .columns {
     display: grid;
@@ -156,7 +215,13 @@
     resize: none;
     line-height: 4vh;
 }
-  
+
+.successMessage {
+    color: green;
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+}
 /* Botão de salvar */
 .submitButton {
     background-color: #ED6A2D;
@@ -173,8 +238,46 @@
 }
   
 .submitButton:hover {
-    background-color: #be4c1b;
+    background-color: #a74116;
 }
+
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+    height: 15vh;
+}
+
+.closeButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 3vh;
+}
+
+.closeButton:hover {
+    background-color: #2c8530;
+}
+
   
 /* Responsividade */
 @media (max-width: 1200px) {

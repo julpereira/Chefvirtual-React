@@ -2,16 +2,21 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Youtube, Facebook, Instagram } from 'lucide-react';
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 import styles from './perfil.module.css'; // Importa o módulo CSS
 
 export default function EditProfile() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [profileImage, setProfileImage] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
+    const [modalMessage, setModalMessage] = useState(''); // Mensagem do modal
 
     const onSubmit = (data) => {
         console.log(data);
+        setModalMessage('Alterações salvas com sucesso!'); // Define a mensagem
+        setIsModalOpen(true); // Abre o modal
+        setTimeout(() => setIsModalOpen(false), 3000); // Fecha o modal após 3 segundos
     };
 
     const handleImageChange = (e) => {
@@ -36,7 +41,7 @@ export default function EditProfile() {
                 <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
                 <p>Voltar</p>
             </div>
-            <div className={styles.form}> {/* Não precisa repetir a classe form aqui */}
+            <div className={styles.form}>
                 {/* Foto de perfil */}
                 <div className={styles.uploadLabel}>
                     {profileImage ? (
@@ -76,24 +81,28 @@ export default function EditProfile() {
                         {/* Redes Sociais */}
                         <div className={styles.socialSection}>
                             <h3 className={styles.socialTitle}>Redes Sociais</h3>
+
                             <div>
-
-
-
-
-
-                                <Youtube size={26} color="red"/>
-                                <label className={styles.label}>YouTube</label>
+                                <label className={styles.label}>
+                                    <FaYoutube className={styles.youtubeIcon} />
+                                    YouTube
+                                </label>
                                 <input type="url" {...register("youtube")} placeholder="Ex: www.youtube.com/@perfil" className={styles.input} />
                             </div>
+
                             <div>
-                                <Facebook size={26} color="blue" />
-                                <label className={styles.label}>Facebook</label>
+                                <label className={styles.label}>
+                                    <FaFacebook className={styles.facebookIcon} />
+                                    Facebook
+                                </label>
                                 <input type="url" {...register("facebook")} placeholder="Ex: www.facebook.com/perfil" className={styles.input} />
                             </div>
+
                             <div>
-                                <Instagram size={26} color="pink" />
-                                <label className={styles.label}>Instagram</label>
+                                <label className={styles.label}>
+                                    <FaInstagram className={styles.instagramIcon} />
+                                    Instagram
+                                </label>
                                 <input type="url" {...register("instagram")} placeholder="Ex: www.instagram.com/perfil" className={styles.input} />
                             </div>
                         </div>
@@ -110,6 +119,16 @@ export default function EditProfile() {
                     </div>
                 </form>
             </div>
+
+            {/* Modal de sucesso */}
+            {isModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <p>{modalMessage}</p>
+                        <button onClick={() => setIsModalOpen(false)} className={styles.closeButton}>Fechar</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

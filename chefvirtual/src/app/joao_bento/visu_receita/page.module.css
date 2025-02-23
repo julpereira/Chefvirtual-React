@@ -63,13 +63,13 @@
   }
   
   .avaliacoes1, .avaliacoes2 , .avaliacoes3{
-    fill: #ED6A2D; /* Estrelas cheias */
+    fill: #ED6A2D; 
     color: #ED6A2D;
   }
   
   
   .avaliacoes4, .avaliacoes5 {
-    fill: transparent; /* Estrelas vazias */
+    fill: transparent; 
     color: #ED6A2D;
   }
 
@@ -109,7 +109,7 @@
 }
 
 .star_rec{
-    fill: #dddd; /* Preenche a estrela com a cor */
+    fill: #dddd; 
     color: #dddd;
     margin-top: 3px;
     font-size: 20px;
@@ -131,8 +131,8 @@
   
   .fixed-textarea {
     resize: none;
-    height: 100px; /* Defina a altura fixa que você preferir */
-    width: 100%;   /* Deixe a largura ocupar toda a área disponível */
+    height: 100px; 
+    width: 100%;   
 }
 
 .modal-content {
@@ -185,10 +185,10 @@
     width: 100%; 
     margin-left: 0.3rem;
     border-radius: 5px;
-    resize: none; /* Impede o redimensionamento */
+    resize: none; 
     padding: 10px;
-    font-family: 'poppins'; /* Fonte consistente */
-    font-size: 13px; /* Font size fixo */
+    font-family: 'poppins';
+    font-size: 13px;
     line-height: 1.7;
   }
   
@@ -214,7 +214,7 @@
 
   .avalie {
     position: relative;
-    top: -6px; /* Ajuste esse valor conforme necessário */
+    top: -6px; 
     font-family: 'poppins', sans-serif;
 }
 
@@ -241,7 +241,7 @@
     font-size: 2vh;
     margin-right: 0.5vh;
     position: relative;
-    top: 3.2px; /* Move o relógio um pouco para baixo */
+    top: 3.2px; 
   }
 .sb_rec{
     margin-left: 17vh;
@@ -253,7 +253,7 @@
   .sb_rec2 {
     display: flex;
     margin-left: 17vh;
-    gap: 10.8vw; /* Ajuste o espaçamento entre os botões */
+    gap: 10.8vw; 
     margin-top: 2.5rem;
 
   }
@@ -296,6 +296,8 @@
     justify-content: center;
     z-index: 1;
   }
+
+
   
   .modal {
     font-family: 'poppins', sans-serif;
@@ -309,12 +311,27 @@
     padding: 20px;
     border-radius: 10px;
     width: 25vw;
-    height: 30vh;
+    height: 33vh;
     max-width: 90%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
     z-index: 2;
   }
+
+  .otherReasonInput {
+    resize: none;
+    background-color: #D9D9D9;
+    
+    
+  }
+
+  .reportSelect{
+    margin-top: 1.5vh;
+    margin-bottom: 1vh;
+    height: 3vh;
+    border-radius: 6px;
+  }
+  
   
 
 
@@ -345,12 +362,12 @@
     top: 10px;
     right: 10px;
     cursor: pointer;
-    color: #333; /* Ajuste a cor conforme necessário */
+    color: #333; 
     transition: 0.2s;
   }
   
   .closeIcon:hover {
-    color: #ff0000; /* Muda a cor ao passar o mouse */
+    color: #ff0000; 
   }
   
   
