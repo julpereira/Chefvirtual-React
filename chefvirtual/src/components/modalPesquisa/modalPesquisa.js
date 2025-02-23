@@ -48,7 +48,7 @@ export default function ModalPesquisa({ isOpen, onClose }) {
                 </button>
 
                 <div className="search-icon" style={{ textAlign: 'center', marginBottom: '20px' }}>
-                    <img src="./assets/img/lupa.png" height="90" width="90" alt="Ícone de pesquisa" />
+                    <img src="/img/lupa.png" height="90" width="90" alt="Ícone de pesquisa" />
                 </div>
 
                 <div className="filters">
