@@ -77,7 +77,7 @@ export default function Perfil() {
         <div className={styles.popupOverlay}>
           <div className={styles.popup}>
             <h2>Tem certeza que deseja excluir sua conta?</h2>
-            <p>Esta ação não pode ser desfeita.</p>
+            <p>Esta ação não pode ser desfeita.(Senha para conseguir excluir: 1234)</p>
             <input 
               type="password" 
               placeholder="Digite sua senha"  
