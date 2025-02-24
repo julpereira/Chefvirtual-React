@@ -4,12 +4,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation'; 
 
 const ingredientes = [
-    "Açúcar", "Sal", "Pimenta", "Alho", "Cebola", "Tomate", "Óleo", "Vinagre", "Limão", "Ovo", "Leite", "Manteiga",
-    "Farinha de trigo", "Fermento", "Chocolate", "Mel", "Gengibre", "Manjericão", "Orégano", "Alecrim", "Coentro", "Curry",
-    "Noz-moscada", "Canela", "Cravo", "Cominho", "Páprica", "Louro", "Salsa", "Cebolinha", "Abacaxi", "Banana", "Maçã",
-    "Uva", "Morango", "Manga", "Mamão", "Laranja", "Cenoura", "Batata", "Abobrinha", "Berinjela", "Pimentão", "Espinafre",
-    "Brócolis", "Couve", "Repolho", "Peixe", "Carne de boi", "Frango", "Porco", "Camarão", "Lula", "Polvo", "Queijo",
-    "Requeijão", "Creme de leite", "Leite condensado", "Coco ralado", "Castanha", "Nozes", "Amêndoas", "Avelã"
+        "Abacaxi", "Abobrinha", "Açúcar", "Alecrim", "Alho", "Amêndoas", "Avelã", "Banana", 
+        "Batata", "Berinjela", "Brócolis", "Camarão", "Canela", "Carne de boi", "Castanha", 
+        "Cebola", "Cebolinha", "Cenoura", "Chocolate", "Coco ralado", "Coentro", "Cominho", 
+        "Creme de leite", "Cravo", "Curry", "Espinafre", "Farinha de trigo", "Fermento", 
+        "Frango", "Gengibre", "Laranja", "Leite", "Leite condensado", "Limão", "Louro", 
+        "Lula", "Maçã", "Mamão", "Manga", "Manjericão", "Manteiga", "Mel", "Morango", 
+        "Noz-moscada", "Nozes", "Óleo", "Orégano", "Ovo", "Páprica", "Peixe", "Pimenta", 
+        "Pimentão", "Polvo", "Porco", "Queijo", "Repolho", "Requeijão", "Sal", "Salsa", 
+        "Tomate", "Uva", "Vinagre" 
 ];
 
 export default function ModalPesquisa({ isOpen, onClose }) {
@@ -73,8 +76,8 @@ export default function ModalPesquisa({ isOpen, onClose }) {
                         &#10006;
                     </button>
 
-                    <div className="search-icon" style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        <img src="/img/lupa.png" height="90" width="90" alt="Ícone de pesquisa" />
+                    <div className="filter" style={{ textAlign: 'center', marginBottom: '20px' }}>
+                        <h1>Filtrar pesquisa</h1>
                     </div>
 
                     <div className="filters">
@@ -176,7 +179,7 @@ export default function ModalPesquisa({ isOpen, onClose }) {
                             onClick={handleBuscarClick}
                             style={{
                                 padding: '10px 20px',
-                                backgroundColor: '#4CAF50',
+                                backgroundColor: '#FF914D',
                                 color: 'white',
                                 border: 'none',
                                 borderRadius: '5px',
