@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import styles from "./homepage.module.css";
 
 export default function Homepage() {
@@ -35,7 +35,7 @@ export default function Homepage() {
         ))}
 
         <h1 className={styles.h1}>
-          Desbrave novos sabores e culturas, explorando o mundo através da culinária
+          Desbrave novos sabores e culturas, explorando o mundo através da culinária!
         </h1>
       </div>
 
