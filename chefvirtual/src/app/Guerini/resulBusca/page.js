@@ -17,7 +17,7 @@ const RouterComponent = dynamic(() => import("next/router"), { ssr: false });
 
 export default function ResulBusca() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [query, setQuery] = useState("Nenhuma pesquisa");
+    const [query, setQuery] = useState("pastel");
 
     const [router, setRouter] = useState(null);
 
