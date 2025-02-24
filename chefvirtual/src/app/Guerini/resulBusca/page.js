@@ -53,7 +53,7 @@ export default function ResulBusca() {
                         className={styles.filterButton}
                         aria-label="Filtrar"
                     >
-                        <SlidersHorizontal size={28} color="#FF914D" />
+                        <SlidersHorizontal size={28} color="#000000" />
                     </button>
                 </div>
 
