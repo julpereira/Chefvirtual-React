@@ -116,6 +116,28 @@
     margin-left: 12px;
 }
 
+
+
+.autor{
+    color: black;
+    display: flex;
+    margin-left: 17vh;
+    font-size: 18px;
+    margin-top: 1vh;
+    margin-bottom: 1.5vh;
+}
+
+.autor a{
+    text-decoration: none;
+    color: black;
+}
+
+.autor a:hover{
+    color: #FF914D;
+    text-decoration: none;
+}
+
+
 .modal {
     display: none; 
     position: fixed;
@@ -390,7 +412,7 @@
     border-top: 2px solid black; 
     height: auto;
     margin-top: 5vh;
-    width: 201.3vh;
+    width: auto;
     border-bottom: 2px solid black;
     padding-bottom: 10vh;
 }
@@ -446,7 +468,7 @@
 
 
 .preparo{
-    width: 201vh;
+    width: auto;
     height: auto;
     border-bottom: 2px solid black;
     padding-bottom: 10vh;

@@ -120,6 +120,10 @@ const App = () => {
             </div>
           </div>
 
+          <div className={styles.autor}>
+            <p>Receita feito(a) por <a href="../julia/perfil">Claudia Herz</a></p>
+          </div>
+
           <div className={styles.sb_rec}>
             <button className={styles.openModalBtn} onClick={openModal} aria-label="Avaliar a receita">
               <span className={styles.avalie}>Avalie a receita</span>
@@ -221,6 +225,7 @@ const App = () => {
 
         
         <section className={styles.ingredientes}>
+          
           <div className={styles.ingredientes2}>
             <div className={styles.ingredientes3}>
               <h2>Ingredientes</h2>
