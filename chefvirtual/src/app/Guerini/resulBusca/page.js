@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect, Suspense } from "react";
+import { useRouter } from "next/router"; 
 import styles from "./resulBusca.module.css";
 import RecipeCard from "@/components/ReceitaResult";
 import { Poppins } from "next/font/google";
@@ -17,20 +17,19 @@ export default function ResulBusca() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [query, setQuery] = useState("Nenhuma pesquisa");
 
-    const searchParams = useSearchParams();
+    const router = useRouter(); 
+    const { query: queryParam } = router.query;  // Obtendo o parâmetro "query" da URL
 
     useEffect(() => {
-        const searchQuery = searchParams.get("query");
-        if (searchQuery) {
-            setQuery(searchQuery);
+        if (queryParam) {
+            setQuery(queryParam);
         }
-    }, [searchParams]);
+    }, [queryParam]);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     return (
-        // Envolvendo tudo com Suspense para garantir que o uso do `useSearchParams` aconteça somente no lado do cliente
         <Suspense fallback={<div>Carregando...</div>}>
             <div className={styles.Main}>
                 <div className={styles.headerBusca}>
