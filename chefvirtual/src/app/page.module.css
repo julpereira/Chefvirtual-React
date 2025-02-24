@@ -57,7 +57,7 @@
     width: 20%;
 }
 
-#buttonAccess {
+.buttonAccess {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,7 @@
     transition: all ease 1s;
 }
 
-#buttonAccess:after {
+.buttonAccess:after {
     position: absolute;
     content: "";
     top: 0;
@@ -79,7 +79,7 @@
     height: 100%;
 }
 
-#buttonAccess:hover {
+.buttonAccess:hover {
     background-color: white;
     color: black;
 }
