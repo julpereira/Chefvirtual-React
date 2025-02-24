@@ -1,4 +1,5 @@
-"use client";
+"use client"; // Adiciona para garantir que a página seja renderizada do lado do cliente
+
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from "./resulBusca.module.css";
@@ -15,6 +16,7 @@ const poppinsFont = Poppins({
 export default function ResulBusca() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [query, setQuery] = useState("Nenhuma pesquisa");
+
     const searchParams = useSearchParams();
 
     useEffect(() => {
