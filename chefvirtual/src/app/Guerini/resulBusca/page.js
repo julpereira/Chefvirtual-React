@@ -1,6 +1,5 @@
 "use client";
-import { Suspense } from 'react';
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from "./resulBusca.module.css";
 import RecipeCard from "@/components/ReceitaResult";
@@ -15,14 +14,21 @@ const poppinsFont = Poppins({
 
 export default function ResulBusca() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [query, setQuery] = useState("Nenhuma pesquisa");
     const searchParams = useSearchParams();
-    const query = searchParams.get("query") || "Nenhuma pesquisa";
+
+    useEffect(() => {
+        const searchQuery = searchParams.get("query");
+        if (searchQuery) {
+            setQuery(searchQuery);
+        }
+    }, [searchParams]);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Carregando...</div>}>
             <div className={styles.Main}>
                 <div className={styles.headerBusca}>
                     <h2 className={`${styles.titleResult} ${poppinsFont.className}`}>
