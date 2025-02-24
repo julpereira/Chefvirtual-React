@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useRouter } from "next/router"; 
+import dynamic from "next/dynamic"; 
 import styles from "./resulBusca.module.css";
 import RecipeCard from "@/components/ReceitaResult";
 import { Poppins } from "next/font/google";
@@ -13,18 +13,29 @@ const poppinsFont = Poppins({
     weight: "400",
 });
 
+const RouterComponent = dynamic(() => import("next/router"), { ssr: false });
+
 export default function ResulBusca() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [query, setQuery] = useState("Nenhuma pesquisa");
 
-    const router = useRouter(); 
-    const { query: queryParam } = router.query;  // Obtendo o parâmetro "query" da URL
+    const [router, setRouter] = useState(null);
 
     useEffect(() => {
-        if (queryParam) {
-            setQuery(queryParam);
+
+        import("next/router").then((module) => {
+            setRouter(module.useRouter());
+        });
+    }, []);
+
+    useEffect(() => {
+        if (router) {
+            const { query: queryParam } = router.query;
+            if (queryParam) {
+                setQuery(queryParam);
+            }
         }
-    }, [queryParam]);
+    }, [router]);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
