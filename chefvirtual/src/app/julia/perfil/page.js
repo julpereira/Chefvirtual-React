@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaLock } from 'react-icons/fa'; 
 import { useRouter } from "next/navigation";
 import styles from "./perfil.module.css";
 
@@ -91,10 +92,10 @@ export default function Perfil() {
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.passwordInput}
               />
-              <i 
-                className={`fas ${passwordVisible ? "fa-eye-slash" : "fa-eye"} ${styles.eyeIcon}`} 
-                onClick={togglePasswordVisibility}
-              ></i>
+               <i
+                    className={`${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} ${styles.eyeIcon}`} 
+                   onClick={togglePasswordVisibility} 
+                ></i>
             </div>
             {error && <p className={styles.error}>{error}</p>}
             <button onClick={confirmDelete} className={styles.confirmDelete}>Confirmar</button>

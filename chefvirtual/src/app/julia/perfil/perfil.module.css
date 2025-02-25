@@ -203,16 +203,17 @@
 
 .eyeIcon {
     position: absolute;
-    right: 10px;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
-    color: #000000;
+    color: #888;
     font-size: 18px;
 }
 
 .eyeIcon:hover {
-    color: #ED6A2D;
+    color: #333;
 }
-
 
 @media screen and (max-width: 1024px) {
     .container {
