@@ -1,62 +1,53 @@
-"use client"
-import { useEffect, useState } from 'react';
-import Header from '@/components/Header/index';
-import Footer from '@/components/Footer/index';
-import RecipeCard from '@/components/ReceitaResult';  
+"use client";
 
-const receitas = [
-    {
-        titulo: "Receita 1",
-        descricao: "Descrição: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        imagem: "/img/FotosExemplo.png",  
-        avaliacao: [true, true, true, false, false]
-    },
-    {
-        titulo: "Receita 2",
-        descricao: "Descrição: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        imagem: "/img/FotosExemplo.png",  
-        avaliacao: [true, true, false, true, true]
-    },
-    {
-        titulo: "Receita 3",
-        descricao: "Descrição: Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        imagem: "/img/FotosExemplo.png", 
-        avaliacao: [true, true, true, true, false]
-    },
-];
+import { useState, useEffect, Suspense } from "react";
+import dynamic from "next/dynamic"; 
+import styles from "./page.module.css";
+import RecipeCard from "@/components/ReceitaResult";
+import { Poppins } from "next/font/google";
 
-function Page() {
-    const [elementos, setElementos] = useState([]);
+const poppinsFont = Poppins({
+    subsets: ["latin"],
+    weight: "400",
+});
+
+const RouterComponent = dynamic(() => import("next/router"), { ssr: false });
+
+export default function Historico() {
+    const [historico, setHistorico] = useState([]);
 
     useEffect(() => {
-        const novosElementos = receitas.map(receita => {
-            return {
-                titulo: receita.titulo,
-                descricao: receita.descricao,
-                imagem: receita.imagem,
-                avaliacao: receita.avaliacao.map(avaliado => (
-                    `/img/${avaliado ? 'estrelaC.png' : 'estrelaF.png'}`  
-                ))
-            };
-        });
-        setElementos(novosElementos);
+    
+        const historicoSimulado = [
+            { id: 1, nome: "Receita de Pastel", descricao: "Pastel de carne com queijo." },
+            { id: 2, nome: "Bolo de Chocolate", descricao: "Bolo fofinho com cobertura de chocolate." },
+            { id: 3, nome: "Pizza Caseira", descricao: "Pizza de marguerita feita em casa." },
+            { id: 4, nome: "Sushi Simples", descricao: "Sushi de salmão e arroz." },
+            { id: 5, nome: "Salada Caesar", descricao: "Salada com frango grelhado e croutons." },
+            { id: 6, nome: "Sopa de Abóbora", descricao: "Sopa cremosa de abóbora com gengibre." },
+        ];
+        setHistorico(historicoSimulado);
     }, []);
 
     return (
-        <div>
-           
-            <main>
-                    <div className="div-resultados">
-                    <div className="div-elementos">
-                        {elementos.map((receita, index) => (
-                            <RecipeCard key={index} receita={receita} />  
-                        ))}
-                    </div>
+        <Suspense fallback={<div>Carregando...</div>}>
+            <div className={styles.Main}>
+                <div className={styles.headerBusca}>
+                    <h2 className={`${styles.titleResult} ${poppinsFont.className}`}>
+                        Histórico de Visualizações
+                    </h2>
                 </div>
-            </main>
-            
-        </div>
+
+                <div className={styles.elementos}>
+                    {historico.length > 0 ? (
+                        historico.map((item) => (
+                            <RecipeCard key={item.id} recipe={item} />
+                        ))
+                    ) : (
+                        <p>Nenhum item no histórico.</p>
+                    )}
+                </div>
+            </div>
+        </Suspense>
     );
 }
-
-export default Page;
