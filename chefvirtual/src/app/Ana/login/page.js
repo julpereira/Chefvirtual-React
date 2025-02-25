@@ -42,10 +42,10 @@ function Page() {
                         <img src="/img/logo.svg" alt="Logo Chef Virtual" />
                     </div>
                     <form id="formLogin" onSubmit={handleSubmit}>
-                        {/* Campo de Usuário */}
+                        
                         <div className={styles.campoEntrada}>
                             <img
-                                src="/img/user.png2.png" // Caminho da imagem do ícone de usuário
+                                src="/img/user.png2.png" 
                                 alt="Ícone de usuário"
                                 className={styles.icone}
                             />
@@ -60,10 +60,10 @@ function Page() {
                             />
                         </div>
 
-                        {/* Campo de Senha */}
+                    
                         <div className={styles.campoEntrada}>
                             <img
-                                src="/img/senha.png.png" // Caminho da imagem do ícone de cadeado
+                                src="/img/senha.png.png" 
                                 alt="Ícone de cadeado"
                                 className={styles.icone}
                             />
