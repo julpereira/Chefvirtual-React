@@ -1,24 +1,25 @@
-'use client';
+'use client'; 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'; 
 
 const ingredientes = [
-        "Abacaxi", "Abobrinha", "Açúcar", "Alecrim", "Alho", "Amêndoas", "Avelã", "Banana", 
-        "Batata", "Berinjela", "Brócolis", "Camarão", "Canela", "Carne de boi", "Castanha", 
-        "Cebola", "Cebolinha", "Cenoura", "Chocolate", "Coco ralado", "Coentro", "Cominho", 
-        "Creme de leite", "Cravo", "Curry", "Espinafre", "Farinha de trigo", "Fermento", 
-        "Frango", "Gengibre", "Laranja", "Leite", "Leite condensado", "Limão", "Louro", 
-        "Lula", "Maçã", "Mamão", "Manga", "Manjericão", "Manteiga", "Mel", "Morango", 
-        "Noz-moscada", "Nozes", "Óleo", "Orégano", "Ovo", "Páprica", "Peixe", "Pimenta", 
-        "Pimentão", "Polvo", "Porco", "Queijo", "Repolho", "Requeijão", "Sal", "Salsa", 
-        "Tomate", "Uva", "Vinagre" 
+    "Abacaxi", "Abobrinha", "Açúcar", "Alecrim", "Alho", "Amêndoas", "Avelã", "Banana", 
+    "Batata", "Berinjela", "Brócolis", "Camarão", "Canela", "Carne de boi", "Castanha", 
+    "Cebola", "Cebolinha", "Cenoura", "Chocolate", "Coco ralado", "Coentro", "Cominho", 
+    "Creme de leite", "Cravo", "Curry", "Espinafre", "Farinha de trigo", "Fermento", 
+    "Frango", "Gengibre", "Laranja", "Leite", "Leite condensado", "Limão", "Louro", 
+    "Lula", "Maçã", "Mamão", "Manga", "Manjericão", "Manteiga", "Mel", "Morango", 
+    "Noz-moscada", "Nozes", "Óleo", "Orégano", "Ovo", "Páprica", "Peixe", "Pimenta", 
+    "Pimentão", "Polvo", "Porco", "Queijo", "Repolho", "Requeijão", "Sal", "Salsa", 
+    "Tomate", "Uva", "Vinagre" 
 ];
 
 export default function ModalPesquisa({ isOpen, onClose }) {
     const [selectedRating, setSelectedRating] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedIngredients, setSelectedIngredients] = useState([]);
+    const [recipeType, setRecipeType] = useState('');
     const router = useRouter();
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export default function ModalPesquisa({ isOpen, onClose }) {
         router.push('/Guerini/resulBusca');
         onClose(); 
     };
+
     const filteredIngredients = ingredientes.filter((ingredient) =>
         ingredient.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -156,10 +158,12 @@ export default function ModalPesquisa({ isOpen, onClose }) {
 
                         <div className="filter-group" style={{ marginBottom: '20px' }}>
                             <label>Tipos de Receitas</label>
-                            <select style={{ width: '100%', padding: '10px', borderRadius: '5px' }}>
+                            <select value={recipeType} onChange={(e) => setRecipeType(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '5px' }}>
                                 <option>Selecione</option>
                                 <option>Doce</option>
                                 <option>Salgado</option>
+                                <option>Comidas Frias</option>
+                                <option>Comidas quentes</option>
                             </select>
                         </div>
 
