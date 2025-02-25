@@ -1,35 +1,31 @@
-'use client'; 
+'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 
 function Page() {
     const [usuario, setUsuario] = useState('');
     const [senha, setSenha] = useState('');
-    const router = useRouter(); 
+    const router = useRouter();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        
         if (!usuario || !senha) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
 
-        
         console.log('Usuário:', usuario);
         console.log('Senha:', senha);
 
-        
         alert('Login realizado com sucesso!');
 
-        
         router.push('/julia/homepage');
     };
 
     const handleEsqueciSenhaClick = () => {
-        router.push('/Ana/recuperar'); 
+        router.push('/Ana/recuperar');
     };
 
     return (
@@ -46,8 +42,13 @@ function Page() {
                         <img src="/img/logo.svg" alt="Logo Chef Virtual" />
                     </div>
                     <form id="formLogin" onSubmit={handleSubmit}>
+                        {/* Campo de Usuário */}
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-user ${styles.icon}`}></i>
+                            <img
+                                src="/img/user.png2.png" // Caminho da imagem do ícone de usuário
+                                alt="Ícone de usuário"
+                                className={styles.icone}
+                            />
                             <input
                                 type="text"
                                 id="usuario"
@@ -58,8 +59,14 @@ function Page() {
                                 required
                             />
                         </div>
+
+                        {/* Campo de Senha */}
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-lock ${styles.icon}`}></i>
+                            <img
+                                src="/img/senha.png.png" // Caminho da imagem do ícone de cadeado
+                                alt="Ícone de cadeado"
+                                className={styles.icone}
+                            />
                             <input
                                 type="password"
                                 id="senha"
@@ -70,19 +77,25 @@ function Page() {
                                 required
                             />
                         </div>
+
+                        {/* Botão "Esqueceu a senha?" */}
                         <div className={styles.esqueciSenha}>
                             <button
-                                onClick={handleEsqueciSenhaClick} 
+                                onClick={handleEsqueciSenhaClick}
                                 className={styles.linkIndex}
                                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
                             >
                                 Esqueceu a senha?
                             </button>
                         </div>
+
+                        {/* Botão de Login */}
                         <button type="submit" className={styles.botaoLogin}>
                             Login
                         </button>
                     </form>
+
+                    {/* Outras opções de login */}
                     <div className={styles.outrasOpcoesLogin}>
                         <div className={styles.iconesRedesSociais}>
                             <img
@@ -95,11 +108,13 @@ function Page() {
                             />
                         </div>
                     </div>
+
+                    {/* Link para cadastro */}
                     <div className={styles.linkCadastro}>
                         <p>
                             Não possui conta?{' '}
                             <button
-                                onClick={() => router.push('/Ana/cadastro')} 
+                                onClick={() => router.push('/Ana/cadastro')}
                                 className={styles.linkIndex}
                                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
                             >
