@@ -17,6 +17,7 @@ export default function Perfil() {
   const [showPopup, setShowPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
 
   const handleDelete = () => {
@@ -30,6 +31,10 @@ export default function Perfil() {
     } else {
       setError("Senha incorreta. Tente novamente.");
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   return (
@@ -78,13 +83,19 @@ export default function Perfil() {
           <div className={styles.popup}>
             <h2>Tem certeza que deseja excluir sua conta?</h2>
             <p>Esta ação não pode ser desfeita. (Senha para conseguir excluir: 1234)</p>
-            <input 
-              type="password" 
-              placeholder="Digite sua senha"  
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)}
-              className={styles.passwordInput}
-            />
+            <div className={styles.passwordContainer}>
+              <input 
+                type={passwordVisible ? "text" : "password"} 
+                placeholder="Digite sua senha"  
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)}
+                className={styles.passwordInput}
+              />
+              <i 
+                className={`fas ${passwordVisible ? "fa-eye-slash" : "fa-eye"} ${styles.eyeIcon}`} 
+                onClick={togglePasswordVisibility}
+              ></i>
+            </div>
             {error && <p className={styles.error}>{error}</p>}
             <button onClick={confirmDelete} className={styles.confirmDelete}>Confirmar</button>
             <button onClick={() => setShowPopup(false)} className={styles.cancel}>Cancelar</button>

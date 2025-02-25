@@ -21,6 +21,7 @@ const hideFooterPages = [
   "/Ana/cadastro",
   "/Ana/alterarSenha",
   "/Ana/recuperar",
+  "/Ana/verificarCodi",
   "/",
 ];
 

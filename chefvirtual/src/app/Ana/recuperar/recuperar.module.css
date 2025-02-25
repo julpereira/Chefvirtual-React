@@ -88,6 +88,14 @@
     background-color: #FF914D;
 }
 
+.icon{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000000;
+}
+
 @media (max-width: 768px) {
     .caixaDeLogin {
         padding: 30px;

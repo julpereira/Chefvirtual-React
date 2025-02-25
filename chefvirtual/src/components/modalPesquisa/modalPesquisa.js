@@ -101,7 +101,7 @@ export default function ModalPesquisa({ isOpen, onClose }) {
                             <label>Ingredientes</label>
                             <input
                                 type="text"
-                                placeholder="Pesquisar ingredientes..."
+                                placeholder="Pesquisar ingredientes"
                                 value={searchTerm}
                                 onChange={handleSearch}
                                 style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}

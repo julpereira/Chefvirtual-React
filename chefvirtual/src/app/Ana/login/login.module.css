@@ -58,17 +58,46 @@
 }
 
 .campoEntrada {
-    position: relative;
+    display: flex;
+    align-items: center;
     margin-bottom: 25px;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
 }
 
 .campoEntrada input {
-    width: 100%;
+    flex: 1;
     padding: 15px 10px 15px 40px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: none;
+    outline: none;
     font-size: 16px;
     background-color: #fff;
+}
+
+.campoEntrada input:focus {
+    border-color: #FF914D;
+}
+
+.icone {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.eyeIcon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 18px;
+}
+
+.eyeIcon:hover {
+    color: #333;
 }
 
 .esqueciSenha {
@@ -152,26 +181,4 @@
         width: 25px;
         height: 25px;
     }
-}
-.campoEntrada {
-    display: flex;
-    align-items: center; 
-    margin-bottom: 15px; 
-    border: 1px solid #ccc; 
-    padding: 10px; 
-    border-radius: 5px; 
-    background-color: #fff; 
-}
-
-.icone {
-    width: 60px; 
-    height: 60px; 
-    margin-right: 2px; 
-}
-
-.campoEntrada input {
-    flex: 1; 
-    border: none; 
-    outline: none; 
-    font-size: 18px;
 }

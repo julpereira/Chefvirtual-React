@@ -1,6 +1,7 @@
 'use client'; 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
+import { FaUser } from 'react-icons/fa';  
 import styles from './recuperar.module.css';
 
 function Recuperar() {
@@ -41,7 +42,7 @@ function Recuperar() {
                     </p>
                     <form id="formRecupSenha" onSubmit={handleSubmit}>
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-user ${styles.icon}`}></i>
+                        <FaUser className={styles.icon} />
                             <input
                                 type="email"
                                 id="email"

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-
 .body {
     margin: 0;
     padding: 0;
@@ -56,7 +55,6 @@
     font-size: 16px;
 }
 
-
 .tituloCadastro {
     text-align: center;
     color: #fff;
@@ -99,6 +97,14 @@
     border-radius: 5px;
     font-size: 16px;
     background-color: #fff;
+}
+
+.campoEntrada .icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000000;
 }
 
 .botaoLogin {

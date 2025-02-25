@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
+import { FaUser, FaLock } from 'react-icons/fa';  
 import styles from './cadastro.module.css';
 
 function Cadastro() {
@@ -13,27 +14,21 @@ function Cadastro() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        
         if (!nome || !email || !senha || !confirmaSenha) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
 
-        
         if (senha !== confirmaSenha) {
             alert('As senhas não coincidem.');
             return;
         }
 
-       
         console.log('Nome:', nome);
         console.log('Email:', email);
         console.log('Senha:', senha);
 
-        
         alert('Cadastro realizado com sucesso!');
-
-        
         router.push('/julia/homepage');
     };
 
@@ -67,7 +62,7 @@ function Cadastro() {
                     </div>
                     <form id="formCadastro" onSubmit={handleSubmit}>
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-user ${styles.icon}`}></i>
+                            <FaUser className={styles.icon} /> 
                             <input
                                 type="text"
                                 id="nome"
@@ -79,7 +74,7 @@ function Cadastro() {
                             />
                         </div>
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-user ${styles.icon}`}></i>
+                            <FaUser className={styles.icon} /> 
                             <input
                                 type="email"
                                 id="email"
@@ -91,7 +86,7 @@ function Cadastro() {
                             />
                         </div>
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-lock ${styles.icon}`}></i>
+                            <FaLock className={styles.icon} /> 
                             <input
                                 type="password"
                                 id="senha"
@@ -103,7 +98,7 @@ function Cadastro() {
                             />
                         </div>
                         <div className={styles.campoEntrada}>
-                            <i className={`fas fa-lock ${styles.icon}`}></i>
+                            <FaLock className={styles.icon} /> 
                             <input
                                 type="password"
                                 id="confirmaSenha"
