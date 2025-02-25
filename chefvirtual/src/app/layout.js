@@ -5,28 +5,23 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-// export const metadata = {
-//   title: "Chefvirtual",
-//   description: "Projeto Fábrica de Software",
-//   charset: "UTF-8",
-//   author: 'Ana Isabely, Camille Patricio, João Bento, João Guerini, João Vitor, Júlia Pereira',
-//   keywords: 'CSS, JavaScript, React. Next.js'
-// };
-
 const poppins = Poppins({
   weight: "400",
   subsets: ["latin"],
 });
 
+
 const hideHeaderPages = [
-  "/login",
-  "/cadastro",
-  "/alterarSenha",
-  "/recuperar",
-  "verificarCodi",
-  "/app",
-  "/Guerini/visuInicial",
   "/"
+];
+
+
+const hideFooterPages = [
+  "/Ana/login",
+  "/Ana/cadastro",
+  "/Ana/alterarSenha",
+  "/Ana/recuperar",
+  "/",
 ];
 
 export default function RootLayout({ children }) {
@@ -37,7 +32,7 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         {!hideHeaderPages.includes(pathname) && <Header />}
         <main>{children}</main>
-        {!hideHeaderPages.includes(pathname) && <Footer />}
+        {!hideFooterPages.includes(pathname) && <Footer />}
       </body>
     </html>
   );
