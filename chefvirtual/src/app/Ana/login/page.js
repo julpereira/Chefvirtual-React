@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaLock, FaUser } from 'react-icons/fa'; 
+import { FaLock, FaUser } from 'react-icons/fa';
 import styles from './login.module.css';
 
 function Page() {
@@ -10,7 +10,7 @@ function Page() {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!usuario || !senha) {
@@ -18,11 +18,37 @@ function Page() {
             return;
         }
 
-        console.log('Usuário:', usuario);
-        console.log('Senha:', senha);
+        try {
+            // Monta a URL com os parâmetros de query (encodeURIComponent para evitar problemas)
+            const url = `https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Login/ConfirmarLogin?email=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+            // Faz a requisição GET
+            const response = await fetch(url, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
-        alert('Login realizado com sucesso!');
-        router.push('/julia/homepage');
+            if (!response.ok) {
+                // Se status não for 2xx, pega o erro da API
+                const errorData = await response.json();
+                alert('Erro: ' + (errorData.erro || 'Falha no login'));
+                return;
+            }
+
+            const data = await response.json();
+
+            // Aqui você pode salvar o token retornado, por exemplo, no localStorage
+            console.log('Token recebido:', data.token);
+
+            alert('Login realizado com sucesso!');
+            router.push('/julia/homepage');
+
+        } catch (error) {
+            console.error('Erro na requisição de login:', error);
+            alert('Erro ao tentar realizar login. Tente novamente.');
+        }
     };
 
     const handleEsqueciSenhaClick = () => {
@@ -48,7 +74,7 @@ function Page() {
                     </div>
                     <form id="formLogin" onSubmit={handleSubmit}>
                         <div className={styles.campoEntrada}>
-                            <FaUser className={styles.icone} /> 
+                            <FaUser className={styles.icone} />
                             <input
                                 type="text"
                                 id="usuario"
@@ -63,7 +89,7 @@ function Page() {
                         <div className={styles.campoEntrada}>
                             <FaLock className={styles.icone} />
                             <input
-                                type={passwordVisible ? "text" : "password"} 
+                                type={passwordVisible ? "text" : "password"}
                                 id="senha"
                                 name="senha"
                                 placeholder="Senha"
@@ -72,10 +98,10 @@ function Page() {
                                 required
                             />
                             <i
-                                className={`${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} ${styles.eyeIcon}`} 
-                                onClick={togglePasswordVisibility} 
+                                className={`${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} ${styles.eyeIcon}`}
+                                onClick={togglePasswordVisibility}
                             >
-                                
+
                             </i>
                         </div>
 
