@@ -144,7 +144,7 @@ const App = () => {
           </div>
 
           <div className={styles.autor}>
-            <p>Receita feita por <a href={`../usuario/perfil/${receita?.usuario?.id}`}>{receita?.usuario?.nome || 'Autor desconhecido'}</a></p>
+            <p>Receita feita por <a href={`../usuario/perfil/${receita?.usuario?.id}`}>{receita?.usuario?.nome || '(Carregando Autor...)'}</a></p>
           </div>
 
           <div className={styles.sb_rec}>
