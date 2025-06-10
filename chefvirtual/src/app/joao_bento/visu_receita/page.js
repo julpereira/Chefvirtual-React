@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X } from 'lucide-react';
@@ -7,63 +7,89 @@ import { AlarmClock, Star, Bookmark, X } from 'lucide-react';
 const App = () => {
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false); 
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState('');
-  const [otherReason, setOtherReason] = useState(''); 
-  const [isFavorited, setIsFavorited] = useState(false); 
+  const [otherReason, setOtherReason] = useState('');
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [receita, setReceita] = useState(null); // <- aqui ficam os dados da API
+  const [comentarios, setComentarios] = useState([]);
+  const [favoritos, setFavoritos] = useState([]);
 
 
+
+  useEffect(() => {
+
+    async function getReceitas() {
+      try {
+        const response = await fetch('https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Receitas/GetReceita?idReceita=3');
+        if (!response.ok) throw new Error('Erro ao buscar receita');
+        const data = await response.json();
+        setReceita(data); // Salva a receita no estado
+        console.log(data);
+      } catch (error) {
+        console.error('Erro ao buscar receita:', error);
+        alert('Não foi possível carregar a receita.');
+      }
+    }
+
+    async function getComentarios() {
+      try {
+        const response = await fetch('http://localhost:9000/api/Comentarios/GetComentarios?idReceita=2');
+        if (!response.ok) throw new Error('Erro ao buscar comentários');
+        const data = await response.json();
+        setComentarios(data);
+      } catch (error) {
+        console.error('Erro ao buscar comentários:', error);
+      }
+    }
+
+    async function getFavoritos() {
+      try {
+        const response = await fetch('https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Favoritos/GetFavoritos?usuarioId=1');
+        if (!response.ok) throw new Error('Erro ao buscar favoritos');
+        const data = await response.json();
+        setFavoritos(data);
+      } catch (error) {
+        console.error('Erro ao buscar favoritos:', error);
+      }
+    }
+
+    getFavoritos();
+    getComentarios();
+    getReceitas();
+
+  }, []);
 
   const goBack = () => {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = '/';
-    }
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = '/';
   };
 
-  const toggleFavorite = () => {
-    setIsFavorited(!isFavorited); 
-  };
-
-  
+  const toggleFavorite = () => setIsFavorited(!isFavorited);
   const openModal = () => setIsModalOpen(true);
-
-  
   const closeModal = () => setIsModalOpen(false);
+  const handleRating = (index) => setRatingData((prev) => ({ ...prev, rating: index }));
 
-  
-  const handleRating = (index) => {
-    setRatingData((prev) => ({ ...prev, rating: index }));
-  };
-
-  // Função para enviar a avaliação
   const handleSubmitRating = () => {
     alert(`Avaliação enviada! Nota: ${ratingData.rating}/5 - Comentário: ${ratingData.comment}`);
-    setRatingData({ rating: 0, comment: '' }); 
-    setIsModalOpen(false); 
+    setRatingData({ rating: 0, comment: '' });
+    setIsModalOpen(false);
   };
 
-  
   const openReportModal = () => setIsReportModalOpen(true);
-
-  
   const closeReportModal = () => setIsReportModalOpen(false);
 
-  // Função de enviar a denúncia
   const handleReportSubmit = () => {
     const reasonToSubmit = reportReason === 'Outro' ? otherReason : reportReason;
     alert(`Denúncia enviada! Motivo: ${reasonToSubmit}`);
     setIsReportModalOpen(false);
   };
 
-
-  // Função de compartilhar
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'Pizza de Peperoni',
-        text: 'Confira esta deliciosa receita de Pizza de Peperoni!',
+        title: receita?.nome || 'Receita',
+        text: 'Confira esta deliciosa receita!',
         url: window.location.href,
       }).catch((error) => console.log('Erro ao compartilhar:', error));
     } else {
@@ -71,19 +97,17 @@ const App = () => {
     }
   };
 
-
-
   return (
     <div className="container">
       <main>
-        
         <section className={styles.info_receita}>
           <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
             <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
             <p>Voltar</p>
           </div>
+
           <div className={styles.titulo}>
-            <h1>Pizza de Peperoni</h1>
+            <h1>{receita ? receita.tituloReceita : 'Carregando...'}</h1>
           </div>
 
           <div className={styles.receita}>
@@ -91,7 +115,7 @@ const App = () => {
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
-                  className={index < 4 ? styles.avaliacoes1 : styles.avaliacoes5} 
+                  className={index < 4 ? styles.avaliacoes1 : styles.avaliacoes5}
                   size={25}
                 />
               ))}
@@ -103,25 +127,24 @@ const App = () => {
               <Bookmark
                 className={styles.fav}
                 size={25}
-                fill={isFavorited ? 'gold' : 'none'} 
+                fill={isFavorited ? 'gold' : 'none'}
               />
             </div>
           </div>
 
           <div className={styles.dis_receita}>
             <div className={styles.div_img}>
-              <img id="img_receita" src="/img/imagem_receita.png" alt="Pizza" />
+              <img id="img_receita" src="/img/imagem_receita.png" alt="Imagem da receita" />
             </div>
 
             <div className={styles.div_rec}>
               <h2>Descrição da receita:</h2>
-              <p>A pizza pode ser assada em forno a lenha, elétrico ou a gás, cada método conferindo um sabor e
-                textura únicos.</p>
+              <p>{receita ? receita.descricao : 'Carregando descrição...'}</p>
             </div>
           </div>
 
           <div className={styles.autor}>
-            <p>Receita feito(a) por <a href="../julia/perfil">Claudia Herz</a></p>
+            <p>Receita feita por <a href={`../usuario/perfil/${receita?.usuario?.id}`}>{receita?.usuario?.nome || 'Autor desconhecido'}</a></p>
           </div>
 
           <div className={styles.sb_rec}>
@@ -174,9 +197,7 @@ const App = () => {
                   placeholder="Digite seu comentário..."
                   aria-label="Deixe um comentário"
                   className={styles.comentar2}
-                  style={{
-                    height: '12vh',
-                  }}
+                  style={{ height: '12vh' }}
                 />
                 <div className={styles.modalButtons}>
                   <X className={styles.closeIcon} size={30} onClick={closeModal} aria-label="Fechar modal" />
@@ -185,7 +206,6 @@ const App = () => {
               </div>
             </div>
           )}
-          
         </section>
 
         {/* Modal de Denúncia */}
@@ -223,9 +243,7 @@ const App = () => {
           </div>
         )}
 
-        
         <section className={styles.ingredientes}>
-          
           <div className={styles.ingredientes2}>
             <div className={styles.ingredientes3}>
               <h2>Ingredientes</h2>
@@ -245,8 +263,6 @@ const App = () => {
           </div>
         </section>
 
-        
-
         <section className={styles.des_receita}>
           <div className={styles.preparo}>
             <div className={styles.preparo2}><h2>Modo de preparo</h2></div>
@@ -260,33 +276,31 @@ const App = () => {
           </div>
         </section>
 
-
-
-        
         <section className={styles.comentarios}>
           <div className={styles.coment}><h2>Comentários</h2></div>
           <div className={styles.comentario}>
-            {['Ana', 'João', 'Hiago', 'Bento'].map((name, index) => (
-              <div key={index} className={`${styles.comen} ${styles[`comen${index + 1}`]}`}>
-                <div className={styles.denuncia}>
-                  <p>Denunciar</p>
+            {comentarios.length === 0 ? (
+              <p>Sem comentários ainda.</p>
+            ) : (
+              comentarios.map((comentario, index) => (
+                <div key={index} className={`${styles.comen} ${styles[`comen${(index % 4) + 1}`]}`}>
+                  <div className={styles.denuncia}><p>Denunciar</p></div>
+                  <div className={styles.star_comen}>
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={styles.avaliacoes1} size={18} />
+                    ))}
+                  </div>
+                  <div className={styles.comenta}>
+                    <p>{comentario.comentario}</p>
+                  </div>
+                  <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
+                  <p>{comentario.nomeUsuario}</p>
                 </div>
-                <div className={styles.star_comen}>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={styles.avaliacoes1} size={18} />
-                  ))}
-                </div>
+              ))
+            )}
 
-                <div className={styles.comenta}>
-                  <p>Que pizza deliciosa</p>
-                </div>
-                <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
-                <p>{name}</p>
-              </div>
-            ))}
           </div>
         </section>
-
       </main>
     </div>
   );
