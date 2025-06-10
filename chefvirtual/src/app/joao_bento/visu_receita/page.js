@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
-import { AlarmClock, Star, Bookmark, X } from 'lucide-react';
+import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 
 const App = () => {
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
@@ -280,7 +280,8 @@ const App = () => {
           <div className={styles.coment}><h2>Comentários</h2></div>
           <div className={styles.comentario}>
             {comentarios.length === 0 ? (
-              <p>Sem comentários ainda.</p>
+              <p>Ainda não Possui Comentários</p>
+              
             ) : (
               comentarios.map((comentario, index) => (
                 <div key={index} className={`${styles.comen} ${styles[`comen${(index % 4) + 1}`]}`}>
@@ -294,7 +295,8 @@ const App = () => {
                     <p>{comentario.comentario}</p>
                   </div>
                   <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
-                  <p>{comentario.nomeUsuario}</p>
+                  <p>{comentario ? comentario.nomeUsuario : 'Carregando...'}</p>
+                  
                 </div>
               ))
             )}
