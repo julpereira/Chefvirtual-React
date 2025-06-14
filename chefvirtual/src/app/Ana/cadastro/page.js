@@ -1,17 +1,18 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; 
-import { FaUser, FaLock } from 'react-icons/fa';  
+import { useRouter } from 'next/navigation';
+import { FaUser, FaLock } from 'react-icons/fa';
 import styles from './cadastro.module.css';
+import valorURL from '@/app/urls';
 
 function Cadastro() {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
-    const router = useRouter(); 
+    const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!nome || !email || !senha || !confirmaSenha) {
@@ -24,13 +25,57 @@ function Cadastro() {
             return;
         }
 
-        console.log('Nome:', nome);
-        console.log('Email:', email);
-        console.log('Senha:', senha);
+        try {
+            const response = await fetch(`${valorURL}/api/Usuarios`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome,
+                    email,
+                    senha
+                })
+            });
 
-        alert('Cadastro realizado com sucesso!');
-        router.push('/julia/homepage');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.erro || 'Erro ao cadastrar usuário');
+            }
+
+            alert('Cadastro realizado com sucesso!');
+            realizarLogin();
+            router.push('/julia/homepage');
+        } catch (error) {
+            alert(error.message);
+        }
     };
+
+    const realizarLogin = async () => {
+        const url = `${valorURL}/api/Login/ConfirmarLogin?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`;
+        // Faz a requisição GET
+        const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            // Se status não for 2xx, pega o erro da API
+            const errorData = await response.json();
+            alert('Erro: ' + (errorData.erro || 'Falha no login'));
+            return;
+        }
+
+        const data = await response.json();
+
+        // Aqui você pode salvar o token retornado, por exemplo, no localStorage
+        console.log('Token recebido:', data.token);
+    }
+
 
     const handleLoginClick = () => {
         router.push('/Ana/login');
@@ -45,11 +90,11 @@ function Cadastro() {
                     CHEF VIRTUAL! <br />
                 </p>
                 <p>Acesse sua conta <br /> agora mesmo</p>
-               
+
                 <button
                     type="button"
                     className={styles.botao}
-                    onClick={handleLoginClick} 
+                    onClick={handleLoginClick}
                 >
                     Entrar
                 </button>
@@ -62,7 +107,7 @@ function Cadastro() {
                     </div>
                     <form id="formCadastro" onSubmit={handleSubmit}>
                         <div className={styles.campoEntrada}>
-                            <FaUser className={styles.icon} /> 
+                            <FaUser className={styles.icon} />
                             <input
                                 type="text"
                                 id="nome"
@@ -74,7 +119,7 @@ function Cadastro() {
                             />
                         </div>
                         <div className={styles.campoEntrada}>
-                            <FaUser className={styles.icon} /> 
+                            <FaUser className={styles.icon} />
                             <input
                                 type="email"
                                 id="email"
@@ -86,7 +131,7 @@ function Cadastro() {
                             />
                         </div>
                         <div className={styles.campoEntrada}>
-                            <FaLock className={styles.icon} /> 
+                            <FaLock className={styles.icon} />
                             <input
                                 type="password"
                                 id="senha"
@@ -98,7 +143,7 @@ function Cadastro() {
                             />
                         </div>
                         <div className={styles.campoEntrada}>
-                            <FaLock className={styles.icon} /> 
+                            <FaLock className={styles.icon} />
                             <input
                                 type="password"
                                 id="confirmaSenha"

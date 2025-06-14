@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaLock, FaUser } from 'react-icons/fa';
 import styles from './login.module.css';
+import valorURL from '@/app/urls';
+
 
 function Page() {
     const [usuario, setUsuario] = useState('');
@@ -20,7 +22,7 @@ function Page() {
 
         try {
             // Monta a URL com os parâmetros de query (encodeURIComponent para evitar problemas)
-            const url = `https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Login/ConfirmarLogin?email=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
+            const url = `${valorURL}/api/Login/ConfirmarLogin?email=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
             // Faz a requisição GET
             const response = await fetch(url, {
                 method: 'GET',
