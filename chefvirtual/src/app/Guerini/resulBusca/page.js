@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import valorURL from '@/app/urls';
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic"; 
 import styles from "./resulBusca.module.css";
@@ -31,7 +32,7 @@ export default function ResulBusca() {
         async function fetchData() {
             try {
                 console.log("Iniciando busca por receitas com o título:", query);
-                const response = await fetch(`https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Receitas/BuscaPorTitulo?tituloReceita=${query}`);
+                const response = await fetch(`${valorURL}/api/Receitas/BuscaPorTitulo?tituloReceita=${query}`);
                 const data = await response.json();
                 console.log("Iniciando busca por receitas aaaaaaaaaaaa o título:", query);
 
