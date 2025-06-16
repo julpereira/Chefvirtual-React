@@ -1,34 +1,73 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import styles from './receitaResult.module.css'; 
-// import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 // Supondo que o arquivo de CSS esteja aqui
 
-const RecipeCard = () => {
+  function formatarTempo(minutos) {
+    if (!minutos || minutos === 0) return "N/A";
+
+    const horas = Math.floor(minutos / 60);
+    const mins = minutos % 60;
+
+    if (horas > 0) {
+      if (mins > 0) {
+        return `${horas}h e ${mins}m`;
+      } else {
+        return `${horas}h`;
+      }
+    } else {
+      return `${mins}m`;
+    }
+  }
+
+  function gerarEstrelas(media) {
+    const estrelas = [];
+
+    for (let i = 0; i < 5; i++) {
+      if (media >= i + 1) {
+        estrelas.push("full");
+      } else if (media > i && media < i + 1) {
+        estrelas.push("half");
+      } else {
+        estrelas.push("empty");
+      }
+  }
+
+  return estrelas;
+}
+
+
+
+const RecipeCard = ({ data }) => {
   // Estado para armazenar a avaliação (quantas estrelas foram clicadas)
   const [rating, setRating] = useState(0);
+  const tempoPreparo = formatarTempo(data.tempoPreparo);
+  const estrelas = gerarEstrelas(data.mediaAvaliacao || 0);
+  const imageSrc = 
+  `data:image/png;base64,${data.imagemReceita}`;
 
-  // Função para alterar a avaliação quando uma estrela for clicada
-  const handleClick = (index) => {
-    setRating(index + 1); // A avaliação é 1-based (1, 2, 3,...)
-  };
-
-  // Criando um array de 5 estrelas
-  const stars = [0, 1, 2, 3, 4];
-
+    console.log(imageSrc);
   return (
     <div className={styles.elemento}>
-      <h2>Pastel Tradicional</h2>
-      <img src="/img/FotosExemplo.png" alt="Pastel Tradicional" />
+      <h2>{data.tituloReceita}</h2>
+      <Image src={imageSrc} alt={data.tituloReceita} width={200} height={200}/>
       <div className={styles.divAvaliacao}>
-      {stars.map((star, index) => (
+        {estrelas.map((tipo, index) => (
           <i
             key={index}
-            className={`bi bi-star-fill ${rating > index ? 'filled' : ''}`} // Preenche a estrela com base no rating
+            className={
+              tipo === "full"
+                ? "bi bi-star-fill"
+                : tipo === "half"
+                ? "bi bi-star-half"
+                : "bi bi-star"
+            }
           ></i>
         ))}
       </div>
       <div className={styles.divTempo}>
-        <h3>55 min</h3>
+        <h3>{tempoPreparo}</h3>
         <img src="/img/Icon-tempo.png" alt="Tempo" />
       </div>
     </div>

@@ -30,12 +30,7 @@
     height: 2vh;
 }
 
-.bi-star-fill {
-    font-size: 30px;
-    color: #ccc; /* Cor da estrela vazia */
-    transition: color 0.3s;
-  }
-  
-  .bi-star-fill.filled {
-    color: #ff9900; /* Cor da estrela preenchida */
-  }
+.divAvaliacao .bi-star-fill,
+.divAvaliacao .bi-star-half {
+  color: #FFD700; /* cor dourada */
+}
