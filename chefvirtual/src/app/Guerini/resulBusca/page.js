@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import valorURL from '@/app/urls';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic"; 
 import styles from "./resulBusca.module.css";
 import RecipeCard from "@/components/ReceitaResult";
@@ -22,8 +22,10 @@ export default function ResulBusca() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Lógica para executar controlar serviço
-    const [query, setQuery] = useState("macarronada");
+    const searchParams = useSearchParams();
+    const querya = searchParams.get("query");
     const [receitas, setReceitas] = useState([]);
+    const [message, setMessage] = useState("");
 
     const router = useRouter();
 
@@ -31,28 +33,31 @@ export default function ResulBusca() {
 
         async function fetchData() {
             try {
-                console.log("Iniciando busca por receitas com o título:", query);
-                const response = await fetch(`${valorURL}/api/Receitas/BuscaPorTitulo?tituloReceita=${query}`);
+                setReceitas([]);
+                setMessage("Buscando receitas...");
+
+                const response = await fetch(`${valorURL}/api/Receitas/BuscaPorTitulo?tituloReceita=${querya}`);
                 const data = await response.json();
-                console.log("Iniciando busca por receitas aaaaaaaaaaaa o título:", query);
+                console.log("Dados recebidos:", data);
 
                 if (response.ok) {
                     setReceitas(data);
+                    setMessage(data.length + (receitas.length === 1 ? " Resultado" : " Resultados" + " para"));
                 }
 
-                if (data.length === 0) {
+                if (response.status === 404 || data.length === 0) {
                     console.log("Nenhum resultado encontrado para a pesquisa.");
+                    setMessage("Nenhum resultado encontrado para a pesquisa");
                 }
 
                 console.log("Dados recebidos:", data);
-                
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
             }
         }
 
     fetchData();
-    }, [query]);
+    }, [querya]);
 
 //   useEffect(() => {
 //     if (router.query && router.query.query) {
@@ -69,16 +74,18 @@ export default function ResulBusca() {
             <div className={styles.Main}>
                 <div className={styles.headerBusca}>
                     <h2 className={`${styles.titleResult} ${poppinsFont.className}`}>
-                        {receitas.length} {receitas.length === 1 ? "Resultado" : "Resultados"} para <span className={styles.digitoPesquisa}>{query}</span>
+                        {message} {receitas.length > 0 ? <span className={styles.digitoPesquisa}>{querya}</span> : ''}
                     </h2>
 
-                    <button 
-                        onClick={openModal} 
-                        className={styles.filterButton}
-                        aria-label="Filtrar"
-                    >
-                        <SlidersHorizontal size={28} color="#000000" />
-                    </button>
+                    {receitas.length > 0 ?
+                        <button 
+                            onClick={openModal} 
+                            className={styles.filterButton}
+                            aria-label="Filtrar"
+                        >
+                            <SlidersHorizontal size={28} color="#000000" />
+                        </button>
+                        : null}
                 </div>
 
                 <div className={styles.elementos}>
