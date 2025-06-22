@@ -120,6 +120,26 @@ const App = () => {
     }
   };
 
+
+  function formatarTempo(minutos) {
+    if (!minutos || isNaN(minutos)) return 'Tempo inválido';
+
+    const horas = Math.floor(minutos / 60);
+    const minutosRestantes = minutos % 60;
+
+    if (horas > 0) {
+      return `${horas}h ${minutosRestantes}min`;
+    } else {
+      return `${minutosRestantes} minutos`;
+    }
+  }
+
+  function nomeFor(nome) {
+    if (!nome) return 'Carregando...';
+    const nomeFormatado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+    return nomeFormatado;
+  }
+
   return (
     <div className="container">
       <main>
@@ -172,7 +192,7 @@ const App = () => {
           </div>
 
           <div className={styles.autor}>
-            <p>Receita feita por <a href={`../usuario/perfil?idUsuario=${receita?.usuario?.id}`}>{receita?.usuario?.nome || '(Carregando Autor...)'}</a></p>
+            <p>Receita feita por <a href={`../usuario/perfil?idUsuario=${receita?.usuario?.id}`}> {receita? nomeFor(receita?.usuario.nome) : '(Carregando Autor...)' } </a></p>
           </div>
 
           <div className={styles.sb_rec}>
@@ -185,9 +205,12 @@ const App = () => {
               <p>Tempo de preparo:</p>
               <p id="preparo">
                 <AlarmClock className={styles.relogio} size={20} />
-                <span className={styles.hora}>1h 30min</span>
+                <span className={styles.hora}>
+                  {receita ? formatarTempo(Number(receita.tempoPreparo)) : 'Carregando Tempo'}
+                </span>
               </p>
             </div>
+
           </div>
 
           <div className={styles.sb_rec2}>

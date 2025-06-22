@@ -571,13 +571,14 @@
     border-radius: 50px;
     width: 45px;
     margin-left: 1rem;
-    margin-top: -0.2vh;
+    margin-top: -10px;
+    
 }
 .comen1>p{
     font-size: 15px;
     font-family: 'poppins',sans-serif;
-    margin-left: 1.4rem;
-    margin-top: 0.4rem;
+    margin-left: 17px;
+    
 }
 
 .denuncia{
@@ -605,94 +606,12 @@
 
 .comenta{
     font-family: 'Poppins', sans-serif; 
-    font-size: 13px;
-    margin-left: 6.2rem; 
+    font-size: 15px;
+    margin-left: 6.7rem; 
     margin-top: 1.9rem; 
     position: relative; 
     top: 3rem; 
     line-height: 1.5; 
     color: #333; 
     
-}
-
-
-.comen2{
-    background-color: #d9d9d9;
-    width: 47vh;    
-    height: 11vh;
-    font-size: 20px;
-    border-radius: 1vh;
-    margin-bottom: 2rem;
-    margin-top: 3rem;
-    position: relative; 
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.4), 
-        4px 0 8px rgba(0, 0, 2, 0.4);   
-}
-
-.comen2>img{
-    border-radius: 50px;
-    width: 45px;
-    margin-left: 1rem;
-    margin-top: -0.2vh;
-}
-.comen2>p{
-    font-size: 15px;
-    font-family: 'poppins',sans-serif;
-    margin-left: 1.4rem;
-    margin-top: 0.4rem;
-}
-
-.comen3{
-    background-color: #d9d9d9;
-    width: 47vh;    
-    height: 11vh;
-    font-size: 20px;
-    border-radius: 1vh;
-    margin-bottom: 2rem;
-    margin-top: 3rem;
-    position: relative; 
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.4),  
-        4px 0 8px rgba(0, 0, 2, 0.4);   
-}
-
-.comen3>img{
-    border-radius: 50px;
-    width: 45px;
-    margin-left: 1rem;
-    margin-top: -0.2vh;
-}
-.comen3>p{
-    font-size: 15px;
-    font-family: 'poppins',sans-serif;
-    margin-left: 1.4rem;
-    margin-top: 0.4rem;
-}
-
-.comen4{
-    background-color: #d9d9d9;
-    width: 47vh;    
-    height: 11vh;
-    font-size: 20px;
-    border-radius: 1vh;
-    margin-bottom: 2rem;
-    margin-top: 3rem;
-    position: relative; 
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.4),  
-        4px 0 8px rgba(0, 0, 2, 0.4);   
-}
-
-.comen4>img{
-    border-radius: 50px;
-    width: 45px;
-    margin-left: 1rem;
-    margin-top: -0.2vh;
-}
-.comen4>p{
-    font-size: 15px;
-    font-family: 'poppins',sans-serif;
-    margin-left: 1.4rem;
-    margin-top: 0.4rem;
 }
