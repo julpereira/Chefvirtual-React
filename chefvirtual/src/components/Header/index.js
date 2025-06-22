@@ -67,7 +67,7 @@ export default function Header() {
       </div>
 
       <div className={styles.headerDivEnd}>
-        <Link href={'/joao_bento/ed_perfil?id=' + userId}>
+        <Link href={userId ? '/julia/perfil?id=' + userId : "/Ana/login"}>
           <Image src="/img/icon-perfil.png" alt="Perfil" width={70} height={70} />
         </Link>
         {!token && (

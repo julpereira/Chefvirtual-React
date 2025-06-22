@@ -158,7 +158,7 @@ const App = () => {
           <div className={styles.dis_receita}>
             <div className={styles.div_img}>
               <img
-                id="img_receita"
+                className={styles.img_receita}
                 src={`data:image/png;base64,${receita?.imagemReceita}`}
                 alt={`Imagem da receita ${receita?.tituloReceita}`}
               />
