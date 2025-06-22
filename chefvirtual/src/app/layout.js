@@ -12,6 +12,11 @@ const poppins = Poppins({
 
 
 const hideHeaderPages = [
+  "/Ana/cadastro",
+  "/Ana/login",
+  "/Ana/alterarSenha",
+  "/Ana/recuperar",
+  "/Ana/verificarCodi",
   "/"
 ];
 

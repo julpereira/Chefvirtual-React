@@ -1,24 +1,24 @@
 'use client'
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import Cookies from 'js-cookie';
 import { X, Plus, Minus } from "lucide-react";
 import DropDownRegiao from "@/components/DropDownAdicionarReceita/DropDownRegiao";
+import valorURL from "../urls";
+
+
 
 export default function Camille() {
   // Estados principais
   const [image, setImage] = useState(null);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
-  const [etapas, setEtapas] = useState([{ 
-    id: 1, 
-    conteudo: '', 
-    ingredientes: [] 
+  const [etapas, setEtapas] = useState([{
+    id: 1,
+    conteudo: '',
+    ingredientes: []
   }]);
-  const [ingredientesDisponiveis, setIngredientesDisponiveis] = useState([
-    'Farinha de trigo', 'Açúcar', 'Ovos', 'Leite', 'Manteiga', 'Fermento',
-    'Chocolate', 'Óleo', 'Sal', 'Canela', 'Baunilha', 'Limão', 'Morango',
-    'Nozes', 'Amêndoas', 'Aveia', 'Mel', 'Iogurte', 'Queijo', 'Tomate'
-  ]);
+  const [ingredientesDisponiveis, setIngredientesDisponiveis] = useState([]);
   const [ingredientesFiltrados, setIngredientesFiltrados] = useState([]);
   const [buscaIngrediente, setBuscaIngrediente] = useState('');
   const [ingredientesSelecionados, setIngredientesSelecionados] = useState([]);
@@ -29,6 +29,26 @@ export default function Camille() {
   const [descricao, setDescricao] = useState('');
 
   // Filtra ingredientes conforme digitação
+
+  useEffect(() => {
+    async function buscarIngredientes() {
+      try {
+        const res = await fetch(`${valorURL}/api/ingredientes`);
+        if (!res.ok) throw new Error('Erro ao buscar ingredientes');
+
+        const data = await res.json();
+        // Supondo que o retorno seja: [{ id: 1, nome: "Farinha de trigo" }, ...]
+        const nomesIngredientes = data.map(ing => ing.nome);
+        setIngredientesDisponiveis(nomesIngredientes);
+      } catch (error) {
+        console.error("Erro ao carregar ingredientes:", error);
+      }
+    }
+
+    buscarIngredientes();
+  }, []);
+
+
   useEffect(() => {
     if (buscaIngrediente.trim() === '') {
       setIngredientesFiltrados([]);
@@ -65,10 +85,10 @@ export default function Camille() {
 
   // Handlers de etapas
   const adicionarEtapa = () => {
-    setEtapas(prev => [...prev, { 
-      id: prev.length + 1, 
+    setEtapas(prev => [...prev, {
+      id: prev.length + 1,
       conteudo: '',
-      ingredientes: [] 
+      ingredientes: []
     }]);
   };
 
@@ -103,7 +123,7 @@ export default function Camille() {
 
   const removerIngredienteSelecionado = (ingrediente) => {
     setIngredientesSelecionados(ingredientesSelecionados.filter(i => i !== ingrediente));
-    
+
     // Remove de todas as etapas
     setEtapas(prev => prev.map(etapa => ({
       ...etapa,
@@ -114,16 +134,16 @@ export default function Camille() {
   // Handlers para ingredientes nas etapas
   const adicionarIngredienteEtapa = (etapaId, ingrediente) => {
     if (!ingredientesSelecionados.includes(ingrediente)) return;
-    
+
     setEtapas(prev => prev.map(etapa => {
       if (etapa.id === etapaId && !etapa.ingredientes.some(i => i.nome === ingrediente)) {
         return {
           ...etapa,
-          ingredientes: [...etapa.ingredientes, { 
-            nome: ingrediente, 
+          ingredientes: [...etapa.ingredientes, {
+            nome: ingrediente,
             quantidade: 1,
-            fracao: '',
-            unidade: 'un' 
+            medida: '',
+            unidade: 'un'
           }]
         };
       }
@@ -136,7 +156,7 @@ export default function Camille() {
       if (etapa.id === etapaId) {
         return {
           ...etapa,
-          ingredientes: etapa.ingredientes.map(i => 
+          ingredientes: etapa.ingredientes.map(i =>
             i.nome === ingredienteNome ? { ...i, quantidade: novaQuantidade } : i
           )
         };
@@ -145,13 +165,13 @@ export default function Camille() {
     }));
   };
 
-  const atualizarFracao = (etapaId, ingredienteNome, novaFracao) => {
+  const atualizarMedida = (etapaId, ingredienteNome, novaMedida) => {
     setEtapas(prev => prev.map(etapa => {
       if (etapa.id === etapaId) {
         return {
           ...etapa,
-          ingredientes: etapa.ingredientes.map(i => 
-            i.nome === ingredienteNome ? { ...i, fracao: novaFracao } : i
+          ingredientes: etapa.ingredientes.map(i =>
+            i.nome === ingredienteNome ? { ...i, medida: novaMedida } : i
           )
         };
       }
@@ -164,7 +184,7 @@ export default function Camille() {
       if (etapa.id === etapaId) {
         return {
           ...etapa,
-          ingredientes: etapa.ingredientes.map(i => 
+          ingredientes: etapa.ingredientes.map(i =>
             i.nome === ingredienteNome ? { ...i, unidade: novaUnidade } : i
           )
         };
@@ -186,35 +206,98 @@ export default function Camille() {
   };
 
   // Handler de submit
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const dadosFormulario = {
-      titulo,
-      descricao,
-      image,
-      tempo: {
-        hours,
-        minutes
-      },
-      ingredientesSelecionados,
-      etapas: etapas.map(etapa => ({
-        etapa: etapa.id,
-        descricao: etapa.conteudo,
-        ingredientes: etapa.ingredientes
-      })),
-      porcoes: porcoes === 'mais' ? customPorcoes : porcoes,
-      regiao
-    };
-    
-    console.log("Dados do Formulário:", dadosFormulario);
-    // Adicione aqui a lógica de envio para seu backend
+    const idUsuario = Cookies.get('id');
+
+    if (!idUsuario) {
+      alert("Usuário não está autenticado.");
+      return;
+    }
+
+    const tempo_preparo = (parseInt(hours || 0) * 60) + parseInt(minutes || 0);
+    const porcoesFinal = porcoes === 'mais' ? customPorcoes : porcoes;
+
+    const formDataReceita = new FormData();
+    formDataReceita.append("titulo", titulo);
+    formDataReceita.append("descricao", descricao);
+    formDataReceita.append("tempo_preparo", tempo_preparo);
+    formDataReceita.append("qtn_pessoas", porcoesFinal);
+    formDataReceita.append("idUsuario", idUsuario);
+
+    const fileInput = document.getElementById("image-upload");
+    if (fileInput?.files.length > 0) {
+      formDataReceita.append("imagem", fileInput.files[0]);
+    } else {
+      alert("Adicione uma imagem.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${valorURL}/api/Publicacao/PublicarReceita`, {
+        method: "POST",
+        body: formDataReceita
+      });
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        alert("Erro ao criar receita: " + resultado.erro);
+        return;
+      }
+
+      const idReceita = resultado.id;
+
+      // Ingredientes
+      const ingredientesFormatados = [];
+      etapas.forEach(etapa => {
+        etapa.ingredientes.forEach(i => {
+          ingredientesFormatados.push({
+            nome: i.nome,
+            quantidade: i.quantidade,
+            medida: i.medida || '',
+            unidade: i.unidade
+          });
+        });
+      });
+      console.log(ingredientesFormatados[0])
+
+      await fetch(`${valorURL}/api/Publicacao/PublicarIngrediente/${idReceita}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ingredientes: ingredientesFormatados
+        })
+      });
+
+      // Etapas
+      const etapasFormatadas = etapas.map((e, index) => ({
+        numeroEtapa: index + 1,
+        descricao: e.conteudo
+      }));
+
+      await fetch(`${valorURL}/api/Publicacao/PublicarEtapa/${idReceita}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          etapas: etapasFormatadas
+        })
+      });
+
+      alert("Receita publicada com sucesso!");
+      window.location.href = '/julia/homepage';
+
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao enviar dados da receita.");
+    }
   };
+
 
   return (
     <div className={styles.container}>
       <h2>Publicação de receita</h2>
       <form className={styles.containerFormulario} onSubmit={handleSubmit}>
-        
+
         {/* Seção 1 - Imagem e Descrição */}
         <h3 className={styles.camposColoridos}>SUA RECEITA</h3>
         <div className={styles.primeiroCampo}>
@@ -229,31 +312,31 @@ export default function Camille() {
                 </>
               ) : <span>Coloque a Imagem da receita</span>}
             </label>
-            <input 
-              id="image-upload" 
-              type="file" 
-              accept="image/*" 
-              className={styles.InputOploaodImagem} 
-              onChange={handleImageChange} 
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              className={styles.InputOploaodImagem}
+              onChange={handleImageChange}
             />
           </div>
-          
+
           <div className={styles.campoInputNomeEscricao}>
             <div className={styles.containerInput}>
               <label>TÍTULO DA RECEITA:</label>
-              <input 
-                className={styles.inputPrenchimento} 
-                type="text" 
+              <input
+                className={styles.inputPrenchimento}
+                type="text"
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
-                required 
+                required
               />
             </div>
             <div className={styles.containerInput}>
               <label>DESCRIÇÃO (Opcional):</label>
-              <textarea 
-                className={styles.inputPrenchimento} 
-                cols="30" 
+              <textarea
+                className={styles.inputPrenchimento}
+                cols="30"
                 rows="10"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
@@ -328,16 +411,16 @@ export default function Camille() {
             </div>
           </div>
 
-          <div className={styles.containerRegiao}>
+          {/*<div className={styles.containerRegiao}>
             <h4 className={styles.camposColoridos}>Região (Opcional):</h4>
             <DropDownRegiao onChange={(value) => setRegiao(value)} />
-          </div>
+          </div>*/}
         </div>
 
         {/* Seção 3 - Ingredientes com Busca Dinâmica */}
         <div className={styles.containerIngredientes}>
           <h4 className={styles.camposColoridos}>Ingredientes*:</h4>
-          
+
           <div className={styles.buscaIngredienteContainer}>
             <input
               type="text"
@@ -361,8 +444,8 @@ export default function Camille() {
             <div className={styles.listaFiltrada}>
               {ingredientesFiltrados.length > 0 ? (
                 ingredientesFiltrados.map((ingrediente, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className={styles.itemFiltrado}
                     onClick={() => selecionarIngrediente(ingrediente)}
                   >
@@ -400,9 +483,9 @@ export default function Camille() {
             {etapas.map((etapa) => (
               <div key={etapa.id} className={styles.containerEtapa}>
                 <div className={styles.containerBtnLabel}>
-                  <button 
-                    type="button" 
-                    onClick={() => removerEtapa(etapa.id)} 
+                  <button
+                    type="button"
+                    onClick={() => removerEtapa(etapa.id)}
                     className={styles.btnExluirEtapa}
                   >
                     <X size={18} />
@@ -419,7 +502,7 @@ export default function Camille() {
                   required
                   placeholder="Descreva esta etapa"
                 />
-                
+
                 {/* Seletor de Ingredientes para a Etapa */}
                 <div className={styles.filtroIngredientes}>
                   <label>Adicionar ingrediente a esta etapa:</label>
@@ -430,8 +513,8 @@ export default function Camille() {
                   >
                     <option value="">Selecione um ingrediente</option>
                     {ingredientesSelecionados.map((ingrediente, index) => (
-                      <option 
-                        key={index} 
+                      <option
+                        key={index}
                         value={ingrediente}
                         disabled={etapa.ingredientes.some(i => i.nome === ingrediente)}
                       >
@@ -446,7 +529,7 @@ export default function Camille() {
                   {etapa.ingredientes.map((ingrediente, idx) => (
                     <div key={idx} className={styles.ingredienteQuantidade}>
                       <span className={styles.nomeIngrediente}>{ingrediente.nome}</span>
-                      
+
                       <div className={styles.controleQuantidade}>
                         <input
                           type="number"
@@ -459,31 +542,31 @@ export default function Camille() {
                           )}
                           className={styles.inputQuantidade}
                         />
-                        
+
                         <select
-                          value={ingrediente.fracao}
-                          onChange={(e) => atualizarFracao(etapa.id, ingrediente.nome, e.target.value)}
+                          value={ingrediente.medida}
+                          onChange={(e) => atualizarMedida(etapa.id, ingrediente.nome, e.target.value)}
                           className={styles.selectFracao}
                         >
-                          <option value="">Inteiro</option>
-                          <option value="1/2">Meio</option>
-                          <option value="1/3">Um terço</option>
-                          <option value="1/4">Um quarto</option>
-                          <option value="3/4">Três quartos</option>
+                          <option value="">Medida</option>
+                          <option value="Xicaras">xícara</option>
+                          <option value="Unidades">unidades</option>
+                          <option value="ml">ml</option>
+                          <option value="gramas">gramas</option>
+                          <option value="copo">copo</option>
+                          <option value="colheres">colheres</option>
                         </select>
-                        
+
                         <select
                           value={ingrediente.unidade}
                           onChange={(e) => atualizarUnidade(etapa.id, ingrediente.nome, e.target.value)}
                           className={styles.selectUnidade}
                         >
-                          <option value="un">un</option>
-                          <option value="xíc">xícara</option>
-                          <option value="col">colher</option>
-                          <option value="g">gramas</option>
-                          <option value="ml">ml</option>
+                          <option value="">Unidade</option>
+                          <option value="chá">chá</option>
+                          <option value="sopa">sopa</option>
                         </select>
-                        
+
                         <button
                           type="button"
                           onClick={() => removerIngredienteEtapa(etapa.id, ingrediente.nome)}
@@ -498,7 +581,7 @@ export default function Camille() {
               </div>
             ))}
           </div>
-          
+
           <button type="button" onClick={adicionarEtapa} className={styles.btnAdicionarEtapa}>
             + ADICIONAR MAIS ETAPAS
           </button>

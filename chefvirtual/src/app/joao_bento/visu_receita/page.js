@@ -3,8 +3,15 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
+import { useSearchParams } from "next/navigation";
+import valorURL from '@/app/urls';
+import { useRouter, usePathname } from "next/navigation";
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const App = () => {
+  const pathname = usePathname();
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -14,14 +21,30 @@ const App = () => {
   const [receita, setReceita] = useState(null); // <- aqui ficam os dados da API
   const [comentarios, setComentarios] = useState([]);
   const [favoritos, setFavoritos] = useState([]);
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const cookies = document.cookie.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
 
+    setToken(cookies.token || null);
+    setUserId(cookies.id || null);
+    setLoading(false);
+  }, [pathname]);
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   useEffect(() => {
 
     async function getReceitas() {
       try {
-        const response = await fetch('https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Receitas/GetReceita?idReceita=3');
+        const response = await fetch(valorURL + '/api/Receitas/GetReceita?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar receita');
         const data = await response.json();
         setReceita(data); // Salva a receita no estado
@@ -34,7 +57,7 @@ const App = () => {
 
     async function getComentarios() {
       try {
-        const response = await fetch('http://localhost:9000/api/Comentarios/GetComentarios?idReceita=2');
+        const response = await fetch(valorURL + '/api/Comentarios/GetComentarios?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar comentários');
         const data = await response.json();
         setComentarios(data);
@@ -43,18 +66,18 @@ const App = () => {
       }
     }
 
-    async function getFavoritos() {
+    /*async function getFavoritos() {
       try {
-        const response = await fetch('https://chefvirtual.dev.vilhena.ifro.edu.br/api/api/Favoritos/GetFavoritos?usuarioId=1');
+        const response = await fetch(valorURL + '/api/Favoritos/GetFavoritos?usuarioId=2');
         if (!response.ok) throw new Error('Erro ao buscar favoritos');
         const data = await response.json();
         setFavoritos(data);
       } catch (error) {
         console.error('Erro ao buscar favoritos:', error);
       }
-    }
+    }*/
 
-    getFavoritos();
+    //getFavoritos();
     getComentarios();
     getReceitas();
 
@@ -134,7 +157,12 @@ const App = () => {
 
           <div className={styles.dis_receita}>
             <div className={styles.div_img}>
-              <img id="img_receita" src="/img/imagem_receita.png" alt="Imagem da receita" />
+              <img
+                id="img_receita"
+                src={`data:image/png;base64,${receita?.imagemReceita}`}
+                alt={`Imagem da receita ${receita?.tituloReceita}`}
+              />
+              {/*<img id="img_receita" src="/img/imagem_receita.png" alt="Imagem da receita" />*/}
             </div>
 
             <div className={styles.div_rec}>
@@ -144,7 +172,7 @@ const App = () => {
           </div>
 
           <div className={styles.autor}>
-            <p>Receita feita por <a href={`../usuario/perfil/${receita?.usuario?.id}`}>{receita?.usuario?.nome || '(Carregando Autor...)'}</a></p>
+            <p>Receita feita por <a href={`../usuario/perfil?idUsuario=${receita?.usuario?.id}`}>{receita?.usuario?.nome || '(Carregando Autor...)'}</a></p>
           </div>
 
           <div className={styles.sb_rec}>
@@ -281,7 +309,7 @@ const App = () => {
           <div className={styles.comentario}>
             {comentarios.length === 0 ? (
               <p>Ainda não Possui Comentários</p>
-              
+
             ) : (
               comentarios.map((comentario, index) => (
                 <div key={index} className={`${styles.comen} ${styles[`comen${(index % 4) + 1}`]}`}>
@@ -296,7 +324,7 @@ const App = () => {
                   </div>
                   <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
                   <p>{comentario ? comentario.nomeUsuario : 'Carregando...'}</p>
-                  
+
                 </div>
               ))
             )}

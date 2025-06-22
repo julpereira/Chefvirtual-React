@@ -5,51 +5,53 @@ import { FaLock, FaUser } from 'react-icons/fa';
 import styles from './login.module.css';
 import valorURL from '@/app/urls';
 
-
-function Page() {
+export default function Page() {
     const [usuario, setUsuario] = useState('');
     const [senha, setSenha] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [carregando, setCarregando] = useState(false);
+    const [erro, setErro] = useState('');
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErro('');
 
         if (!usuario || !senha) {
-            alert('Por favor, preencha todos os campos.');
+            setErro('Por favor, preencha todos os campos.');
             return;
         }
 
+        setCarregando(true);
+
         try {
-            // Monta a URL com os parâmetros de query (encodeURIComponent para evitar problemas)
             const url = `${valorURL}/api/Login/ConfirmarLogin?email=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;
-            // Faz a requisição GET
             const response = await fetch(url, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
             });
-
-            if (!response.ok) {
-                // Se status não for 2xx, pega o erro da API
-                const errorData = await response.json();
-                alert('Erro: ' + (errorData.erro || 'Falha no login'));
-                return;
-            }
 
             const data = await response.json();
 
-            // Aqui você pode salvar o token retornado, por exemplo, no localStorage
-            console.log('Token recebido:', data.token);
+            if (!response.ok || !data.token || !data.idUsuario) {
+                setErro(data.erro || 'Usuário ou senha inválidos.');
+                setCarregando(false);
+                return;
+            }
 
-            alert('Login realizado com sucesso!');
+
+            // Redireciona e força recarregamento da página
             router.push('/julia/homepage');
+            router.refresh();
 
         } catch (error) {
-            console.error('Erro na requisição de login:', error);
-            alert('Erro ao tentar realizar login. Tente novamente.');
+            console.error('Erro no login:', error);
+            setErro('Erro ao tentar realizar login. Tente novamente mais tarde.');
+        } finally {
+            setCarregando(false);
         }
     };
 
@@ -74,13 +76,12 @@ function Page() {
                     <div className={styles.logo}>
                         <img src="/img/logo.svg" alt="Logo Chef Virtual" />
                     </div>
+
                     <form id="formLogin" onSubmit={handleSubmit}>
                         <div className={styles.campoEntrada}>
                             <FaUser className={styles.icone} />
                             <input
                                 type="text"
-                                id="usuario"
-                                name="usuario"
                                 placeholder="Usuário"
                                 value={usuario}
                                 onChange={(e) => setUsuario(e.target.value)}
@@ -92,8 +93,6 @@ function Page() {
                             <FaLock className={styles.icone} />
                             <input
                                 type={passwordVisible ? "text" : "password"}
-                                id="senha"
-                                name="senha"
                                 placeholder="Senha"
                                 value={senha}
                                 onChange={(e) => setSenha(e.target.value)}
@@ -102,36 +101,31 @@ function Page() {
                             <i
                                 className={`${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} ${styles.eyeIcon}`}
                                 onClick={togglePasswordVisibility}
-                            >
-
-                            </i>
+                            ></i>
                         </div>
+
+                        {erro && <p style={{ color: 'red', textAlign: 'center' }}>{erro}</p>}
 
                         <div className={styles.esqueciSenha}>
                             <button
                                 onClick={handleEsqueciSenhaClick}
                                 className={styles.linkIndex}
                                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
+                                type="button"
                             >
                                 Esqueceu a senha?
                             </button>
                         </div>
 
-                        <button type="submit" className={styles.botaoLogin}>
-                            Login
+                        <button type="submit" className={styles.botaoLogin} disabled={carregando}>
+                            {carregando ? 'Entrando...' : 'Login'}
                         </button>
                     </form>
 
                     <div className={styles.outrasOpcoesLogin}>
                         <div className={styles.iconesRedesSociais}>
-                            <img
-                                src="/img/apple-logo-1-1 1.png"
-                                alt="Login Apple"
-                            />
-                            <img
-                                src="/img/Google-Symbol 1.png"
-                                alt="Login Google"
-                            />
+                            <img src="/img/apple-logo-1-1 1.png" alt="Login Apple" />
+                            <img src="/img/Google-Symbol 1.png" alt="Login Google" />
                         </div>
                     </div>
 
@@ -142,6 +136,7 @@ function Page() {
                                 onClick={() => router.push('/Ana/cadastro')}
                                 className={styles.linkIndex}
                                 style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
+                                type="button"
                             >
                                 Cadastre-se
                             </button>
@@ -152,5 +147,3 @@ function Page() {
         </div>
     );
 }
-
-export default Page;
