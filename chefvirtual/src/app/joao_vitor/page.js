@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic"; 
@@ -15,18 +15,28 @@ const RouterComponent = dynamic(() => import("next/router"), { ssr: false });
 
 export default function Historico() {
     const [historico, setHistorico] = useState([]);
+    const [mensagem, setMensagem] = useState("Carregando histórico...");
+    const idUsuario = 2; // 🔁 Substitua por um valor dinâmico (ex: contexto do login)
 
     useEffect(() => {
-    
-        const historicoSimulado = [
-            { id: 1, nome: "Receita de Pastel", descricao: "Pastel de carne com queijo." },
-            { id: 2, nome: "Bolo de Chocolate", descricao: "Bolo fofinho com cobertura de chocolate." },
-            { id: 3, nome: "Pizza Caseira", descricao: "Pizza de marguerita feita em casa." },
-            { id: 4, nome: "Sushi Simples", descricao: "Sushi de salmão e arroz." },
-            { id: 5, nome: "Salada Caesar", descricao: "Salada com frango grelhado e croutons." },
-            { id: 6, nome: "Sopa de Abóbora", descricao: "Sopa cremosa de abóbora com gengibre." },
-        ];
-        setHistorico(historicoSimulado);
+        async function buscarHistorico() {
+            try {
+                const resposta = await fetch(`https://chefvirtual.dev.vilhena.ifro.edu.br/api/Historico?idUsuario=${idUsuario}`);
+                const dados = await resposta.json();
+
+                if (resposta.ok && dados.length > 0) {
+                    setHistorico(dados);
+                    setMensagem("Histórico de Visualizações");
+                } else {
+                    setMensagem("Nenhum item encontrado no histórico.");
+                }
+            } catch (erro) {
+                console.error("Erro ao buscar histórico:", erro);
+                setMensagem("Erro ao carregar histórico.");
+            }
+        }
+
+        buscarHistorico();
     }, []);
 
     return (
@@ -34,18 +44,22 @@ export default function Historico() {
             <div className={styles.Main}>
                 <div className={styles.headerBusca}>
                     <h2 className={`${styles.titleResult} ${poppinsFont.className}`}>
-                        Histórico de Visualizações
+                        {mensagem}
                     </h2>
                 </div>
 
                 <div className={styles.elementos}>
-                    {historico.length > 0 ? (
-                        historico.map((item) => (
-                            <RecipeCard key={item.id} recipe={item} />
-                        ))
-                    ) : (
-                        <p>Nenhum item no histórico.</p>
-                    )}
+                    {historico.map((item) => (
+                        <RecipeCard 
+                            key={item.id} 
+                            recipe={{
+                                id: item.receita_id,
+                                titulo: item.titulo, 
+                                descricao: item.descricao,
+                                imagem: item.imagem 
+                            }} 
+                        />
+                    ))}
                 </div>
             </div>
         </Suspense>
