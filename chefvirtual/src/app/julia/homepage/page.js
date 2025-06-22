@@ -60,7 +60,7 @@ export default function Homepage() {
       </div>
 
       <div className={styles.items}>
-        {receitas.length === 0 && <p>Nenhuma receita encontrada.</p>}
+        {receitas.length === 0 && <p>Nenhuma receita encontrada</p>}
 
         {receitas.map((receita) => (
           <div className={styles.item} key={receita.id}>
