@@ -78,6 +78,7 @@ const App = () => {
     }*/
 
     //getFavoritos();
+
     getComentarios();
     getReceitas();
 
@@ -93,10 +94,40 @@ const App = () => {
   const closeModal = () => setIsModalOpen(false);
   const handleRating = (index) => setRatingData((prev) => ({ ...prev, rating: index }));
 
-  const handleSubmitRating = () => {
-    alert(`Avaliação enviada! Nota: ${ratingData.rating}/5 - Comentário: ${ratingData.comment}`);
-    setRatingData({ rating: 0, comment: '' });
-    setIsModalOpen(false);
+  const postComentario = async () => {
+    const comentario = ratingData.comment.trim();
+
+    if (!comentario) {
+      alert('Por favor, digite um comentário.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${valorURL}/api/Comentarios/PostComentario`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          receita_id: id,
+          usuario_id: userId,
+          comentario: comentario
+        })
+      });
+
+      if (!response.ok) throw new Error('Erro ao postar comentário');
+
+      const data = await response.json();
+
+      setComentarios((prev) => [...prev, data]);
+      setRatingData({ rating: 0, comment: '' });
+      closeModal();
+
+    } catch (error) {
+      console.error('Erro ao postar comentário:', error);
+      alert('Erro ao postar. Tente novamente.');
+    }
   };
 
   const openReportModal = () => setIsReportModalOpen(true);
@@ -192,7 +223,7 @@ const App = () => {
           </div>
 
           <div className={styles.autor}>
-            <p>Receita feita por <a href={`../usuario/perfil?idUsuario=${receita?.usuario?.id}`}> {receita? nomeFor(receita?.usuario.nome) : '(Carregando Autor...)' } </a></p>
+            <p>Receita feita por <a href={`../julia/perfil?idUsuario=${receita?.usuario?.id}`}> {receita ? nomeFor(receita?.usuario.nome) : '(Carregando Autor...)'} </a></p>
           </div>
 
           <div className={styles.sb_rec}>
@@ -227,6 +258,9 @@ const App = () => {
             </div>
           </div>
 
+
+          {/* Modal de Avaliação */}
+
           {isModalOpen && (
             <div className={styles.modalOverlay}>
               <div className={styles.modal}>
@@ -242,7 +276,9 @@ const App = () => {
                     />
                   ))}
                 </div>
+
                 <textarea
+                  id="comentar"
                   value={ratingData.comment}
                   onChange={(e) => setRatingData({ ...ratingData, comment: e.target.value })}
                   placeholder="Digite seu comentário..."
@@ -252,7 +288,8 @@ const App = () => {
                 />
                 <div className={styles.modalButtons}>
                   <X className={styles.closeIcon} size={30} onClick={closeModal} aria-label="Fechar modal" />
-                  <button className={styles.submitButton} onClick={handleSubmitRating}>Enviar</button>
+                  <button className={styles.submitButton} onClick={postComentario}>Enviar</button>
+
                 </div>
               </div>
             </div>
@@ -260,6 +297,7 @@ const App = () => {
         </section>
 
         {/* Modal de Denúncia */}
+
         {isReportModalOpen && (
           <div className={styles.modalOverlay}>
             <div className={styles.modal}>

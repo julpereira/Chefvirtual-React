@@ -89,6 +89,7 @@
     width: 700px;
     height: 450px;
     border-radius: 10px;
+    border: 1px solid #000000;
     
 }
 
@@ -263,7 +264,7 @@
 }
 
 .tempo{
-    margin-top: 2vh;
+    margin-top: 0.5vh;
 }
 
   .relogio {
