@@ -59,12 +59,6 @@ export default function ResulBusca() {
     fetchData();
     }, [querya]);
 
-//   useEffect(() => {
-//     if (router.query && router.query.query) {
-//       setQuery(router.query.query);
-//     }
-//   }, [router.query]);
-
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);

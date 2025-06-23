@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from './receitaResult.module.css'; 
@@ -41,17 +43,18 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const RecipeCard = ({ data }) => {
   // Estado para armazenar a avaliação (quantas estrelas foram clicadas)
+  console.log(data);
   const [rating, setRating] = useState(0);
   const tempoPreparo = formatarTempo(data.tempoPreparo);
   const estrelas = gerarEstrelas(data.mediaAvaliacao || 0);
   const imageSrc = 
   `data:image/png;base64,${data.imagemReceita}`;
 
-    console.log(imageSrc);
+  console.log(imageSrc);
   return (
     <div className={styles.elemento}>
       <h2>{data.tituloReceita}</h2>
-      <Image src={imageSrc} alt={data.tituloReceita} width={200} height={200}/>
+      <img src={`data:image/jpeg;base64,${data.imagemReceita}`} width={200} height={200}/>
       <div className={styles.divAvaliacao}>
         {estrelas.map((tipo, index) => (
           <i
