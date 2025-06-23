@@ -10,8 +10,8 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSw');
+  const [userId, setUserId] = useState('8');
   const [loading, setLoading] = useState(true);
 
 
