@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Suspense from "react";
+import {Suspense} from "react";
 
 const poppins = Poppins({
   weight: "400",
