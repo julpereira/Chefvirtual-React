@@ -16,11 +16,17 @@ export default function Header() {
 
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    const id = Cookies.get("id");
-    setToken(token || null);
-    setUserId(id || null);
-    setLoading(false);
+    if (typeof window !== "undefined") {
+      const tokenFromCookie = Cookies.get("token");
+      const idFromCookie = Cookies.get("id");
+
+      console.log("🍪 token:", tokenFromCookie);
+      console.log("🍪 id:", idFromCookie);
+
+      setToken(tokenFromCookie || null);
+      setUserId(idFromCookie || null);
+      setLoading(false);
+    }
   }, [pathname]);
 
 
