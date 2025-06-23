@@ -10,23 +10,18 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
-  const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSw');
-  const [userId, setUserId] = useState('8');
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
 
 
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const tokenFromCookie = Cookies.get("token");
-      const idFromCookie = Cookies.get("id");
-
-      console.log("🍪 token:", tokenFromCookie);
-      console.log("🍪 id:", idFromCookie);
-
-      setToken(tokenFromCookie || null);
-      setUserId(idFromCookie || null);
-      setLoading(false);
-    }
+    const token = Cookies.get("token");
+    const id = Cookies.get("id");
+    setToken(token || null);
+    setUserId(id || null);
+    setLoading(false);
   }, [pathname]);
 
 
