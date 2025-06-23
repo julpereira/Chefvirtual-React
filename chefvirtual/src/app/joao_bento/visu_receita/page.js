@@ -103,15 +103,15 @@ const App = () => {
     }
 
     try {
-      const response = await fetch(`${valorURL}/api/Comentarios/PostComentario`, {
+      const response = await fetch(`${valorURL}/api/Comentarios/PostComentarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          receita_id: id,
-          usuario_id: userId,
+          receitaId: id,
+          usuarioId: userId,
           comentario: comentario
         })
       });

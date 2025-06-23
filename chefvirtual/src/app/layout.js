@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Suspense from "react";
 
 const poppins = Poppins({
   weight: "400",
@@ -35,11 +36,14 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="pt-BR">
-      <body className={poppins.className}>
-        {!hideHeaderPages.includes(pathname) && <Header />}
-        <main>{children}</main>
-        {!hideFooterPages.includes(pathname) && <Footer />}
-      </body>
+      <Suspense fallback={<div>Carregando...</div>}>
+        <body className={poppins.className}>
+          {!hideHeaderPages.includes(pathname) && <Header />}
+          <main>{children}</main>
+          {!hideFooterPages.includes(pathname) && <Footer />}
+        </body>
+      </Suspense>
+
     </html>
   );
 }
