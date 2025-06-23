@@ -4,7 +4,6 @@ import Link from "next/link";
 import styles from "./header.module.css";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 export default function Header() {
   const router = useRouter();
@@ -14,16 +13,17 @@ export default function Header() {
   const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
-
   useEffect(() => {
-    const token = Cookies.get("token");
-    const id = Cookies.get("id");
-    setToken(token || null);
-    setUserId(id || null);
+    const cookies = document.cookie.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
+
+    setToken(cookies.token || null);
+    setUserId(cookies.id || null);
     setLoading(false);
   }, [pathname]);
-
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
