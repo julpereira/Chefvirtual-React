@@ -4,7 +4,7 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 import { useSearchParams } from "next/navigation";
-import valorURL from '@/app/urls';
+import valorUrl from '@/app/urls.js';
 import { useRouter, usePathname } from "next/navigation";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -44,7 +44,7 @@ const App = () => {
 
     async function getReceitas() {
       try {
-        const response = await fetch(valorURL + '/api/Receitas/GetReceita?idReceita=' + id);
+        const response = await fetch(valorUrl + '/api/Receitas/GetReceita?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar receita');
         const data = await response.json();
         setReceita(data); // Salva a receita no estado
@@ -57,7 +57,7 @@ const App = () => {
 
     async function getComentarios() {
       try {
-        const response = await fetch(valorURL + '/api/Comentarios/GetComentarios?idReceita=' + id);
+        const response = await fetch(valorUrl + '/api/Comentarios/GetComentarios?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar comentários');
         const data = await response.json();
         setComentarios(data);
@@ -103,7 +103,7 @@ const App = () => {
     }
 
     try {
-      const response = await fetch(`${valorURL}/api/Comentarios/PostComentarios`, {
+      const response = await fetch(`${valorUrl}/api/Comentarios/PostComentarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
