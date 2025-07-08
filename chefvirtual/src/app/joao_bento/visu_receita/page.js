@@ -79,7 +79,7 @@ const App = () => {
     }*/
 
     //getFavoritos();
-    getComentarios();
+    //getComentarios();
     getReceitas();
   }, [id]);
 
