@@ -9,7 +9,7 @@ import valorUrl from '@/app/urls.js';
 const App = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [id, setId] = useState(null);
+  const [id, setId] = useState('7');
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
