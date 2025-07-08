@@ -7,7 +7,7 @@ import { useSearchParams, usePathname } from "next/navigation";
 import valorUrl from '@/app/urls.js';
 
 const App = () => {
-  const pathname = usePathname();
+  /*const pathname = usePathname();
   const searchParams = useSearchParams();
   const [id, setId] = useState(null);
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
@@ -76,7 +76,7 @@ const App = () => {
       } catch (error) {
         console.error('Erro ao buscar favoritos:', error);
       }
-    }*/
+    }
 
     //getFavoritos();
     getComentarios();
@@ -168,7 +168,7 @@ const App = () => {
     if (!nome) return 'Carregando...';
     const nomeFormatado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
     return nomeFormatado;
-  }
+  }*/
 
   return (
     <div className="container">
