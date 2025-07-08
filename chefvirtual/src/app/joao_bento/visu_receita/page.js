@@ -42,7 +42,7 @@ const App = () => {
 
   useEffect(() => {
     if (!id) return;
-    async function getReceitas() {
+    /*async function getReceitas() {
       try {
         const response = await fetch(valorUrl + '/api/Receitas/GetReceita?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar receita');
@@ -54,9 +54,9 @@ const App = () => {
         console.error('Erro ao buscar receita:', error);
         alert('Não foi possível carregar a receita.');
       }
-    }
+    }*/
 
-    /*async function getComentarios() {
+    async function getComentarios() {
       try {
         const response = await fetch(valorUrl + '/api/Comentarios/GetComentarios?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar comentários');
@@ -65,7 +65,7 @@ const App = () => {
       } catch (error) {
         console.error('Erro ao buscar comentários:', error);
       }
-    }*/
+    }
 
     /*async function getFavoritos() {
       try {
@@ -79,8 +79,8 @@ const App = () => {
     }*/
 
     //getFavoritos();
-    //getComentarios();
-    getReceitas();
+    getComentarios();
+    //getReceitas();
   }, [id]);
 
   const goBack = () => {
@@ -377,7 +377,7 @@ const App = () => {
         </div>
       </section>
 
-      {/*<section className={styles.comentarios}>
+      <section className={styles.comentarios}>
         <div className={styles.coment}><h2>Comentários</h2></div>
         <div className={styles.comentario}>
           {comentarios.length === 0 ? (
@@ -403,7 +403,7 @@ const App = () => {
           )}
 
         </div>
-      </section>*/}
+      </section>
     </div>
   );
 };
