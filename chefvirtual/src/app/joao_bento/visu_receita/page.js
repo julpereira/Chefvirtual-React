@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import valorUrl from '@/app/urls.js';
-import { useRouter, usePathname } from "next/navigation";
 
 const App = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [id, setId] = useState(null);
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -23,6 +24,11 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const idFromUrl = searchParams.get("id");
+    setId(idFromUrl);
+  }, [searchParams]);
+
+  useEffect(() => {
     const cookies = document.cookie.split(";").reduce((acc, cookie) => {
       const [key, value] = cookie.trim().split("=");
       acc[key] = value;
@@ -34,11 +40,8 @@ const App = () => {
     setLoading(false);
   }, [pathname]);
 
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-
   useEffect(() => {
-
+    if (!id) return;
     async function getReceitas() {
       try {
         const response = await fetch(valorUrl + '/api/Receitas/GetReceita?idReceita=' + id);
@@ -225,14 +228,13 @@ const App = () => {
         </div>
 
         <div className={styles.autor}>
-          {receita && receita.usuario ? (
-          <p>Receita feita por <a href={`../julia/perfil?idUsuario=${receita.usuario.id}`}> 
-            {nomeFor(receita.usuario.nome)}
+          <p>Receita feita por {receita?.usuario?.id && receita?.usuario?.nome ? (
+            <a href={`../julia/perfil?idUsuario=${receita.usuario.id}`}>
+              {nomeFor(receita.usuario.nome)}
             </a>
-          </p>
           ) : (
-          <p>Carregando autor...</p>
-          )}
+            <span>(Carregando Autor...)</span>
+          )}</p>
         </div>
 
         <div className={styles.sb_rec}>
@@ -364,17 +366,18 @@ const App = () => {
       <section className={styles.des_receita}>
         <div className={styles.preparo}>
           <div className={styles.preparo2}><h2>Modo de preparo</h2></div>
-          <div className={styles.preparo3}><ul>
-            <li>Misture a Massa com óleo e com açúcar e sal</li>
-            <li>Depois você despeja em uma forma</li>
-            <li>Leve ao forno a 210°C</li>
-            <li>Retire do forno e corte em fatias</li>
-          </ul>
+          <div className={styles.preparo3}>
+            <ul>
+              <li>Misture a Massa com óleo e com açúcar e sal</li>
+              <li>Depois você despeja em uma forma</li>
+              <li>Leve ao forno a 210°C</li>
+              <li>Retire do forno e corte em fatias</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <section className={styles.comentarios}>
+      {/*<section className={styles.comentarios}>
         <div className={styles.coment}><h2>Comentários</h2></div>
         <div className={styles.comentario}>
           {comentarios.length === 0 ? (
@@ -392,7 +395,7 @@ const App = () => {
                 <div className={styles.comenta}>
                   <p>{comentario.comentario}</p>
                 </div>
-                <img src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
+                <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
                 <p>{comentario ? comentario.nomeUsuario : 'Carregando...'}</p>
 
               </div>
