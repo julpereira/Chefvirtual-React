@@ -169,7 +169,6 @@ const App = () => {
 
   return (
     <div className="container">
-      <main>
         <section className={styles.info_receita}>
           <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
             <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
@@ -395,7 +394,6 @@ const App = () => {
 
           </div>
         </section>
-      </main>
     </div>
   );
 };
