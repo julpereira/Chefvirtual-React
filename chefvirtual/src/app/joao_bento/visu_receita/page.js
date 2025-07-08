@@ -169,11 +169,11 @@ const App = () => {
 
   return (
     <div className="container">
-        <section className={styles.info_receita}>
-          <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
-            <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
-            <p>Voltar</p>
-          </div>
+      <section className={styles.info_receita}>
+        <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
+          <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
+          <p>Voltar</p>
+        </div>
 
         <div className={styles.titulo}>
           <h1>{receita ? receita.tituloReceita : 'Carregando...'}</h1>
@@ -225,7 +225,13 @@ const App = () => {
         </div>
 
         <div className={styles.autor}>
-          <p>Receita feita por <a href={`../julia/perfil?idUsuario=${receita?.usuario?.id}`}> {receita ? nomeFor(receita?.usuario.nome) : '(Carregando Autor...)'} </a></p>
+          <p>Receita feita por {receita?.usuario?.id && receita?.usuario?.nome ? (
+            <a href={`../julia/perfil?idUsuario=${receita.usuario.id}`}>
+              {nomeFor(receita.usuario.nome)}
+            </a>
+          ) : (
+            <span>(Carregando Autor...)</span>
+          )}</p>
         </div>
 
         <div className={styles.sb_rec}>
@@ -392,8 +398,8 @@ const App = () => {
             ))
           )}
 
-          </div>
-        </section>
+        </div>
+      </section>
     </div>
   );
 };
