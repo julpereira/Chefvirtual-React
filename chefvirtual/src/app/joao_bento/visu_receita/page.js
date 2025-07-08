@@ -172,7 +172,8 @@ const App = () => {
 
   return (
     <div className="container">
-      <section className={styles.info_receita}>
+      <h1>Se isso não for eu não sei oque vai</h1>
+      {/*<section className={styles.info_receita}>
         <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
           <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
           <p>Voltar</p>
@@ -270,7 +271,7 @@ const App = () => {
         </div>
 
 
-        {/* Modal de Avaliação */}
+        
 
         {isModalOpen && (
           <div className={styles.modalOverlay}>
@@ -307,7 +308,7 @@ const App = () => {
         )}
       </section>
 
-      {/* Modal de Denúncia */}
+      
 
       {isReportModalOpen && (
         <div className={styles.modalOverlay}>
@@ -377,7 +378,7 @@ const App = () => {
         </div>
       </section>
 
-      {/*<section className={styles.comentarios}>
+      <section className={styles.comentarios}>
         <div className={styles.coment}><h2>Comentários</h2></div>
         <div className={styles.comentario}>
           {comentarios.length === 0 ? (
