@@ -6,9 +6,6 @@ import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 import { useSearchParams } from "next/navigation";
 import valorUrl from '@/app/urls.js';
 import { useRouter, usePathname } from "next/navigation";
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 const App = () => {
   const pathname = usePathname();
