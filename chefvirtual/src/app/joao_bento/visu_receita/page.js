@@ -169,11 +169,11 @@ const App = () => {
 
   return (
     <div className="container">
-        <section className={styles.info_receita}>
-          <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
-            <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
-            <p>Voltar</p>
-          </div>
+      <section className={styles.info_receita}>
+        <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
+          <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
+          <p>Voltar</p>
+        </div>
 
         <div className={styles.titulo}>
           <h1>{receita ? receita.tituloReceita : 'Carregando...'}</h1>
@@ -399,8 +399,8 @@ const App = () => {
             ))
           )}
 
-          </div>
-        </section>
+        </div>
+      </section>
     </div>
   );
 };
