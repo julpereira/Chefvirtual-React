@@ -404,7 +404,7 @@ const App = () => {
           )}
 
         </div>
-      </section>
+      </section>*/}
     </div>
   );
 };
