@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import Image from 'next/image';
+
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 import { useSearchParams } from "next/navigation";
 import valorUrl from '@/app/urls.js';
@@ -340,7 +340,7 @@ const App = () => {
           </div>
         </div>
       )}
-
+{/* 
       <section className={styles.ingredientes}>
         <div className={styles.ingredientes2}>
           <div className={styles.ingredientes3}>
@@ -400,7 +400,7 @@ const App = () => {
           )}
 
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
