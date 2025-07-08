@@ -9,7 +9,7 @@ import valorUrl from '@/app/urls.js';
 const App = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [id, setId] = useState('7');
+  const [id, setId] = useState(null);
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -206,7 +206,7 @@ const App = () => {
 
         <div className={styles.dis_receita}>
           <div className={styles.div_img}>
-            {/*receita?.imagemReceita ? (
+            {receita?.imagemReceita ? (
               <img
                 className={styles.img_receita}
                 src={`data:image/jpeg;base64,${receita.imagemReceita}`}
@@ -218,7 +218,7 @@ const App = () => {
                 src="/img/imagem_receita.png" // ou um fallback
                 alt="Imagem padrão da receita"
               />
-            )*/}
+            )}
           </div>
 
           <div className={styles.div_rec}>
@@ -228,14 +228,13 @@ const App = () => {
         </div>
 
         <div className={styles.autor}>
-          {receita && receita.usuario ? (
-          <p>Receita feita por <a href={`../julia/perfil?idUsuario=${receita.usuario.id}`}> 
-            {nomeFor(receita.usuario.nome)}
+          <p>Receita feita por {receita?.usuario?.id && receita?.usuario?.nome ? (
+            <a href={`../julia/perfil?idUsuario=${receita.usuario.id}`}>
+              {nomeFor(receita.usuario.nome)}
             </a>
-          </p>
           ) : (
-          <p>Carregando autor...</p>
-          )}
+            <span>(Carregando Autor...)</span>
+          )}</p>
         </div>
 
         <div className={styles.sb_rec}>
@@ -378,7 +377,7 @@ const App = () => {
         </div>
       </section>
 
-      <section className={styles.comentarios}>
+      {/*<section className={styles.comentarios}>
         <div className={styles.coment}><h2>Comentários</h2></div>
         <div className={styles.comentario}>
           {comentarios.length === 0 ? (
@@ -396,7 +395,7 @@ const App = () => {
                 <div className={styles.comenta}>
                   <p>{comentario.comentario}</p>
                 </div>
-                <img src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
+                <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
                 <p>{comentario ? comentario.nomeUsuario : 'Carregando...'}</p>
 
               </div>
@@ -404,7 +403,7 @@ const App = () => {
           )}
 
         </div>
-      </section>
+      </section>*/}
     </div>
   );
 };
