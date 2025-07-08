@@ -206,7 +206,7 @@ const App = () => {
 
         <div className={styles.dis_receita}>
           <div className={styles.div_img}>
-            {receita?.imagemReceita ? (
+            {/*receita?.imagemReceita ? (
               <img
                 className={styles.img_receita}
                 src={`data:image/jpeg;base64,${receita.imagemReceita}`}
@@ -218,7 +218,7 @@ const App = () => {
                 src="/img/imagem_receita.png" // ou um fallback
                 alt="Imagem padrão da receita"
               />
-            )}
+            )*/}
           </div>
 
           <div className={styles.div_rec}>
