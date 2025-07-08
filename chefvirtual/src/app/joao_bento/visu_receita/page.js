@@ -1,13 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-
+import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 import { useSearchParams, usePathname } from "next/navigation";
 import valorUrl from '@/app/urls.js';
 
 const App = () => {
-  /*const pathname = usePathname();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [id, setId] = useState(null);
   const [ratingData, setRatingData] = useState({ rating: 0, comment: '' });
@@ -56,7 +56,7 @@ const App = () => {
       }
     }
 
-    async function getComentarios() {
+    /*async function getComentarios() {
       try {
         const response = await fetch(valorUrl + '/api/Comentarios/GetComentarios?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar comentários');
@@ -65,7 +65,7 @@ const App = () => {
       } catch (error) {
         console.error('Erro ao buscar comentários:', error);
       }
-    }
+    }*/
 
     /*async function getFavoritos() {
       try {
@@ -76,7 +76,7 @@ const App = () => {
       } catch (error) {
         console.error('Erro ao buscar favoritos:', error);
       }
-    }
+    }*/
 
     //getFavoritos();
     getComentarios();
@@ -168,12 +168,11 @@ const App = () => {
     if (!nome) return 'Carregando...';
     const nomeFormatado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
     return nomeFormatado;
-  }*/
+  }
 
   return (
     <div className="container">
-      <h1>Se isso não for eu não sei oque vai</h1>
-      {/*<section className={styles.info_receita}>
+      <section className={styles.info_receita}>
         <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
           <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
           <p>Voltar</p>
@@ -271,7 +270,7 @@ const App = () => {
         </div>
 
 
-        
+        {/* Modal de Avaliação */}
 
         {isModalOpen && (
           <div className={styles.modalOverlay}>
@@ -308,7 +307,7 @@ const App = () => {
         )}
       </section>
 
-      
+      {/* Modal de Denúncia */}
 
       {isReportModalOpen && (
         <div className={styles.modalOverlay}>
@@ -378,7 +377,7 @@ const App = () => {
         </div>
       </section>
 
-      <section className={styles.comentarios}>
+      {/*<section className={styles.comentarios}>
         <div className={styles.coment}><h2>Comentários</h2></div>
         <div className={styles.comentario}>
           {comentarios.length === 0 ? (
