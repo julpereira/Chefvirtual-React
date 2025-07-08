@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-
+import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 import { useSearchParams, usePathname } from "next/navigation";
 import valorUrl from '@/app/urls.js';
