@@ -208,12 +208,19 @@ const App = () => {
 
           <div className={styles.dis_receita}>
             <div className={styles.div_img}>
-              <img
-                className={styles.img_receita}
-                src={`data:image/png;base64,${receita?.imagemReceita}`}
-                alt={`Imagem da receita ${receita?.tituloReceita}`}
-              />
-              {/*<img id="img_receita" src="/img/imagem_receita.png" alt="Imagem da receita" />*/}
+              {receita?.imagemReceita ? (
+                <img
+                  className={styles.img_receita}
+                  src={`data:image/jpeg;base64,${receita.imagemReceita}`}
+                  alt={`Imagem da receita ${receita.tituloReceita}`}
+                />
+              ) : (
+                <img
+                  className={styles.img_receita}
+                  src="/img/imagem_receita.png" // ou um fallback
+                  alt="Imagem padrão da receita"
+                />
+              )}
             </div>
 
             <div className={styles.div_rec}>
