@@ -172,7 +172,7 @@ const App = () => {
 
   return (
     <div className="container">
-      {/* <section className={styles.info_receita}>
+      <section className={styles.info_receita}>
         <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
           <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
           <p>Voltar</p>
@@ -267,12 +267,12 @@ const App = () => {
               Compartilhar
             </button>
           </div>
-        </div> */}
+        </div>
 
 
         {/* Modal de Avaliação */}
 
-        {/* {isModalOpen && (
+        {isModalOpen && (
           <div className={styles.modalOverlay}>
             <div className={styles.modal}>
               <h2>Deixe sua avaliação</h2>
@@ -305,10 +305,10 @@ const App = () => {
             </div>
           </div>
         )}
-      </section> */}
+      </section>
 
       {/* Modal de Denúncia */}
-{/* 
+
       {isReportModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
@@ -341,7 +341,7 @@ const App = () => {
             </div>
           </div>
         </div>
-      )} */}
+      )}
 
       <section className={styles.ingredientes}>
         <div className={styles.ingredientes2}>
