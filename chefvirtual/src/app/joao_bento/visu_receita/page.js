@@ -53,6 +53,8 @@ const App = () => {
       } catch (error) {
         console.error('Erro ao buscar receita:', error);
         alert('Não foi possível carregar a receita.');
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -64,6 +66,9 @@ const App = () => {
         setComentarios(data);
       } catch (error) {
         console.error('Erro ao buscar comentários:', error);
+      }
+      finally {
+        setLoading(false);
       }
     }
 
@@ -168,6 +173,10 @@ const App = () => {
     if (!nome) return 'Carregando...';
     const nomeFormatado = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
     return nomeFormatado;
+  }
+
+  if (loading) {
+    return <div className={styles.container}>Carregando receitas...</div>;
   }
 
   return (
