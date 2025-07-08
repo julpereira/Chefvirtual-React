@@ -225,7 +225,14 @@ const App = () => {
         </div>
 
         <div className={styles.autor}>
-          <p>Receita feita por <a href={`../julia/perfil?idUsuario=${receita?.usuario?.id}`}> {receita ? nomeFor(receita?.usuario.nome) : '(Carregando Autor...)'} </a></p>
+          {receita && receita.usuario ? (
+          <p>Receita feita por <a href={`../julia/perfil?idUsuario=${receita.usuario.id}`}> 
+            {nomeFor(receita.usuario.nome)}
+            </a>
+          </p>
+          ) : (
+          <p>Carregando autor...</p>
+          )}
         </div>
 
         <div className={styles.sb_rec}>
@@ -385,7 +392,7 @@ const App = () => {
                 <div className={styles.comenta}>
                   <p>{comentario.comentario}</p>
                 </div>
-                <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
+                <img src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
                 <p>{comentario ? comentario.nomeUsuario : 'Carregando...'}</p>
 
               </div>
