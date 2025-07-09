@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@next/font": "^14.2.15",
     "bootstrap-icons": "^1.11.3",
     "js-cookie": "^3.0.5",

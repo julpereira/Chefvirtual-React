@@ -122,12 +122,6 @@ export default function Page() {
                         </button>
                     </form>
 
-                    <div className={styles.outrasOpcoesLogin}>
-                        <div className={styles.iconesRedesSociais}>
-                            <img src="/img/apple-logo-1-1 1.png" alt="Login Apple" />
-                            <img src="/img/Google-Symbol 1.png" alt="Login Google" />
-                        </div>
-                    </div>
 
                     <div className={styles.linkCadastro}>
                         <p>

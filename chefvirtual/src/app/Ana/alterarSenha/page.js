@@ -1,17 +1,18 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaLock } from 'react-icons/fa'; 
+import { FaLock } from 'react-icons/fa';
 import styles from './alterarSenha.module.css';
+import valorUrl from '@/app/urls';
 
 export default function AlterarSenha() {
     const [novaSenha, setNovaSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
     const [erro, setErro] = useState('');
-    const [passwordVisible, setPasswordVisible] = useState(false); 
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!novaSenha || !confirmaSenha) {
@@ -24,9 +25,38 @@ export default function AlterarSenha() {
             return;
         }
 
+        const idUsuario = localStorage.getItem("idUsuario");
+
+        if (!idUsuario) {
+            setErro('Usuário não identificado. Faça o processo de recuperação novamente.');
+            return;
+        }
+
         setErro('');
-        alert('Senha alterada com sucesso!');
-        router.push('/Ana/login');
+
+        try {
+            const response = await fetch(`${valorUrl}/api/Usuarios/${idUsuario}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ senha: novaSenha })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Senha alterada com sucesso!');
+                localStorage.removeItem("idUsuario"); // limpar o ID após uso
+                localStorage.removeItem("emailRecuperacao");
+                router.push('/Ana/login');
+            } else {
+                setErro(data.erro || 'Erro ao alterar a senha');
+            }
+        } catch (error) {
+            setErro('Erro na comunicação com o servidor');
+            console.error(error);
+        }
     };
 
     const togglePasswordVisibility = () => {
@@ -41,9 +71,8 @@ export default function AlterarSenha() {
             >
                 <div className={styles.caixaDeLogin}>
                     <h3 className={styles.titulo}>Alterar Senha</h3>
-
                     {erro && <p className={styles.erro}>{erro}</p>}
-                    <form id="formAlterarSenha" onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <div className={styles.campoEntrada}>
                             <FaLock className={styles.icone} />
                             <input
@@ -54,12 +83,12 @@ export default function AlterarSenha() {
                                 required
                             />
                             <i
-                                className={`fas ${passwordVisible ? "fa-eye-slash" : "fa-eye"} ${styles.eyeIcon}`} 
+                                className={`fas ${passwordVisible ? "fa-eye-slash" : "fa-eye"} ${styles.eyeIcon}`}
                                 onClick={togglePasswordVisibility}
                             ></i>
                         </div>
                         <div className={styles.campoEntrada}>
-                            <FaLock className={styles.icone} /> 
+                            <FaLock className={styles.icone} />
                             <input
                                 type={passwordVisible ? "text" : "password"}
                                 placeholder="Confirme sua nova senha"

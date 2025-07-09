@@ -36,8 +36,8 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   return (
-    <html lang="pt-BR">
-      <Suspense fallback={<div>Carregando...</div>}>
+    <html lang="pt-br">
+      <Suspense fallback={<body><div><h1>Carregando...</h1></div></body>}>
         <body className={poppins.className}>
           {!hideHeaderPages.includes(pathname) && <Header />}
           <main>{children}</main>
