@@ -1,134 +1,284 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
-import styles from './perfil.module.css'; // Importa o módulo CSS
+import styles from './perfil.module.css';
+import valorUrl from "@/app/urls";
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
 
 export default function EditProfile() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [profileImage, setProfileImage] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar o modal
-    const [modalMessage, setModalMessage] = useState(''); // Mensagem do modal
+  const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
+  const [profileImage, setProfileImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [perfil, setPerfil] = useState(null);
 
-    const onSubmit = (data) => {
-        console.log(data);
-        setModalMessage('Alterações salvas com sucesso!'); // Define a mensagem
-        setIsModalOpen(true); // Abre o modal
-        setTimeout(() => setIsModalOpen(false), 3000); // Fecha o modal após 3 segundos
-    };
+  useEffect(() => {
+    async function fetchPerfil() {
+      try {
+        const userId = getCookie('id');
+        if (!userId) throw new Error('Usuário não autenticado');
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setProfileImage(imageUrl);
+        const response = await fetch(`${valorUrl}/api/Usuarios/getById/${userId}`);
+
+        const text = await response.text();
+
+        if (!response.ok) {
+          console.error('Resposta da API com erro:', text);
+          throw new Error(`Erro ao carregar perfil: ${response.status} ${response.statusText}`);
         }
-    };
 
-    const goBack = () => {
-        if (window.history.length > 1) {
-            window.history.back();
+        let user;
+        try {
+          user = JSON.parse(text);
+        } catch {
+          throw new Error('Resposta da API não é JSON válido');
+        }
+
+        if (!user || !user.nome) throw new Error('Usuário não encontrado');
+
+        setPerfil(user);
+
+        reset({
+          username: user.nome || '',
+          email: user.email || '',
+          facebook: user.facebook || '',
+          instagram: user.instagram || '',
+          youtube: user.youtube || '',
+          bio: user.bio || '',
+        });
+
+        if (user.imagemUsuario && user.imagemUsuario.data) {
+          const blob = new Blob([new Uint8Array(user.imagemUsuario.data)], { type: 'image/jpeg' });
+          setProfileImage(URL.createObjectURL(blob));
         } else {
-            window.location.href = '/'; // Caso não haja histórico, redireciona para a página inicial
+          setProfileImage(null);
         }
-    };
+      } catch (error) {
+        console.error(error);
+        setModalMessage(`Erro: ${error.message}`);
+        setIsModalOpen(true);
+      }
+    }
+    fetchPerfil();
+  }, [reset]);
 
-    return (
-        <div className={styles.mae}>
-            <div className={styles.voltar} onClick={goBack} aria-label="Voltar para a página anterior">
-                <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
-                <p>Voltar</p>
-            </div>
-            <div className={styles.form}>
-                {/* Foto de perfil */}
-                <div className={styles.uploadLabel}>
-                    {profileImage ? (
-                        <img src={profileImage} alt="Prévia" className={styles.previewImage} />
-                    ) : (
-                        <span className={styles.uploadText}>Clique para adicionar foto</span>
-                    )}
-                    <input type="file" accept="image/*" onChange={handleImageChange} className={styles.uploadInput} />
-                </div>
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(URL.createObjectURL(file));
+    }
+  };
 
-                {/* Formulário */}
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className={styles.columns}>
-                        {/* Nome de usuário e Nova Senha */}
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Nome de Usuário</label>
-                            <input {...register("username", { required: true })} className={styles.input} />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>E-mail</label>
-                            <input type="email" {...register("email", { required: true })} className={styles.input} />
-                        </div>
+  const onSubmit = async (data) => {
+    try {
+      if (!perfil) throw new Error('Perfil não carregado');
 
-                        {/* Nova Senha e Confirmar Senha */}
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Nova Senha</label>
-                            <input type="password" {...register("password", { required: true, minLength: 8, pattern: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/ })} className={styles.input} />
-                            {errors.password && <p className={styles.errorMessage}>A senha deve ter no mínimo 8 caracteres, incluindo 1 maiúscula e 1 minúscula.</p>}
-                        </div>
+      if (data.password && data.password !== data.confirmPassword) {
+        throw new Error('As senhas não coincidem');
+      }
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Confirmar Senha</label>
-                            <input type="password" {...register("confirmPassword", { required: true, validate: value => value === watch("password") })} className={styles.input} />
-                            {errors.confirmPassword && <p className={styles.errorMessage}>As senhas não coincidem.</p>}
-                        </div>
+      const formData = new FormData();
+      formData.append('nome', data.username);
+      formData.append('email', data.email);
+      formData.append('facebook', data.facebook || '');
+      formData.append('instagram', data.instagram || '');
+      formData.append('youtube', data.youtube || '');
+      formData.append('bio', data.bio || '');
 
-                        {/* Redes Sociais */}
-                        <div className={styles.socialSection}>
-                            <h3 className={styles.socialTitle}>Redes Sociais</h3>
+      if (data.imagemUsuario && data.imagemUsuario.length > 0) {
+        formData.append('imagemUsuario', data.imagemUsuario[0]);
+      }
 
-                            <div>
-                                <label className={styles.label}>
-                                    <FaYoutube className={styles.youtubeIcon} />
-                                    YouTube
-                                </label>
-                                <input type="url" {...register("youtube")} placeholder="Ex: www.youtube.com/@perfil" className={styles.input} />
-                            </div>
+      if (data.password && data.password.length > 0) {
+        formData.append('senha', data.password);
+      }
 
-                            <div>
-                                <label className={styles.label}>
-                                    <FaFacebook className={styles.facebookIcon} />
-                                    Facebook
-                                </label>
-                                <input type="url" {...register("facebook")} placeholder="Ex: www.facebook.com/perfil" className={styles.input} />
-                            </div>
+      const response = await fetch(`${valorUrl}/api/usuario/${perfil.id}`, {
+        method: 'PATCH',
+        body: formData,
+      });
 
-                            <div>
-                                <label className={styles.label}>
-                                    <FaInstagram className={styles.instagramIcon} />
-                                    Instagram
-                                </label>
-                                <input type="url" {...register("instagram")} placeholder="Ex: www.instagram.com/perfil" className={styles.input} />
-                            </div>
-                        </div>
-                    </div>
+      const text = await response.text();
 
-                    {/* Biografia */}
-                    <div className={styles.bioAndSocial}>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}><h2>Biografia</h2></label>
-                            <textarea {...register("bio")} className={styles.textarea} rows="3"></textarea>
-                        </div>
+      if (!response.ok) {
+        let errorMessage = 'Erro ao atualizar perfil';
+        try {
+          const err = JSON.parse(text);
+          errorMessage = err.erro || errorMessage;
+        } catch {
+          console.error('Resposta de erro não JSON:', text);
+        }
+        throw new Error(errorMessage);
+      }
 
-                        <button type="submit" className={styles.submitButton}>Salvar</button>
-                    </div>
-                </form>
-            </div>
+      setModalMessage('Alterações salvas com sucesso!');
+      setIsModalOpen(true);
+      setTimeout(() => setIsModalOpen(false), 3000);
+    } catch (error) {
+      setModalMessage(`Erro: ${error.message}`);
+      setIsModalOpen(true);
+    }
+  };
 
-            {/* Modal de sucesso */}
-            {isModalOpen && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modal}>
-                        <p>{modalMessage}</p>
-                        <button onClick={() => setIsModalOpen(false)} className={styles.closeButton}>Fechar</button>
-                    </div>
-                </div>
-            )}
+  const goBack = () => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = '/';
+    }
+  };
+
+  return (
+    <div className={styles.mae}>
+      <div
+        className={styles.voltar}
+        onClick={goBack}
+        aria-label="Voltar para a página anterior"
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => { if (e.key === 'Enter') goBack(); }}
+      >
+        <img className={styles.seta_voltar} src="/img/seta_voltar.png" alt="Voltar" />
+        <p>Voltar</p>
+      </div>
+
+      <div className={styles.form}>
+        <div className={styles.uploadLabel}>
+          {profileImage ? (
+            <img src={profileImage} alt="Prévia" className={styles.previewImage} />
+          ) : (
+            <span className={styles.uploadText}>Clique para adicionar foto</span>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            {...register("imagemUsuario")}
+            onChange={handleImageChange}
+            className={styles.uploadInput}
+          />
         </div>
-    );
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.columns}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Nome de Usuário</label>
+              <input
+                {...register("username", { required: 'Nome é obrigatório' })}
+                className={styles.input}
+              />
+              {errors.username && <p className={styles.errorMessage}>{errors.username.message}</p>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>E-mail</label>
+              <input
+                type="email"
+                {...register("email", { required: 'Email é obrigatório' })}
+                className={styles.input}
+              />
+              {errors.email && <p className={styles.errorMessage}>{errors.email.message}</p>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Nova Senha</label>
+              <input
+                type="password"
+                {...register("password", {
+                  minLength: { value: 8, message: 'Mínimo 8 caracteres' },
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+                    message: 'Deve conter maiúscula e minúscula',
+                  },
+                })}
+                className={styles.input}
+              />
+              {errors.password && <p className={styles.errorMessage}>{errors.password.message}</p>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Confirmar Senha</label>
+              <input
+                type="password"
+                {...register("confirmPassword", {
+                  validate: value => value === watch("password") || 'As senhas não coincidem',
+                })}
+                className={styles.input}
+              />
+              {errors.confirmPassword && <p className={styles.errorMessage}>{errors.confirmPassword.message}</p>}
+            </div>
+
+            <div className={styles.socialSection}>
+              <h3 className={styles.socialTitle}>Redes Sociais</h3>
+
+              <div>
+                <label className={styles.label}>
+                  <FaYoutube className={styles.youtubeIcon} />
+                  YouTube
+                </label>
+                <input
+                  type="url"
+                  {...register("youtube")}
+                  placeholder="Ex: www.youtube.com/@perfil"
+                  className={styles.input}
+                />
+              </div>
+
+              <div>
+                <label className={styles.label}>
+                  <FaFacebook className={styles.facebookIcon} />
+                  Facebook
+                </label>
+                <input
+                  type="url"
+                  {...register("facebook")}
+                  placeholder="Ex: www.facebook.com/perfil"
+                  className={styles.input}
+                />
+              </div>
+
+              <div>
+                <label className={styles.label}>
+                  <FaInstagram className={styles.instagramIcon} />
+                  Instagram
+                </label>
+                <input
+                  type="url"
+                  {...register("instagram")}
+                  placeholder="Ex: www.instagram.com/perfil"
+                  className={styles.input}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.bioAndSocial}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}><h2>Biografia</h2></label>
+              <textarea {...register("bio")} className={styles.textarea} rows="3" />
+            </div>
+
+            <button type="submit" className={styles.submitButton}>Salvar</button>
+          </div>
+        </form>
+      </div>
+
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <p>{modalMessage}</p>
+            <button onClick={() => setIsModalOpen(false)} className={styles.closeButton}>Fechar</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
