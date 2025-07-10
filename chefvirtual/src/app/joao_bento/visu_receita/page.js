@@ -22,6 +22,10 @@ const App = () => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [ingredientes, setIngredientes] = useState([]);
+  const [etapas, setEtapas] = useState([]);
+
+
 
   useEffect(() => {
     const idFromUrl = searchParams.get("id");
@@ -72,20 +76,32 @@ const App = () => {
       }
     }
 
-    /*async function getFavoritos() {
+    async function getIngredientes() {
       try {
-        const response = await fetch(valorURL + '/api/Favoritos/GetFavoritos?usuarioId=2');
-        if (!response.ok) throw new Error('Erro ao buscar favoritos');
+        const response = await fetch(valorUrl + '/api/Ingredientes/GetIngredientes?idReceita=' + id);
+        if (!response.ok) throw new Error('Erro ao buscar ingredientes');
         const data = await response.json();
-        setFavoritos(data);
+        setIngredientes(data);
       } catch (error) {
-        console.error('Erro ao buscar favoritos:', error);
+        console.error('Erro ao buscar ingredientes:', error);
       }
-    }*/
+    }
 
-    //getFavoritos();
+    async function getEtapas() {
+      try {
+        const response = await fetch(valorUrl + '/api/etapas?idReceita=' + id);
+        if (!response.ok) throw new Error('Erro ao buscar etapas');
+        const data = await response.json();
+        setEtapas(data);
+      } catch (error) {
+        console.error('Erro ao buscar etapas:', error);
+      }
+    }
+
     getComentarios();
     getReceitas();
+    getIngredientes();
+    getEtapas();
   }, [id]);
 
   const goBack = () => {
@@ -130,7 +146,7 @@ const App = () => {
 
     } catch (error) {
       console.error('Erro ao postar comentário:', error);
-      alert('Erro ao postar. Tente novamente.');
+      alert('Erro ao postar. Verifique se você está logado e tente novamente.');
     }
   };
 
@@ -224,8 +240,7 @@ const App = () => {
             ) : (
               <img
                 className={styles.img_receita}
-                src="/img/imagem_receita.png" // ou um fallback
-                alt="Imagem padrão da receita"
+                alt="Carregando imagem da receita..."
               />
             )}
           </div>
@@ -358,15 +373,17 @@ const App = () => {
             <h2>Ingredientes</h2>
             <div className={styles.ingredientes4}>
               <ul>
-                <li>Massa 500g</li>
-                <li>Queijo 300g</li>
-                <li>Água 300ml</li>
-                <li>Óleo 200ml</li>
-                <li>Tomate 100g</li>
-                <li>Açúcar 100g</li>
-                <li>Calabresa 300g</li>
-                <li>Sal 50g</li>
+                {ingredientes.length === 0 ? (
+                  <li>Carregando ingredientes...</li>
+                ) : (
+                  ingredientes.map((item, index) => (
+                    <li key={index}>
+                      {item.nomeIngrediente.toUpperCase()}
+                    </li>
+                  ))
+                )}
               </ul>
+
             </div>
           </div>
         </div>
@@ -377,10 +394,15 @@ const App = () => {
           <div className={styles.preparo2}><h2>Modo de preparo</h2></div>
           <div className={styles.preparo3}>
             <ul>
-              <li>Misture a Massa com óleo e com açúcar e sal</li>
-              <li>Depois você despeja em uma forma</li>
-              <li>Leve ao forno a 210°C</li>
-              <li>Retire do forno e corte em fatias</li>
+              {etapas.length === 0 ? (
+                <li>Carregando etapas...</li>
+              ) : (
+                etapas.map((etapa, index) => (
+                  <li key={etapa.id || index}>
+                    {etapa.descricao}
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>
