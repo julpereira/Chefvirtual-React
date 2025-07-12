@@ -5,6 +5,13 @@
   text-align: center;
 }
 
+
+.footer {
+  margin-top: 141px;
+  display: flex;
+  flex-direction: column;
+}
+
 .h1 {
   color: #c6c9c8;
   font-family: "Poppins", sans-serif;
