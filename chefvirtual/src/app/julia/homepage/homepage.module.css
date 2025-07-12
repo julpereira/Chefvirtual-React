@@ -8,14 +8,14 @@
 
 .h1 {
     color: #c6c9c8;
-    font-family: Poppins, sans-serif;
+    font-family: "Poppins", sans-serif;
     font-style: normal;
-    font-size: 2rem;
-    text-align: justify;
+    font-size: 2rem; 
+    text-align: center;
     width: 100%;
     position: absolute;
-    top: 48%;
-    left: 65%;
+    top: 45%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -38,6 +38,7 @@
 .category img {
     width: 70%;
     height: 100px;
+    object-fit: cover;
     border-radius: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.5s ease-in-out;
