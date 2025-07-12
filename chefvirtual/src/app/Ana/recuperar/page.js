@@ -12,7 +12,7 @@ async function getCodigoPorEmail(email) {
     }
 
     try {
-        const response = await fetch(valorUrl + `/api/Verificacao/GetCodigoPorEmail/?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`${valorUrl}/api/Verificacao/GetCodigoPorEmail?email=${encodeURIComponent(email)}`);
 
         if (!response.ok) {
             const data = await response.json();
@@ -23,6 +23,7 @@ async function getCodigoPorEmail(email) {
         }
 
         const codigo = await response.json();
+        console.log(codigo.codigo_verificacao)
         return codigo.codigo_verificacao;
     } catch (error) {
         throw new Error(error.message || 'Erro inesperado');

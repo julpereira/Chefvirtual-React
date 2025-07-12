@@ -11,7 +11,7 @@ async function getPerfilPorEmail(email) {
     }
 
     try {
-        const response = await fetch(valorUrl + `/api/Usuarios/getByEmail?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`${valorUrl}/api/Usuarios/getByEmail?email=${encodeURIComponent(email)}`);
 
         if (!response.ok) {
             const data = await response.json();
@@ -66,7 +66,7 @@ function VerificarCodigo() {
         }
 
         try {
-            const response = await fetch(`${valorUrl}/api/Verificacao/GetCodigoPorEmail/?email=${encodeURIComponent(email)}`);
+            const response = await fetch(`${valorUrl}/api/Verificacao/GetCodigoPorEmail?email=${encodeURIComponent(email)}`);
             const data = await response.json();
 
 
