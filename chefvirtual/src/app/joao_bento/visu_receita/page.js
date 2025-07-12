@@ -417,7 +417,7 @@ const App = () => {
           ) : (
             comentarios.map((comentario, index) => (
               <div key={comentario.id || index} className={`${styles.comen} ${styles[`comen${(index % 4) + 1}`]}`}>
-                <div className={styles.denuncia}><p>Denunciar</p></div>
+                
                 <div className={styles.star_comen}>
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className={styles.avaliacoes1} size={18} />

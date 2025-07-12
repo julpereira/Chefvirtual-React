@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "./header.module.css";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import valorUrl from "@/app/urls"; // importe sua url base da API
 
 export default function Header() {
   const router = useRouter();
@@ -11,7 +12,18 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Função para converter imagem do usuário (array buffer) para base64
+  const renderImagemBase64 = (imagem) => {
+    if (!imagem || !imagem.data) return null;
+    const byteArray = new Uint8Array(imagem.data);
+    const base64String = btoa(
+      byteArray.reduce((data, byte) => data + String.fromCharCode(byte), "")
+    );
+    return `data:image/jpeg;base64,${base64String}`;
+  };
 
   useEffect(() => {
     const cookies = document.cookie.split(";").reduce((acc, cookie) => {
@@ -20,9 +32,32 @@ export default function Header() {
       return acc;
     }, {});
 
-    setToken(cookies.token || null);
-    setUserId(cookies.id || null);
+    const t = cookies.token || null;
+    const id = cookies.id || null;
+    setToken(t);
+    setUserId(id);
     setLoading(false);
+
+    // Se tiver id, buscar foto do usuário
+    if (id) {
+      fetch(`${valorUrl}/api/Usuarios/getById/${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Erro ao buscar usuário");
+          return res.json();
+        })
+        .then((data) => {
+          // Supondo que a API retorne um objeto usuário
+          // e que data.imagemUsuario é o buffer da imagem
+          const imgSrc = renderImagemBase64(data.imagemUsuario);
+          setUserImage(imgSrc);
+        })
+        .catch((err) => {
+          console.error("Erro ao carregar foto do usuário:", err);
+          setUserImage(null);
+        });
+    } else {
+      setUserImage(null);
+    }
   }, [pathname]);
 
   const handleSearch = () => {
@@ -32,7 +67,7 @@ export default function Header() {
   };
 
   if (loading) {
-    return null; // não renderiza nada enquanto carrega o cookie
+    return null; // não renderiza enquanto carrega cookies
   }
 
   return (
@@ -68,7 +103,16 @@ export default function Header() {
 
       <div className={styles.headerDivEnd}>
         <Link href={userId ? '/julia/perfil?id=' + userId : "/Ana/login"}>
-          <Image src="/img/icon-perfil.png" alt="Perfil" width={70} height={70} />
+          {userImage ? (
+            <img
+              src={userImage}
+              alt="Foto do usuário"
+              className={styles.userPhoto}
+              style={{ width: 70, height: 70, borderRadius: "50%", objectFit: "cover" }}
+            />
+          ) : (
+            <Image src="/img/icon-perfil.png" alt="Perfil" width={70} height={70} />
+          )}
         </Link>
         {!token && (
           <a href="/Ana/login" className={styles.headerGoLoginButton}>Login</a>

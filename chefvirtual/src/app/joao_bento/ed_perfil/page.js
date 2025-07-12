@@ -28,13 +28,9 @@ export default function EditProfile() {
         if (!userId) throw new Error('Usuário não autenticado');
 
         const response = await fetch(`${valorUrl}/api/Usuarios/getById/${userId}`);
-
         const text = await response.text();
 
-        if (!response.ok) {
-          console.error('Resposta da API com erro:', text);
-          throw new Error(`Erro ao carregar perfil: ${response.status} ${response.statusText}`);
-        }
+        if (!response.ok) throw new Error(`Erro ao carregar perfil: ${response.status} ${response.statusText}`);
 
         let user;
         try {
@@ -53,14 +49,14 @@ export default function EditProfile() {
           facebook: user.facebook || '',
           instagram: user.instagram || '',
           youtube: user.youtube || '',
-          bio: user.bio || '',
+          bio: user.biografia || '',
         });
 
         if (user.imagemUsuario && user.imagemUsuario.data) {
           const blob = new Blob([new Uint8Array(user.imagemUsuario.data)], { type: 'image/jpeg' });
           setProfileImage(URL.createObjectURL(blob));
         } else {
-          setProfileImage(null);
+          setProfileImage('/img/default.png');
         }
       } catch (error) {
         console.error(error);
@@ -68,6 +64,7 @@ export default function EditProfile() {
         setIsModalOpen(true);
       }
     }
+
     fetchPerfil();
   }, [reset]);
 
@@ -92,7 +89,7 @@ export default function EditProfile() {
       formData.append('facebook', data.facebook || '');
       formData.append('instagram', data.instagram || '');
       formData.append('youtube', data.youtube || '');
-      formData.append('bio', data.bio || '');
+      formData.append('biografia', data.bio || '');
 
       if (data.imagemUsuario && data.imagemUsuario.length > 0) {
         formData.append('imagemUsuario', data.imagemUsuario[0]);
@@ -102,7 +99,7 @@ export default function EditProfile() {
         formData.append('senha', data.password);
       }
 
-      const response = await fetch(`${valorUrl}/api/usuario/${perfil.id}`, {
+      const response = await fetch(`${valorUrl}/api/Usuarios/${perfil.id}`, {
         method: 'PATCH',
         body: formData,
       });
@@ -142,7 +139,6 @@ export default function EditProfile() {
       <div
         className={styles.voltar}
         onClick={goBack}
-        aria-label="Voltar para a página anterior"
         role="button"
         tabIndex={0}
         onKeyDown={e => { if (e.key === 'Enter') goBack(); }}

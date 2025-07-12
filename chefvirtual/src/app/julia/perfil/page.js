@@ -1,36 +1,79 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
-import { FaLock } from 'react-icons/fa'; 
 import { useRouter } from "next/navigation";
 import styles from "./perfil.module.css";
-
-const recipes = [
-    { name: "Pizza de Pepperoni", author: "Claudia Herz", img: "/img/ppepp.png", link: "../joao_bento/visu_receita", authorLink: "./perfil" },
-    { name: "Picolé de Framboesa", author: "Claudia Herz", img: "/img/picole.png", link: "/receita/picole-de-framboesa", authorLink: "./perfil" },
-    { name: "Bolo de Chocolate", author: "Claudia Herz", img: "/img/bolodechocolate.png", link: "/receita/bolo-de-chocolate", authorLink: "./perfil" },
-    { name: "Pão de Queijo", author: "Claudia Herz", img: "/img/paodequeijo.png", link: "/receita/pao-de-queijo", authorLink: "./perfil" },
-    { name: "Donuts Tradicional", author: "Claudia Herz", img: "/img/donuts.png", link: "/receita/donuts-tradicional", authorLink: "./perfil" },
-    { name: "Empadão de Frango", author: "Claudia Herz", img: "/img/empadao.png", link: "/receita/empadao-de-frango", authorLink: "./perfil" },
-];
+import valorUrl from "@/app/urls";
 
 export default function Perfil() {
+  const [perfil, setPerfil] = useState(null);
+  const [id, setId] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
 
-  const handleDelete = () => {
-    setShowPopup(true);
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return "";
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const confirmDelete = () => {
-    if (password === "1234") {
-      alert("Conta excluída com sucesso!");
-      router.push("/julia/homepage");
-    } else {
+  useEffect(() => {
+    const getCookie = (name) => {
+      if (typeof document === "undefined") return null;
+      const value = document.cookie;
+      const parts = value.split(`${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+      return null;
+    };
+
+    const cookieId = getCookie("id");
+    if (cookieId) setId(cookieId);
+  }, []);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const carregarPerfil = async () => {
+      try {
+        const response = await fetch(`${valorUrl}/api/Usuarios/getById/${id}`);
+        if (!response.ok) throw new Error("Erro ao carregar perfil");
+        const data = await response.json();
+        setPerfil(data);
+      } catch (error) {
+        console.error("Erro ao buscar perfil:", error);
+      }
+    };
+
+    carregarPerfil();
+  }, [id]);
+
+  const handleDelete = () => {
+    setShowPopup(true);
+    setPassword("");
+    setError("");
+  };
+
+  const confirmDelete = async () => {
+    if (password !== "1234") {
       setError("Senha incorreta. Tente novamente.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${valorUrl}/api/Usuarios/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Erro ao excluir conta.");
+
+      alert("Conta excluída com sucesso!");
+      document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      router.push("/julia/homepage");
+    } catch (err) {
+      console.error(err);
+      setError("Erro ao excluir conta.");
     }
   };
 
@@ -38,44 +81,62 @@ export default function Perfil() {
     setPasswordVisible(!passwordVisible);
   };
 
+  const handleLogout = () => {
+    document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push("/julia/homepage");
+  };
+
+  const renderImagemBase64 = (imagem) => {
+    if (!imagem || !imagem.data) return "/img/default.png";
+    const byteArray = new Uint8Array(imagem.data);
+    const base64String = btoa(
+      byteArray.reduce((data, byte) => data + String.fromCharCode(byte), "")
+    );
+    return `data:image/jpeg;base64,${base64String}`;
+  };
+
+  if (!id) return <div>Usuário não autenticado.</div>;
+  if (!perfil) return <div>Carregando perfil...</div>;
+
   return (
     <div className={styles.container}>
       <div className={styles.profile}>
-        <img className={styles.profileimg} src="/img/claudiah.png" alt="Claudia Herz" />
-        <h2>Claudia Herz</h2>
-        <p>@herzclaudia1980</p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br></br> 
-          Nunc vulputate libero et velit interdum,<br></br> ac aliquet odio mattis.
-        </p>
-        <a className={styles.edit} href="../joao_bento/ed_perfil">Editar Perfil</a>
-        <a className={styles.delete} onClick={handleDelete}>Excluir Conta</a>
-        
+        <img
+          className={styles.profileimg}
+          src={renderImagemBase64(perfil.imagemUsuario)}
+          alt={perfil.nome}
+        />
+        <h2>{capitalizeFirstLetter(perfil.nome)}</h2>
+        <p>@{perfil.email.split("@")[0]}</p>
+
+        {perfil.biografia ? (
+          <p className={styles.biografia}>{perfil.biografia}</p>
+        ) : (
+          <p className={styles.biografia}>Sem biografia cadastrada.</p>
+        )}
+
         <div className={styles.socialIcons}>
-          <a href="#" className={styles.icon}><FaFacebook /></a>
-          <a href="#" className={styles.icon}><FaInstagram /></a>
-          <a href="#" className={styles.icon}><FaYoutube /></a>
+          <a href={perfil.facebook || "#"} target="_blank" rel="noopener noreferrer" className={styles.icon}>
+            <FaFacebook />
+          </a>
+          <a href={perfil.instagram || "#"} target="_blank" rel="noopener noreferrer" className={styles.icon}>
+            <FaInstagram />
+          </a>
+          <a href={perfil.youtube || "#"} target="_blank" rel="noopener noreferrer" className={styles.icon}>
+            <FaYoutube />
+          </a>
         </div>
+
+        <a className={styles.edit} href="../joao_bento/ed_perfil">Editar Perfil</a>
+        <a className={styles.sair} onClick={handleLogout}>Sair da Conta</a>
+        <a className={styles.delete} onClick={handleDelete}>Excluir Conta</a>
       </div>
 
       <div className={styles.recipesContainer}>
         <h3>Histórico de Receitas</h3>
         <a className={styles.showhistory} href="../joao_vitor">Mostrar</a>
-
         <div className={styles.recipes}>
-          {recipes.map((recipe, index) => (
-            <div className={styles.recipe} key={index}>
-              <a href={recipe.link} className={styles.recipeLink}>
-                <img src={recipe.img} alt={recipe.name} className={styles.recipeImage} />
-              </a>
-              <h2>
-                <a href={recipe.link} className={styles.recipeTitle}>{recipe.name}</a>
-              </h2>
-              <p>
-                Por <a href={recipe.authorLink} className={styles.authorLink}>{recipe.author}</a>
-              </p>
-            </div>
-          ))}
+          {/* Históricos de receitas podem ser renderizados aqui */}
         </div>
       </div>
 
@@ -83,19 +144,20 @@ export default function Perfil() {
         <div className={styles.popupOverlay}>
           <div className={styles.popup}>
             <h2>Tem certeza que deseja excluir sua conta?</h2>
-            <p>Esta ação não pode ser desfeita. (Senha para conseguir excluir: 1234)</p>
+            <p>Esta ação não pode ser desfeita. (Senha: 1234)</p>
             <div className={styles.passwordContainer}>
-              <input 
-                type={passwordVisible ? "text" : "password"} 
-                placeholder="Digite sua senha"  
-                value={password} 
+              <input
+                type={passwordVisible ? "text" : "password"}
+                placeholder="Digite sua senha"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.passwordInput}
               />
-               <i
-                    className={`${passwordVisible ? 'fa-eye-slash' : 'fa-eye'} ${styles.eyeIcon}`} 
-                   onClick={togglePasswordVisibility} 
-                ></i>
+              <i
+                className={`${passwordVisible ? "fa-eye-slash" : "fa-eye"} ${styles.eyeIcon}`}
+                onClick={togglePasswordVisibility}
+                style={{ cursor: "pointer" }}
+              ></i>
             </div>
             {error && <p className={styles.error}>{error}</p>}
             <button onClick={confirmDelete} className={styles.confirmDelete}>Confirmar</button>
