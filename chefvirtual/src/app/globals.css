@@ -8,11 +8,33 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: repeat;
-    height: 100vh;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
 }
 
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url('../../public/img/backgroundImg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }

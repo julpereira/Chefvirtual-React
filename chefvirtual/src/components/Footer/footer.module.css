@@ -12,9 +12,9 @@
   font-size: 25px;
   text-align: center;
   width: 100%;
-  top: 48%; 
+  top: 48%;
   left: 50%;
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%);
   position: absolute;
 }
 
@@ -37,9 +37,8 @@
   height: 100px;
   object-fit: cover;
   border-radius: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.5s ease-in-out;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease-in-out;
 }
 
 .category:hover {
@@ -78,7 +77,7 @@
   cursor: pointer;
 }
 
-.item h2 a, 
+.item h2 a,
 .item p a {
   text-decoration: none;
   color: #333;
@@ -88,10 +87,10 @@
 }
 
 .item p a:hover {
-  color: #FF914D; 
+  color: #FF914D;
 }
 
-
+/* FOOTER CONFIG */
 .FooterNav {
   margin-bottom: 20px;
 }
@@ -110,7 +109,6 @@
   background-color: #EBE7E7;
   padding: 20px;
   text-align: center;
-  margin-top: 60px;
 }
 
 .footerBottom {
@@ -128,67 +126,74 @@
   color: #FF914D;
 }
 
+/* MAIN FLEX FIX */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RESPONSIVO */
 @media (max-width: 1024px) {
   .categories {
-      grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .category img {
-      width: 65%;
-      height: 90px;
+    width: 65%;
+    height: 90px;
   }
 }
 
-
 @media (max-width: 768px) {
   .categories {
-      grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .category {
-      width: 150px; 
+    width: 150px;
   }
 
   .category img {
-      width: 60%;
-      height: 80px;
+    width: 60%;
+    height: 80px;
   }
 
   .items {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .h1 {
-      font-size: 20px;
-      top: 10%; 
+    font-size: 20px;
+    top: 10%;
   }
 
   .footer {
-      padding: 15px;
+    padding: 15px;
   }
 
   .ul li {
-      display: block;
-      margin: 5px 0;
+    display: block;
+    margin: 5px 0;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-      padding: 10px;
+    padding: 10px;
   }
 
   .h1 {
-      font-size: 18px;
-      top: 5%;
+    font-size: 18px;
+    top: 5%;
   }
 
   .category img {
-      width: 50%;
-      height: 70px;
+    width: 50%;
+    height: 70px;
   }
 
   .footer {
-      padding: 10px;
+    padding: 10px;
   }
 }
