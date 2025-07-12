@@ -22,7 +22,7 @@ async function getPerfilPorEmail(email) {
         }
 
         const dadosJson = await response.json();
-        console.log(dadosJson[0].id)
+        //console.log(dadosJson[0].id)
         return dadosJson[0].id;
     } catch (error) {
         throw new Error(error.message || 'Erro inesperado');
@@ -36,7 +36,6 @@ function VerificarCodigo() {
     const router = useRouter();
 
     useEffect(() => {
-        localStorage.setItem('emailRecuperacao', 'hiagogabriel1132@gmail.com');
         const emailSalvo = localStorage.getItem('emailRecuperacao');
         if (!emailSalvo) {
             alert('E-mail não encontrado. Volte e solicite o código novamente.');
@@ -69,7 +68,7 @@ function VerificarCodigo() {
             const response = await fetch(`${valorUrl}/api/Verificacao/GetCodigoPorEmail?email=${encodeURIComponent(email)}`);
             const data = await response.json();
 
-
+            console.log(email)
             if (!response.ok) throw new Error(data.erro || 'Erro na verificação.');
 
             if (data.codigo_verificacao === codigo) {

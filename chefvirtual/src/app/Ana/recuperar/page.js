@@ -23,7 +23,7 @@ async function getCodigoPorEmail(email) {
         }
 
         const codigo = await response.json();
-        console.log(codigo.codigo_verificacao)
+        //console.log(codigo.codigo_verificacao)
         return codigo.codigo_verificacao;
     } catch (error) {
         throw new Error(error.message || 'Erro inesperado');
