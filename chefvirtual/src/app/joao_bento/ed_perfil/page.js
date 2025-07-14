@@ -117,7 +117,7 @@ export default function EditProfile() {
         throw new Error(errorMessage);
       }
 
-      setModalMessage('Alterações salvas com sucesso!');
+      setModalMessage('Alterações salvas com sucesso.!');
       setIsModalOpen(true);
       setTimeout(() => setIsModalOpen(false), 3000);
     } catch (error) {
