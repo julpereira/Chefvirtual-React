@@ -1,216 +1,165 @@
-'use client';
+// === [components/modalPesquisa/ModalPesquisa.js] ===
+"use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from "react";
+import styles from "./modalPesquisa.module.css";
+import { useRouter } from "next/navigation";
 
 export default function ModalPesquisa({ isOpen, onClose }) {
-    const [selectedRating, setSelectedRating] = useState(0);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedIngredients, setSelectedIngredients] = useState([]);
-    const [recipeType, setRecipeType] = useState('');
-    const [tempoSelecionado, setTempoSelecionado] = useState('');
-    const [todosIngredientes, setTodosIngredientes] = useState([]);
+  const router = useRouter();
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [recipeType, setRecipeType] = useState("");
+  const [tempoSelecionado, setTempoSelecionado] = useState("");
 
-    const router = useRouter();
+  const [ingredientes, setIngredientes] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [tempos, setTempos] = useState([]);
 
-    useEffect(() => {
-        if (isOpen) {
-            document.body.classList.add('modal-open');
+  useEffect(() => {
+    async function fetchIngredientes() {
+      try {
+        const res = await fetch("/api/ingredientes");
+        const data = await res.json();
+        setIngredientes(data);
+      } catch (err) {
+        console.error("Erro ao buscar ingredientes:", err);
+      }
+    }
 
-            // Buscar ingredientes do backend
-            fetch('http://localhost:9000/api/ingredientes')
-                .then(res => res.json())
-                .then(data => {
-                    setTodosIngredientes(data.map(item => item.nome));
-                })
-                .catch(err => console.error("Erro ao buscar ingredientes:", err));
-        } else {
-            document.body.classList.remove('modal-open');
-        }
-    }, [isOpen]);
+    async function fetchCategorias() {
+      try {
+        const res = await fetch("/api/Categorias");
+        const data = await res.json();
+        setCategorias(data);
+      } catch (err) {
+        console.error("Erro ao buscar categorias:", err);
+      }
+    }
 
-    const handleRatingClick = (rating) => {
-        setSelectedRating(rating);
-    };
+    async function fetchTempos() {
+      try {
+        const res = await fetch("/api/Receitas");
+        const data = await res.json();
 
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-    };
+        const temposUnicos = [...new Set(data.map(item => item.tempoPreparo))]
+          .filter(t => t !== null)
+          .sort((a, b) => a - b);
 
-    const handleIngredientToggle = (ingredient) => {
-        if (selectedIngredients.includes(ingredient)) {
-            setSelectedIngredients(selectedIngredients.filter((item) => item !== ingredient));
-        } else {
-            setSelectedIngredients([...selectedIngredients, ingredient]);
-        }
-    };
+        const faixas = [];
+        const intervalo = 10;
 
-    const handleTempoChange = (e) => {
-        setTempoSelecionado(e.target.value);
-    };
-
-    const handleBuscarClick = () => {
-        const queryParams = new URLSearchParams();
-
-        if (selectedRating > 0) {
-            queryParams.append("notaMinima", selectedRating);
+        for (let i = 0; i < temposUnicos.length; i += intervalo) {
+          const min = temposUnicos[i];
+          const max = temposUnicos[i + intervalo - 1] || temposUnicos[temposUnicos.length - 1];
+          faixas.push(`${min}-${max}`);
         }
 
-        if (selectedIngredients.length > 0) {
-            queryParams.append("ingredientes", selectedIngredients.join(","));
-        }
+        setTempos(faixas);
+      } catch (err) {
+        console.error("Erro ao buscar tempos de preparo:", err);
+      }
+    }
 
-        if (tempoSelecionado) {
-            const [tempoMinimo, tempoMaximo] = tempoSelecionado.split("-");
-            if (tempoMinimo) queryParams.append("tempoMinimo", tempoMinimo);
-            if (tempoMaximo) queryParams.append("tempoMaximo", tempoMaximo);
-        }
+    if (isOpen) {
+      fetchIngredientes();
+      fetchCategorias();
+      fetchTempos();
+    }
+  }, [isOpen]);
 
-        if (recipeType && recipeType !== "Selecione") {
-            queryParams.append("tipo", recipeType);
-        }
+  const handleBuscarClick = () => {
+    const queryParams = new URLSearchParams();
 
-        router.push(`/joao_vitor/resulBuscaAvancada?${queryParams.toString()}`);
-        onClose();
-    };
+    if (selectedRating > 0) queryParams.append("notaMinima", selectedRating);
+    if (selectedIngredients.length > 0) queryParams.append("ingredientes", selectedIngredients.join(","));
+    if (tempoSelecionado) {
+      const [tempoMinimo, tempoMaximo] = tempoSelecionado.split("-");
+      if (tempoMinimo) queryParams.append("tempoMinimo", tempoMinimo);
+      if (tempoMaximo) queryParams.append("tempoMaximo", tempoMaximo);
+    }
+    if (recipeType && recipeType !== "Selecione") queryParams.append("tipo", recipeType);
 
-    const filteredIngredients = todosIngredientes.filter((ingredient) =>
-        ingredient.toLowerCase().includes(searchTerm.toLowerCase())
+    router.push(`/joao_vitor/resulBuscaAvancada?${queryParams.toString()}`);
+    onClose();
+  };
+
+  const toggleIngredient = (nome) => {
+    setSelectedIngredients(prev =>
+      prev.includes(nome) ? prev.filter(i => i !== nome) : [...prev, nome]
     );
+  };
 
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    return (
-        <div className="overlay" style={{
-            width: '100vw', height: '100vh', position: 'fixed', top: 0, left: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex',
-            justifyContent: 'center', alignItems: 'center'
-        }}>
-            <div className="modal" style={{
-                width: '75vw', height: '75vh', backgroundColor: 'white',
-                padding: '20px', borderRadius: '10px', position: 'relative', overflow: 'hidden',
-            }}>
-                <div style={{ height: '100%', overflowY: 'auto', paddingRight: '10px' }}>
-                    <button onClick={onClose} style={{
-                        position: 'absolute', top: '10px', right: '10px',
-                        background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer'
-                    }}>
-                        &#10006;
-                    </button>
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>×</button>
 
-                    <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        <h1>Filtrar pesquisa</h1>
-                    </div>
+        <h2 className={styles.modalTitle}>Busca Avançada</h2>
 
-                    <div className="filters">
-                        {/* Avaliação */}
-                        <div className="filter-group" style={{ marginBottom: '20px' }}>
-                            <label>Nota</label>
-                            <div style={{ display: 'flex', gap: '10px' }}>
-                                {[1, 2, 3, 4, 5].map((rating) => (
-                                    <div key={rating} onClick={() => handleRatingClick(rating)} style={{ cursor: 'pointer' }}>
-                                        <Image
-                                            src={rating <= selectedRating ? '/img/estrelaC.png' : '/img/estrelaF.png'}
-                                            alt={rating <= selectedRating ? 'Estrela completa' : 'Estrela faltando'}
-                                            width={30}
-                                            height={30}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Ingredientes */}
-                        <div className="filter-group ingredients" style={{ marginBottom: '20px' }}>
-                            <label>Ingredientes</label>
-                            <input
-                                type="text"
-                                placeholder="Pesquisar ingredientes"
-                                value={searchTerm}
-                                onChange={handleSearch}
-                                style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
-                            />
-                            <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                {filteredIngredients.map((ingredient) => (
-                                    <div key={ingredient} style={{ marginBottom: '5px' }}>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedIngredients.includes(ingredient)}
-                                                onChange={() => handleIngredientToggle(ingredient)}
-                                            />
-                                            {ingredient}
-                                        </label>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Ingredientes Selecionados */}
-                        <div className="filter-group" style={{ marginBottom: '20px' }}>
-                            <label>Ingredientes Selecionados</label>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', maxHeight: '150px', overflowY: 'auto' }}>
-                                {selectedIngredients.map((ingredient) => (
-                                    <div key={ingredient} style={{ backgroundColor: '#f0f0f0', padding: '5px 10px', borderRadius: '5px' }}>
-                                        {ingredient}
-                                        <button
-                                            onClick={() => handleIngredientToggle(ingredient)}
-                                            style={{ marginLeft: '5px', background: 'none', border: 'none', cursor: 'pointer' }}
-                                        >
-                                            &#10006;
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Tempo */}
-                        <div className="filter-group" style={{ marginBottom: '20px' }}>
-                            <label>Tempo (Min.)</label>
-                            <select value={tempoSelecionado} onChange={handleTempoChange} style={{ width: '100%', padding: '10px', borderRadius: '5px' }}>
-                                <option value="">Selecione</option>
-                                <option value="0-5">0-5 Minutos</option>
-                                <option value="5-15">5-15 Minutos</option>
-                                <option value="15-30">15-30 Minutos</option>
-                                <option value="30-60">30-60 Minutos</option>
-                                <option value="60-120">60-120 Minutos</option>
-                                <option value="120-240">120-240 Minutos</option>
-                                <option value="240-360">240-360 Minutos</option>
-                                <option value="360-">360+ Minutos</option>
-                            </select>
-                        </div>
-
-                        {/* Tipo */}
-                        <div className="filter-group" style={{ marginBottom: '20px' }}>
-                            <label>Tipos de Receitas</label>
-                            <select value={recipeType} onChange={(e) => setRecipeType(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '5px' }}>
-                                <option>Selecione</option>
-                                <option>Doce</option>
-                                <option>Salgado</option>
-                                <option>Comidas Frias</option>
-                                <option>Comidas Quentes</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                        <button
-                            onClick={handleBuscarClick}
-                            style={{
-                                padding: '10px 20px',
-                                backgroundColor: '#FF914D',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            Buscar
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div className={styles.filtroSection}>
+          <label>Nota mínima:</label>
+          <select value={selectedRating} onChange={e => setSelectedRating(Number(e.target.value))}>
+            <option value={0}>Selecione</option>
+            {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n}+</option>)}
+          </select>
         </div>
-    );
+
+        <div className={styles.filtroSection}>
+          <label>Ingredientes:</label>
+          <div className={styles.checkboxContainer}>
+            {ingredientes.map((item, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  value={item.nome}
+                  checked={selectedIngredients.includes(item.nome)}
+                  onChange={() => toggleIngredient(item.nome)}
+                />
+                {item.nome}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.filtroSection}>
+          <label>Categoria:</label>
+          <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
+            <option value="">Selecione</option>
+            {categorias.map((cat, index) => (
+              <option key={index} value={cat.nome}>{cat.nome}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.filtroSection}>
+          <label>Tempo de Preparo:</label>
+          <select value={tempoSelecionado} onChange={e => setTempoSelecionado(e.target.value)}>
+            <option value="">Selecione</option>
+            {tempos.map((faixa, idx) => (
+              <option key={idx} value={faixa}>{faixa} min</option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.filtroSection}>
+          <label>Tipo de Receita:</label>
+          <input
+            type="text"
+            placeholder="Ex: bolo, vegetariana, etc."
+            value={recipeType}
+            onChange={e => setRecipeType(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.botaoContainer}>
+          <button className={styles.searchButton} onClick={handleBuscarClick}>Buscar</button>
+        </div>
+      </div>
+    </div>
+  );
 }
+
