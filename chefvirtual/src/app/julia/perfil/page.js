@@ -4,6 +4,8 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import styles from "./perfil.module.css";
 import valorUrl from "@/app/urls";
+import { Cookie } from "next/font/google";
+import Cookies from "js-cookie";
 
 export default function Perfil() {
   const [perfil, setPerfil] = useState(null);
@@ -82,7 +84,10 @@ export default function Perfil() {
   };
 
   const handleLogout = () => {
-    document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    Cookies.remove('token');
+    Cookies.remove('id');
+    Cookies.remove('userType');
     router.push("/julia/homepage");
   };
 
