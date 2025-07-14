@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import { AlarmClock, Star, Bookmark, X, AlignCenter } from 'lucide-react';
 import { useSearchParams, usePathname } from "next/navigation";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import valorUrl from '@/app/urls.js';
 
 const App = () => {
@@ -24,7 +25,23 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [ingredientes, setIngredientes] = useState([]);
   const [etapas, setEtapas] = useState([]);
+  const [estrelas, setEstrelas] = useState([]);
 
+  function gerarEstrelas(media) {
+    const estrelas = [];
+
+    for (let i = 0; i < 5; i++) {
+      if (media >= i + 1) {
+        estrelas.push("full");
+      } else if (media > i && media < i + 1) {
+        estrelas.push("half");
+      } else {
+        estrelas.push("empty");
+      }
+    }
+
+    return estrelas;
+  }
 
 
   useEffect(() => {
@@ -51,6 +68,12 @@ const App = () => {
         const response = await fetch(valorUrl + '/api/Receitas/GetReceita?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar receita');
         const data = await response.json();
+        console.log('Receita recebida:', data.favoritos.mediaFavoritos);
+        const est = gerarEstrelas(data.favoritos.mediaFavoritos)
+        console.log('Estrelas geradas:', est);
+        setEstrelas(est)
+        console.log('Estrelas ddsadassdasdasgeradas:', estrelas);
+
         console.log('Receita recebida:', data);
         setReceita(data); // Salva a receita no estado
         console.log(data);
@@ -123,7 +146,7 @@ const App = () => {
     }
 
     try {
-      const response = await fetch(`${valorUrl}/api/Comentarios/PostComentarios`, {
+      const responseComent = await fetch(`${valorUrl}/api/Comentarios/PostComentarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,11 +159,28 @@ const App = () => {
         })
       });
 
-      if (!response.ok) throw new Error('Erro ao postar comentário');
+      if (!responseComent.ok) throw new Error('Erro ao postar comentário');
 
-      const data = await response.json();
+      const dataComent = await responseComent.json();
 
-      setComentarios((prev) => [...prev, data]);
+      const responseAvaliacao = await fetch(`${valorUrl}/api/Favoritos/PostFavoritos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          receitaId: id,
+          usuarioId: userId,
+          avaliacao: ratingData.rating
+        })
+      });
+
+      if (!responseAvaliacao.ok) throw new Error('Erro ao postar avaliação');
+
+      const dataAvaliacao = await responseAvaliacao.json();
+
+      setComentarios((prev) => [...prev, dataComent]);
       setRatingData({ rating: 0, comment: '' });
       closeModal();
 
@@ -208,17 +248,22 @@ const App = () => {
         </div>
 
         <div className={styles.receita}>
-          <div className={styles.estrelas}>
-            {[...Array(5)].map((_, index) => (
-              <Star
-                key={index}
-                className={index < 4 ? styles.avaliacoes1 : styles.avaliacoes5}
-                size={25}
-              />
-            ))}
+            <div className={styles.divAvaliacao}>
+              {estrelas.map((tipo, index) => (
+                <i
+                  key={index}
+                  className={
+                    tipo === "full"
+                      ? "bi bi-star-fill"
+                      : tipo === "half"
+                        ? "bi bi-star-half"
+                        : "bi bi-star"
+                  }
+                ></i>
+              ))}
           </div>
 
-          <p>4/5 (10 avaliações)</p>
+          <p>{receita?.favoritos.mediaFavoritos}/5 ({receita?.favoritos.totalFavoritos} avaliações)</p>
 
           <div className={styles.icon_fav} onClick={toggleFavorite} aria-label="Adicionar aos favoritos">
             <Bookmark
@@ -416,8 +461,8 @@ const App = () => {
 
           ) : (
             comentarios.map((comentario, index) => (
-              <div key={comentario.id || index} className={`${styles.comen} ${styles[`comen${(index % 4) + 1}`]}`}>
-                
+              <div key={comentario.id || index} className={styles.comen1}>
+
                 <div className={styles.star_comen}>
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className={styles.avaliacoes1} size={18} />
