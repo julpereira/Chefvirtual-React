@@ -90,6 +90,7 @@ const App = () => {
         const response = await fetch(valorUrl + '/api/Comentarios/GetComentarios?idReceita=' + id);
         if (!response.ok) throw new Error('Erro ao buscar comentários');
         const data = await response.json();
+        console.log('Comentários recebidos:', data);
         setComentarios(data);
       } catch (error) {
         console.error('Erro ao buscar comentários:', error);
@@ -248,19 +249,19 @@ const App = () => {
         </div>
 
         <div className={styles.receita}>
-            <div className={styles.divAvaliacao}>
-              {estrelas.map((tipo, index) => (
-                <i
-                  key={index}
-                  className={
-                    tipo === "full"
-                      ? "bi bi-star-fill"
-                      : tipo === "half"
-                        ? "bi bi-star-half"
-                        : "bi bi-star"
-                  }
-                ></i>
-              ))}
+          <div className={styles.divAvaliacao}>
+            {estrelas.map((tipo, index) => (
+              <i
+                key={index}
+                className={
+                  tipo === "full"
+                    ? "bi bi-star-fill"
+                    : tipo === "half"
+                      ? "bi bi-star-half"
+                      : "bi bi-star"
+                }
+              ></i>
+            ))}
           </div>
 
           <p>{receita?.favoritos.mediaFavoritos}/5 ({receita?.favoritos.totalFavoritos} avaliações)</p>
@@ -458,26 +459,43 @@ const App = () => {
         <div className={styles.comentario}>
           {comentarios.length === 0 ? (
             <p>Ainda não Possui Comentários</p>
-
           ) : (
-            comentarios.map((comentario, index) => (
-              <div key={comentario.id || index} className={styles.comen1}>
-                
-                <div className={styles.star_comen}>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={styles.avaliacoes1} size={18} />
-                  ))}
-                </div>
-                <div className={styles.comenta}>
-                  <p>{comentario.comentario}</p>
-                </div>
-                <Image src={'/img/icon-perfil.png'} width={45} height={43} alt='perfil' />
-                <p>{comentario ? comentario.nomeUsuario : 'Carregando...'}</p>
+            comentarios.map((comentario, index) => {
+              const estrelasComentario = gerarEstrelas(comentario.avaliacao || 0);
 
-              </div>
-            ))
+              return (
+                <div key={comentario.id || index} className={styles.comen1}>
+
+                  <div className={styles.star_comen}>
+                    {estrelasComentario.map((tipo, i) => (
+                      <i
+                        key={i}
+                        className={
+                          tipo === "full"
+                            ? "bi bi-star-fill"
+                            : tipo === "half"
+                              ? "bi bi-star-half"
+                              : "bi bi-star"
+                        }
+                      ></i>
+                    ))}
+                  </div>
+
+                  <div className={styles.comenta}>
+                    <p>{comentario.comentario}</p>
+                  </div>
+
+                  <Image
+                    src={'/img/icon-perfil.png'}
+                    width={45}
+                    height={43}
+                    alt='perfil'
+                  />
+                  <p>{comentario?.nomeUsuario || 'Carregando...'}</p>
+                </div>
+              );
+            })
           )}
-
         </div>
       </section>
     </div>
