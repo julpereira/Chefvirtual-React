@@ -52,6 +52,9 @@ export default function Perfil() {
   }, [id]);
 
   const handleDelete = () => {
+    Cookies.remove('token');
+    Cookies.remove('id');
+    Cookies.remove('userType');
     setShowPopup(true);
     setPassword("");
     setError("");
