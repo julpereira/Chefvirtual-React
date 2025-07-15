@@ -20,7 +20,7 @@ const poppinsFont = Poppins({
   weight: "400",
 });
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = "https://chefvirtual.dev.vilhena.ifro.edu.br/api";
 
 // Função para registrar visualizações
 export async function registrarVisualizacao(receitaId, idUsuario) {
